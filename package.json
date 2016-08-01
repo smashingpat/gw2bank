@@ -1,0 +1,50 @@
+{
+  "name": "gw2bank",
+  "version": "1.0.0",
+  "description": "GW2 Bank search",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp watch",
+    "open": "gulp watch --open",
+    "bundle": "gulp bundle --production",
+    "deploy": "gulp bundle && git subtree push --prefix site origin gh-pages"
+  },
+  "keywords": [
+    "html",
+    "css",
+    "sass",
+    "budo"
+  ],
+  "author": "Patrick Gerritsen",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "*",
+    "babel-preset-es2015": "*",
+    "babel-preset-react": "*",
+    "babelify": "*",
+    "browserify": "^13.0.1",
+    "budo": "*",
+    "csswring": "*",
+    "gulp": "*",
+    "gulp-if": "*",
+    "gulp-jade": "^1.1.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "*",
+    "gulp-rename": "*",
+    "gulp-sass": "*",
+    "gulp-streamify": "*",
+    "gulp-uglify": "*",
+    "gulp-watch": "*",
+    "postcss-assets": "*",
+    "vinyl-source-stream": "*",
+    "yargs": "*"
+  },
+  "dependencies": {
+    "axios": "^0.13.1",
+    "lodash": "^4.14.0",
+    "marked": "^0.3.5",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "redux": "^3.5.2"
+  }
+}

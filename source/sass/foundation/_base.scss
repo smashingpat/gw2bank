@@ -1,0 +1,25 @@
+/*
+    Base styling
+    ------------
+============================================================================= */
+
+*, *:after, *:before {
+    box-sizing: border-box
+}
+
+html {
+    font-size: $font-size;
+    height: 100%;
+
+    @include media('screen', '<tablet') {
+        font-size: #{$font-size * 1.1};
+    }
+}
+
+body {
+    color: $c-text;
+    font-family: $font-family;
+    line-height: $line-height;
+    min-height: 100%;
+    position: relative;
+}
