@@ -18,6 +18,7 @@ function GW2API() {
 
     function setApiKey(key) {
         API_KEY = key
+        getAll()
     }
 
     function filterNull(array) {
@@ -95,6 +96,10 @@ function GW2API() {
     }
 
     function getAll() {
+        if (!API_KEY) {
+            console.error('No API key found');
+            return
+        }
         axios.all([
             getBank(),
             getCharacters()

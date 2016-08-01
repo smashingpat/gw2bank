@@ -14,8 +14,6 @@ const filterItems = (items, filter) => {
 
     let filtered = items.filter(item => regexp.test(item.name));
 
-    console.log(filtered);
-
     return filtered
 }
 
@@ -44,24 +42,34 @@ const App = React.createClass({
         let result = items.filter(item => item.id === id)[0];
         return result
     },
+    setApiKey(key) {
+        Store.dispatch(Action.setApi('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'))
+        API.setApiKey('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072')
+    },
     render() {
         let props = this.props
         let filtered = filterItems(props.items, props.filter)
         return (
-            <div>
-                <FilterForm onSubmit={this.filterItem}/>
-                {props.characters.list ? props.characters.list.map(character => {
-                    return (
-                        <ItemContainer key={character.name} {...character} >
-                            {character.items.map((node, i) => {
-                                let item = this.getItem(filtered, node.id)
-                                return (
-                                    item ? <Item key={`${node.id}-${i}`} {...node} {...item} /> : ''
-                                )
-                            })}
-                        </ItemContainer>
-                    )
-                }) : 'no characters found' }
+            <div className='Wrapper'>
+                {props.api ? (
+                    <div>
+                        <FilterForm label='Search' onSubmit={this.filterItem}/>
+                        {props.characters.list ? props.characters.list.map(character => {
+                            return (
+                                <ItemContainer key={character.name} {...character} >
+                                    {character.items.map((node, i) => {
+                                        let item = this.getItem(filtered, node.id)
+                                        return (
+                                            item ? <Item key={`${node.id}-${i}`} {...node} {...item} /> : ''
+                                        )
+                                    })}
+                                </ItemContainer>
+                            )
+                        }) : 'no characters found' }
+                    </div>
+                ) : (
+                    <FilterForm label='API key' onSubmit={this.setApiKey}/>
+                )}
             </div>
         )
     }

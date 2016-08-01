@@ -9,10 +9,14 @@ const filterForm = React.createClass({
         this.props.onSubmit(input.value)
     },
     render() {
+        let id = this.props.label;
         return (
-            <form onSubmit={this.onSubmitHandler}>
-                <input ref='input'/>
-                <button type='submit'>Submit</button>
+            <form className='Form' onSubmit={this.onSubmitHandler}>
+                <div className='FormItem'>
+                    <label className='FormItem-label'>{this.props.label}</label>
+                    <input className='FormItem-input' ref='input'/>
+                    <button className='FormItem-button' type='submit'>Submit</button>
+                </div>
             </form>
         )
     }
