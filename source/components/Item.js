@@ -8,9 +8,8 @@ const Item = ({
     icon,
     count
 }) => (
-    <div className={`Item`}>
-        <img className={`Item-image`} src={icon} alt={name} />
-        <div>{name} ({count})</div>
+    <div className='Item' style={{backgroundImage: `url(${icon})`}}>
+        <div className='Item-count'>{count}</div>
     </div>
 )
 
