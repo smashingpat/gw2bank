@@ -17,6 +17,7 @@ const filterForm = React.createClass({
                     <input className='FormItem-input' ref='input'/>
                     <button className='FormItem-button' type='submit'>Submit</button>
                 </div>
+                <div>{this.props.children}</div>
             </form>
         )
     }

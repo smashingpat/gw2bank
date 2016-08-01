@@ -20,7 +20,7 @@ const filterItems = (items, filter) => {
 const App = React.createClass({
     componentDidMount() {
         API.setApiKey(this.props.api)
-        API.getAll()
+
     },
     getInitialState() {
         return {
@@ -43,8 +43,9 @@ const App = React.createClass({
         return result
     },
     setApiKey(key) {
-        Store.dispatch(Action.setApi('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'))
-        API.setApiKey('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072')
+        // '068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'
+        Store.dispatch(Action.setApi(key))
+        API.setApiKey(key)
     },
     render() {
         let props = this.props
@@ -54,6 +55,9 @@ const App = React.createClass({
                 {props.api ? (
                     <div>
                         <FilterForm label='Search' onSubmit={this.filterItem}/>
+                        <div className='button' onClick={() => {
+                            API.getAll();
+                        }}>Refresh data</div>
                         {props.characters.list ? props.characters.list.map(character => {
                             return (
                                 <ItemContainer key={character.name} {...character} >
@@ -68,7 +72,9 @@ const App = React.createClass({
                         }) : 'no characters found' }
                     </div>
                 ) : (
-                    <FilterForm label='API key' onSubmit={this.setApiKey}/>
+                    <FilterForm label='API key' onSubmit={this.setApiKey}>
+                        Paste here your API key, you can create one here: <a href='https://account.arena.net/applications'>LINK</a>
+                    </FilterForm>
                 )}
             </div>
         )
