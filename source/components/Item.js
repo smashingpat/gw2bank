@@ -9,8 +9,8 @@ const Item = ({
     count
 }) => (
     <div className={`Item`}>
-        <div className={`Item-count`}>{count}</div>
         <img className={`Item-image`} src={icon} alt={name} />
+        <div>{name} ({count})</div>
     </div>
 )
 

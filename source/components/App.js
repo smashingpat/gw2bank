@@ -43,9 +43,11 @@ const App = React.createClass({
         return result
     },
     setApiKey(key) {
-        // '068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'
-        Store.dispatch(Action.setApi(key))
-        API.setApiKey(key)
+        let testKey
+        // testKey = '068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'
+        testKey = key
+        Store.dispatch(Action.setApi(testKey))
+        API.setApiKey(testKey)
     },
     render() {
         let props = this.props

@@ -5,7 +5,7 @@ const React = require('react')
 const ItemContainer = (props) => {
     return (
         <div className={`Item-container`}>
-            <div>{props.name}</div>
+            <h3 style={{'margin-bottom': '0px'}}>{props.name}</h3>
             {props.children}
         </div>
     )
