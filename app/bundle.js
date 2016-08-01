@@ -41204,6 +41204,7 @@ function GW2API() {
 
     function setApiKey(key) {
         API_KEY = key;
+        getAll();
     }
 
     function filterNull(array) {
@@ -41285,6 +41286,10 @@ function GW2API() {
     }
 
     function getAll() {
+        if (!API_KEY) {
+            console.error('No API key found');
+            return;
+        }
         _axios2.default.all([getBank(), getCharacters()]).then(function (results) {
             var bank = filterNull(results[0].data);
             var characters = filterNull(results[1].data);
@@ -41470,8 +41475,6 @@ var filterItems = function filterItems(items, filter) {
         return regexp.test(item.name);
     });
 
-    console.log(filtered);
-
     return filtered;
 };
 
@@ -41479,7 +41482,6 @@ var App = _react2.default.createClass({
     displayName: 'App',
     componentDidMount: function componentDidMount() {
         _API2.default.setApiKey(this.props.api);
-        _API2.default.getAll();
     },
     getInitialState: function getInitialState() {
         return {
@@ -41501,6 +41503,11 @@ var App = _react2.default.createClass({
         })[0];
         return result;
     },
+    setApiKey: function setApiKey(key) {
+        // '068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'
+        _stores2.default.dispatch(_actions2.default.setApi(key));
+        _API2.default.setApiKey(key);
+    },
     render: function render() {
         var _this = this;
 
@@ -41508,18 +41515,38 @@ var App = _react2.default.createClass({
         var filtered = filterItems(props.items, props.filter);
         return _react2.default.createElement(
             'div',
-            null,
-            _react2.default.createElement(_FilterForm2.default, { onSubmit: this.filterItem }),
-            props.characters.list ? props.characters.list.map(function (character) {
-                return _react2.default.createElement(
-                    _ItemContainer2.default,
-                    _extends({ key: character.name }, character),
-                    character.items.map(function (node, i) {
-                        var item = _this.getItem(filtered, node.id);
-                        return item ? _react2.default.createElement(_Item2.default, _extends({ key: node.id + '-' + i }, node, item)) : '';
-                    })
-                );
-            }) : 'no characters found'
+            { className: 'Wrapper' },
+            props.api ? _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(_FilterForm2.default, { label: 'Search', onSubmit: this.filterItem }),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'button', onClick: function onClick() {
+                            _API2.default.getAll();
+                        } },
+                    'Refresh data'
+                ),
+                props.characters.list ? props.characters.list.map(function (character) {
+                    return _react2.default.createElement(
+                        _ItemContainer2.default,
+                        _extends({ key: character.name }, character),
+                        character.items.map(function (node, i) {
+                            var item = _this.getItem(filtered, node.id);
+                            return item ? _react2.default.createElement(_Item2.default, _extends({ key: node.id + '-' + i }, node, item)) : '';
+                        })
+                    );
+                }) : 'no characters found'
+            ) : _react2.default.createElement(
+                _FilterForm2.default,
+                { label: 'API key', onSubmit: this.setApiKey },
+                'Paste here your API key, you can create one here: ',
+                _react2.default.createElement(
+                    'a',
+                    { href: 'https://account.arena.net/applications' },
+                    'LINK'
+                )
+            )
         );
     }
 });
@@ -41548,14 +41575,29 @@ var filterForm = _react2.default.createClass({
         this.props.onSubmit(input.value);
     },
     render: function render() {
+        var id = this.props.label;
         return _react2.default.createElement(
             'form',
-            { onSubmit: this.onSubmitHandler },
-            _react2.default.createElement('input', { ref: 'input' }),
+            { className: 'Form', onSubmit: this.onSubmitHandler },
             _react2.default.createElement(
-                'button',
-                { type: 'submit' },
-                'Submit'
+                'div',
+                { className: 'FormItem' },
+                _react2.default.createElement(
+                    'label',
+                    { className: 'FormItem-label' },
+                    this.props.label
+                ),
+                _react2.default.createElement('input', { className: 'FormItem-input', ref: 'input' }),
+                _react2.default.createElement(
+                    'button',
+                    { className: 'FormItem-button', type: 'submit' },
+                    'Submit'
+                )
+            ),
+            _react2.default.createElement(
+                'div',
+                null,
+                this.props.children
             )
         );
     }
@@ -41649,11 +41691,13 @@ var render = function render() {
 // Dependencies
 
 
+render();
+
 _stores2.default.subscribe(function () {
     render();
 });
 
-_stores2.default.dispatch(_actions2.default.setApi('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'));
+// Store.dispatch(Action.setApi('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'))
 
 },{"./actions":280,"./components/App":281,"./stores":286,"axios":1,"lodash":90,"react":269,"react-dom":97}],286:[function(require,module,exports){
 'use strict';
