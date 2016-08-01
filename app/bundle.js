@@ -41504,9 +41504,11 @@ var App = _react2.default.createClass({
         return result;
     },
     setApiKey: function setApiKey(key) {
-        // '068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'
-        _stores2.default.dispatch(_actions2.default.setApi(key));
-        _API2.default.setApiKey(key);
+        var testKey = void 0;
+        // testKey = '068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'
+        testKey = key;
+        _stores2.default.dispatch(_actions2.default.setApi(testKey));
+        _API2.default.setApiKey(testKey);
     },
     render: function render() {
         var _this = this;
@@ -41618,12 +41620,15 @@ var Item = function Item(_ref) {
     return React.createElement(
         'div',
         { className: 'Item' },
+        React.createElement('img', { className: 'Item-image', src: icon, alt: name }),
         React.createElement(
             'div',
-            { className: 'Item-count' },
-            count
-        ),
-        React.createElement('img', { className: 'Item-image', src: icon, alt: name })
+            null,
+            name,
+            ' (',
+            count,
+            ')'
+        )
     );
 };
 
@@ -41639,8 +41644,8 @@ var ItemContainer = function ItemContainer(props) {
         'div',
         { className: 'Item-container' },
         React.createElement(
-            'div',
-            null,
+            'h3',
+            { style: { 'margin-bottom': '0px' } },
             props.name
         ),
         props.children
@@ -41696,8 +41701,6 @@ render();
 _stores2.default.subscribe(function () {
     render();
 });
-
-// Store.dispatch(Action.setApi('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'))
 
 },{"./actions":280,"./components/App":281,"./stores":286,"axios":1,"lodash":90,"react":269,"react-dom":97}],286:[function(require,module,exports){
 'use strict';
