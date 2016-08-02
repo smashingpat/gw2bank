@@ -3,6 +3,7 @@ import axios from 'axios'
 import uniq from 'lodash/uniq'
 import chunk from 'lodash/chunk'
 import pullAll from 'lodash/pullAll'
+import groupBy from 'lodash/groupBy'
 
 import { dispatch } from './stores'
 import { addBank, addCharacters, addItem } from './actions'
@@ -21,6 +22,27 @@ function GW2API() {
         getAll()
     }
 
+    function mergeItems(items) {
+        let newItems = [];
+
+        let groupedItems = groupBy(items, 'id')
+
+        for (let key in groupedItems) {
+            let totalCount = 0;
+            let items = groupedItems[key]
+            let singleItem = items[0]
+
+            items.map(item => {
+                totalCount = totalCount + item.count
+            })
+
+            singleItem['count'] = totalCount
+            newItems.push(singleItem)
+        }
+
+        return newItems
+    }
+
     function filterNull(array) {
         let newArray =  array.map(node => {
             if (node === null) return [];
@@ -36,7 +58,7 @@ function GW2API() {
 
     function filterBank(bank) {
         let name = 'Bank'
-        let items = bank
+        let items = mergeItems(bank
             .filter(item => item.id)
             .map(item => {
                 let id = item.id
@@ -46,7 +68,7 @@ function GW2API() {
                     id,
                     count
                 }
-            })
+            }))
         let itemIds = uniq(items.map(item => item.id))
 
         return {
@@ -72,7 +94,7 @@ function GW2API() {
                         }
                     })
             })
-            let items = concatArray(...filterItems)
+            let items = mergeItems(concatArray(...filterItems))
 
             return {
                 name,
