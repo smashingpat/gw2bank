@@ -1,39 +1,44 @@
-// import API from '../API'
+import API from '../API'
 
-let URL = 'https://api.guildwars2.com/v2/'
-
-function setApi(text) {
-    return {
-        type: 'ADD_API_KEY',
-        text
+function setApi(payload) {
+    return function(dispatch) {
+        dispatch({
+            type: 'ADD_API_KEY',
+            payload: API.setApiKey(payload)
+        })
+        dispatch(addCharacters())
     }
 }
 
-function addBank(items) {
+function addBank(payload) {
     return {
         type: 'ADD_BANK',
-        items
+        payload
     }
 }
 
-function addCharacters(characters) {
-    return {
-        type: 'ADD_CHARACTERS',
-        characters
+function addCharacters() {
+    return function(dispatch) {
+        API.fetchCharacters(payload => {
+            dispatch({
+                type: 'ADD_CHARACTERS',
+                payload
+            })
+        })
     }
 }
 
-function addItem(items) {
+function addItem(payload) {
     return {
         type: 'ADD_ITEM',
-        items
+        payload
     }
 }
 
-function changeFilter(filter) {
+function changeFilter(payload) {
     return {
         type: 'CHANGE_FILTER',
-        filter
+        payload
     }
 }
 

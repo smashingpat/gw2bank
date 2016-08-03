@@ -1,26 +1,16 @@
 // Dependencies
 import React from 'react'
 import ReactDOM from 'react-dom'
-import axios from 'axios'
-import _ from 'lodash'
+import { Provider } from 'react-redux'
 
-import Store from './stores'
-import Action from './actions'
+import store from './stores'
 
 // Components
 import App from './components/App'
 
-
-const render = () => {
-    let props = Store.getState()
-    ReactDOM.render(
-        <App {...props} />,
-        document.getElementById('root')
-    )
-}
-
-render()
-
-Store.subscribe(() => {
-    render()
-});
+ReactDOM.render(
+    <Provider store={store}>
+        <App/>
+    </Provider>,
+    document.getElementById('root')
+)

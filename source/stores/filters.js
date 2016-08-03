@@ -1,7 +1,7 @@
 const filters = (state = '', action) => {
     switch (action.type) {
         case 'CHANGE_FILTER':
-            return action.filter
+            return action.payload
         default:
             return state
     }

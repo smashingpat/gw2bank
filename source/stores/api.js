@@ -1,7 +1,7 @@
 function api(state = '', action) {
     switch (action.type) {
         case 'ADD_API_KEY':
-            return action.text
+            return action.payload
         default:
             return state
     }

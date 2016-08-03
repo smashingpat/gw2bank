@@ -1,7 +1,7 @@
 function bank(state = [], action) {
     switch (action.type) {
         case 'ADD_BANK':
-            return action.items
+            return action.payload
         default:
             return state
     }

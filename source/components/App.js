@@ -1,29 +1,43 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 import API from '../API'
-import Store from '../stores'
-import Action from '../actions'
+import { setApi, changeFilter } from '../actions'
 
-import ItemContainer from './ItemContainer'
-import Item from './Item'
-import FilterForm from './FilterForm'
 
-const App = React.createClass({
+class App extends React.Component {
     componentDidMount() {
-        this.setApiKey('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072')
-    },
-    setApiKey(key) {
-        Store.dispatch(Action.setApi(key))
-        API.setApiKey(key)
-    },
+        this.setApiKey()
+    }
+
+    setFilter(event) {
+        event.preventDefault()
+        this.props.dispatch(changeFilter(this.refs.input.value))
+        this.refs.input.value = ''
+    }
+
+    setApiKey() {
+        this.props.dispatch(setApi('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'))
+    }
+
     render() {
         let props = this.props
         return (
             <div>
+                <form onSubmit={this.setFilter.bind(this)}>
+                    <input ref='input' />
+                </form>
                 <pre><code>{JSON.stringify(props, null, 2)}</code></pre>
             </div>
         )
     }
-})
+}
 
-module.exports = App
+export default connect((store) => {
+    return {
+        api: store.api,
+        items: store.items,
+        filter: store.filters,
+        characters: store.characters
+    }
+})(App)
