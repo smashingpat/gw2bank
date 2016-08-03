@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
+import thunk from 'redux-thunk'
 
 import bank from './bank'
 import characters from './characters'
@@ -16,7 +17,7 @@ const reducers = combineReducers({
     filters
 })
 
-const middleware = applyMiddleware(logger())
+const middleware = applyMiddleware(thunk, logger())
 const store = createStore(reducers, window.devToolsExtension && window.devToolsExtension(), middleware)
 
 

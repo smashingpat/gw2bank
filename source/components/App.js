@@ -8,12 +8,6 @@ import ItemContainer from './ItemContainer'
 import Item from './Item'
 import FilterForm from './FilterForm'
 
-const Temp = () => (
-    <div>
-
-    </div>
-)
-
 const App = React.createClass({
     componentDidMount() {
         API.setApiKey(this.props.api)
@@ -36,28 +30,9 @@ const App = React.createClass({
     },
     render() {
         let props = this.props
-        let filtered = this.filterItems(props.items, props.filter)
-        let combinedItems = [].concat(props.characters.list, props.bank)
-
         return (
             <div>
-                {props.api ? (
-                    <div>
-                        <FilterForm label='Search' onSubmit={this.changeFilter}/>
-                        {combinedItems.length > 2 ? combinedItems.map(node => (
-                            <ItemContainer key={node.name} {...node} >
-                                {node.items.map((node, i) => {
-                                    let item = this.getItem(filtered, node.id)
-                                    return (
-                                        item ? <Item key={`${node.id}-${i}`} {...node} {...item} /> : ''
-                                    )
-                                })}
-                            </ItemContainer>
-                        )) : null }
-                    </div>
-                ) : (
-                    <FilterForm label='API key' onSubmit={this.setApiKey} />
-                )}
+                <pre><code>{JSON.stringify(props, null, 2)}</code></pre>
             </div>
         )
     }
