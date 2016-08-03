@@ -4,9 +4,9 @@ const React = require('react')
 
 const ItemContainer = (props) => {
     return (
-        <div className={`Item-container`}>
-            <h3 className={`Item-heading`}>{props.name}</h3>
-            {props.children}
+        <div className='ItemContainer'>
+            <div className='ItemContainer-heading'>{props.name}</div>
+            <div className='ItemContainer-container'>{props.children}</div>
         </div>
     )
 }

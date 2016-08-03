@@ -23,9 +23,8 @@ const App = React.createClass({
         Store.dispatch(Action.changeFilter(filter))
     },
     filterItems(items, filter) {
-        let regexp = new RegExp(filter, 'gi')
         if (!filter) return items;
-        return items.filter(item => regexp.test(item.name))
+        return items.filter(item => new RegExp(filter, 'gi').test(item.name))
     },
     getItem(items, id) {
         let result = items.filter(item => item.id === id)[0];
@@ -41,7 +40,7 @@ const App = React.createClass({
         let combinedItems = [].concat(props.characters.list, props.bank)
 
         return (
-            <div className='Wrapper'>
+            <div>
                 {props.api ? (
                     <div>
                         <FilterForm label='Search' onSubmit={this.changeFilter}/>

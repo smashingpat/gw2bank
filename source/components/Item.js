@@ -8,8 +8,8 @@ const Item = ({
     icon,
     count
 }) => (
-    <div className='Item' style={{backgroundImage: `url(${icon})`}}>
-        <div className='Item-count'>{count}</div>
+    <div className='Item'>
+        <div className='Item-icon' style={{backgroundImage: `url(${icon})`}}></div>
     </div>
 )
 
