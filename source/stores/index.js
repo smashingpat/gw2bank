@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import logger from 'redux-logger'
 
 import bank from './bank'
 import characters from './characters'
@@ -15,5 +16,8 @@ const reducers = combineReducers({
     filters
 })
 
+const middleware = applyMiddleware(logger())
+const store = createStore(reducers, window.devToolsExtension && window.devToolsExtension(), middleware)
 
-module.exports = createStore(reducers, window.devToolsExtension && window.devToolsExtension())
+
+module.exports = store
