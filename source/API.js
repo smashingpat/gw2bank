@@ -1,9 +1,6 @@
 import axios from 'axios'
-// lodash
-import uniq from 'lodash/uniq'
-import chunk from 'lodash/chunk'
-import pullAll from 'lodash/pullAll'
-import groupBy from 'lodash/groupBy'
+import _ from 'lodash'
+
 
 function GW2API() {
 
@@ -23,7 +20,7 @@ function GW2API() {
         if (typeof(callback) == "function") {
             promise.then(result => {
                 let data = result.data
-                let filtered = fetchCharacters(data)
+                let filtered = filterCharacters(data)
 
                 callback(filtered)
             })
@@ -33,16 +30,67 @@ function GW2API() {
         return promise
     }
 
-    function filterCharacters(data) {
-        return data
+    function filterCharacters(characters) {
+        let filtered = characters.map(node => {
+            let name = node.name
+            let filteredItems = filterEmpty(node.bags).map(bag => filterEmpty(bag.inventory))
+            let items = [].concat(...filteredItems)
+
+            let grouped = mergeArray(items)
+
+            return {
+                name,
+                items
+            }
+        })
+        return filtered
+    }
+
+    function fetchItems(id, callback) {
+        let ids = [].concat(id)
+        itemIdCache = ids
+        console.log('itemIdCache', itemIdCache);
+
+        let params = { ids: ids.join(',') }
+        let promise = axios(`${URL}/items`, {params})
+
+        if (typeof(callback) == 'function') {
+            promise.then(result => {
+                let data = result.data
+            }).catch(err => console.log(err))
+            return
+        }
+
+        return promise
+    }
+
+    function mergeArray(array, label = 'count') {
+
+        let single = _(array).groupBy('id').values().value().map(node => {
+            let countStore = 0;
+            let counted = node.map((node, i) => {
+                let newNode = node
+                countStore = countStore + newNode[label]
+                newNode[label] = countStore
+                return newNode
+            })
+            return node[node.length - 1]
+        })
+
+        return array;
+    }
+
+    function filterEmpty(array) {
+        return array.filter(node => node !== null)
     }
 
     return {
         fetchCharacters,
+        fetchItems,
         setApiKey
     }
 }
 
 const API = GW2API()
 
-module.exports = API
+export default API

@@ -27,6 +27,16 @@ class App extends React.Component {
                 <form onSubmit={this.setFilter.bind(this)}>
                     <input ref='input' />
                 </form>
+                <div>
+                    {props.characters.map(character => (
+                        <div key={character.name}>
+                            <div>{character.name}</div>
+                            {character.items.map((item, index) => (
+                                <div key={`${item}${index}`}>{item.id} '({item.count})'</div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
                 <pre><code>{JSON.stringify(props, null, 2)}</code></pre>
             </div>
         )

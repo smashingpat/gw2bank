@@ -1,4 +1,5 @@
 import API from '../API'
+import _ from 'lodash'
 
 function setApi(payload) {
     return function(dispatch) {
@@ -24,14 +25,24 @@ function addCharacters() {
                 type: 'ADD_CHARACTERS',
                 payload
             })
+            let itemIds = [];
+            payload.map(character => {
+                character.items.map(item => itemIds.push(item.id))
+            })
+            dispatch(addItem(_.uniq(itemIds)))
         })
     }
 }
 
-function addItem(payload) {
-    return {
-        type: 'ADD_ITEM',
-        payload
+function addItem(ids) {
+    console.log();
+    return function(dispatch) {
+        API.fetchItems(ids, payload => {
+            dispatch({
+                type: 'ADD_ITEM',
+                payload
+            })
+        })
     }
 }
 
