@@ -7,11 +7,11 @@ function setApi(payload) {
             type: 'ADD_API_KEY',
             payload: API.setApiKey(payload)
         })
-        dispatch(addData())
+        dispatch(addStorage())
     }
 }
 
-function addData() {
+function addStorage() {
     return function(dispatch) {
         API.fetchAll(payload => {
             dispatch({
@@ -45,7 +45,7 @@ function changeFilter(payload) {
 
 module.exports = {
     setApi,
-    addData,
+    addStorage,
     addItem,
     changeFilter
 }
