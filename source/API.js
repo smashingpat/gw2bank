@@ -1,5 +1,6 @@
 import axios from 'axios'
 import _ from 'lodash'
+import storage from './helpers/localstorage'
 
 
 function GW2API() {
@@ -9,8 +10,31 @@ function GW2API() {
     let storedItems = []
     let itemIdCache = []
 
+    function init() {
+        getStorage()
+    }
+
+    init()
+
+    function saveItemStorage() {
+        storage.save('itemIdCache', itemIdCache)
+        storage.save('storedItems', storedItems)
+    }
+
+    function getStorage() {
+        itemIdCache = storage.get('itemIdCache') || []
+        storedItems = storage.get('storedItems') || []
+        API_KEY = storage.get('api_key') || ''
+    }
+
+    function getApiKey() {
+        return API_KEY
+    }
+
     function setApiKey(key) {
+        console.log(key);
         API_KEY = key
+        storage.save('api_key', 'key')
         return API_KEY
     }
 
@@ -24,7 +48,12 @@ function GW2API() {
             let filteredBank = filterBank(bank.data)
             let filteredCharacters = filterCharacters(characters.data)
             let data = [
-                ...filteredBank,
+                {
+                    name: 'Bank',
+                    items: [
+                        ...filteredBank
+                    ]
+                },
                 ...filteredCharacters
             ]
             callback(data)
@@ -42,12 +71,7 @@ function GW2API() {
         let filtered = filterEmpty(bank)
         let items = mergeArray(filtered)
 
-        return [
-            {
-                name: 'Bank',
-                items
-            }
-        ]
+        return items
     }
 
     function fetchCharacters(callback) {
@@ -87,16 +111,12 @@ function GW2API() {
             ...promises
         ])
 
-        if (typeof(callback) == 'function') {
-            promise.then(result => {
-                let data = result.map(node => node.data)
-                storedItems = storedItems.concat(...data)
-                callback(storedItems)
-            }).catch(err => console.error(err))
-            return
-        }
-
-        return promise
+        promise.then(result => {
+            let data = result.map(node => node.data)
+            storedItems = storedItems.concat(...data)
+            callback(storedItems)
+            saveItemStorage()
+        }).catch(err => console.error(err))
     }
 
     function getItems() {
@@ -129,7 +149,8 @@ function GW2API() {
         fetchCharacters,
         fetchItems,
         getItems,
-        setApiKey
+        setApiKey,
+        getApiKey
     }
 }
 

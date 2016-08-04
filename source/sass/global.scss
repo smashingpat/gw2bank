@@ -22,17 +22,3 @@
 @import 'components/forms';
 @import 'components/buttons';
 @import 'components/items';
-
-body {
-    padding-bottom: 50vh;
-}
-.JSONTree {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    max-height: 50vh;
-    width: 100%;
-    overflow: auto;
-    background: rgb(224, 255, 255);
-    box-shadow: 0 0 5px rgba($black, .1);
-}

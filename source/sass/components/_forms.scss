@@ -14,6 +14,17 @@
 
     &-input {
         flex: 1;
-        border: 1px solid $gray5;
+    }
+}
+
+input {
+    border: 1px solid $c-secondary;
+    background: lighten($c-secondary, 20%);
+    padding: $spacing-small;
+    
+    &:focus {
+        outline: none;
+        border-color: $c-primairy;
+        background-color: lighten($c-primairy, 40%);
     }
 }
