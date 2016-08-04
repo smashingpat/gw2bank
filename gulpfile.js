@@ -4,6 +4,7 @@ const gulp = require('gulp')
 const plumber = require('gulp-plumber')
 const watch = require('gulp-watch')
 const gulpif = require('gulp-if')
+const ghPages = require('gulp-gh-pages')
 const jade = require('gulp-jade')
 const sass = require('gulp-sass')
 const postcss = require('gulp-postcss')
@@ -92,6 +93,11 @@ gulp.task('script', function() {
         }))))
         .pipe(rename(outfile))
         .pipe(gulp.dest('./app'))
+})
+
+gulp.task('deploy', ['bundle'], function() {
+    gulp.src('./app/**/*')
+        .pipe(ghPages())
 })
 
 gulp.task('bundle', ['jade', 'sass', 'script'])
