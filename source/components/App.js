@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import JSONTree from 'react-json-tree'
 
 import API from '../API'
 import { setApi, changeFilter } from '../actions'
@@ -7,19 +8,23 @@ import { setApi, changeFilter } from '../actions'
 @connect((store) => {
     return {
         api: store.api,
-        items: store.items,
         filter: store.filters,
-        characters: store.characters
+        characters: store.characters,
+        items: store.items
     }
 })
+
 class App extends React.Component {
     componentDidMount() {
         this.setApiKey()
+        // bind this to functions
+        this.setFilter = this.setFilter.bind(this)
     }
 
     setFilter(event) {
         event.preventDefault()
-        this.props.dispatch(changeFilter(this.refs.input.value))
+        let value = this.refs.input.value
+        this.props.dispatch(changeFilter(value))
         this.refs.input.value = ''
     }
 
@@ -31,10 +36,10 @@ class App extends React.Component {
         let props = this.props
         return (
             <div>
-                <form onSubmit={this.setFilter.bind(this)}>
+                <form onSubmit={this.setFilter}>
                     <input ref='input'/>
                 </form>
-                <pre><code>{JSON.stringify(props, null, 2)}</code></pre>
+                <JSONTree data={props} />
             </div>
         )
     }
