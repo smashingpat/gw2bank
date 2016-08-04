@@ -12,6 +12,7 @@ import ItemList from './ItemList'
     return {
         api: store.api,
         filter: store.filters,
+        filtered: store.filtered,
         storages: store.storage,
         items: store.items,
     }
@@ -20,14 +21,11 @@ import ItemList from './ItemList'
 class App extends React.Component {
     componentDidMount() {
         this.setApiKey('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072')
+        this.setFilter('exotic')
         // bind this to functions
         this.setApiKey = this.setApiKey.bind(this)
         this.setFilter = this.setFilter.bind(this)
         this.filterItem = this.filterItem.bind(this)
-    }
-
-    setFilter(value) {
-        this.props.dispatch(changeFilter(value))
     }
 
     setApiKey(key) {
@@ -36,8 +34,12 @@ class App extends React.Component {
         this.props.dispatch(setApiKey(key))
     }
 
+    setFilter(value) {
+        this.props.dispatch(changeFilter(value))
+    }
+
     filterItem(id) {
-        return this.props.items.filter(item => item.id === id)[0]
+        return this.props.filtered.filter(item => item.id === id)[0]
     }
 
     render() {
@@ -45,6 +47,7 @@ class App extends React.Component {
         return (
             <div>
                 <Input value={props.api} onSubmit={this.setApiKey} />
+                <Input value={props.filter} onSubmit={this.setFilter} />
                 {props.storages.map(storage => (
                     <ItemList key={storage.name} {...storage} itemSearch={this.filterItem} />
                 ))}

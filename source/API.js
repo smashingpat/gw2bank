@@ -6,7 +6,7 @@ function GW2API() {
 
     let URL = 'https://api.guildwars2.com/v2'
     let API_KEY
-    let itemCache = []
+    let storedItems = []
     let itemIdCache = []
 
     function setApiKey(key) {
@@ -90,13 +90,17 @@ function GW2API() {
         if (typeof(callback) == 'function') {
             promise.then(result => {
                 let data = result.map(node => node.data)
-                itemCache = itemCache.concat(...data)
-                callback(itemCache)
+                storedItems = storedItems.concat(...data)
+                callback(storedItems)
             }).catch(err => console.error(err))
             return
         }
 
         return promise
+    }
+
+    function getItems() {
+        return storedItems
     }
 
     function mergeArray(array, label = 'count') {
@@ -124,6 +128,7 @@ function GW2API() {
         fetchBank,
         fetchCharacters,
         fetchItems,
+        getItems,
         setApiKey
     }
 }
