@@ -6,6 +6,7 @@ function GW2API() {
 
     let URL = 'https://api.guildwars2.com/v2'
     let API_KEY
+    let itemCache = []
     let itemIdCache = []
 
     function setApiKey(key) {
@@ -48,16 +49,25 @@ function GW2API() {
 
     function fetchItems(id, callback) {
         let ids = [].concat(id)
-        itemIdCache = ids
-        console.log('itemIdCache', itemIdCache);
+        let filteredIds = _.pullAll(ids, itemIdCache)
+        console.log('length filtered:', filteredIds.length);
+        itemIdCache = itemIdCache.concat(filteredIds)
 
-        let params = { ids: ids.join(',') }
-        let promise = axios(`${URL}/items`, {params})
+        let chunks = _.chunk(filteredIds, 150)
+        let promises = chunks.map(chunk => {
+            let params = { ids: chunk.join(',') }
+            return axios(`${URL}/items`, {params})
+        })
+        let promise = axios.all([
+            ...promises
+        ])
 
         if (typeof(callback) == 'function') {
             promise.then(result => {
-                let data = result.data
-            }).catch(err => console.log(err))
+                let data = result.map(node => node.data)
+                itemCache = itemCache.concat(...data)
+                callback(itemCache)
+            }).catch(err => console.error(err))
             return
         }
 
@@ -81,7 +91,7 @@ function GW2API() {
     }
 
     function filterEmpty(array) {
-        return array.filter(node => node !== null)
+        return _.compact(array)
     }
 
     return {

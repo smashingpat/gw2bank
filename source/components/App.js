@@ -4,7 +4,14 @@ import {connect} from 'react-redux'
 import API from '../API'
 import { setApi, changeFilter } from '../actions'
 
-
+@connect((store) => {
+    return {
+        api: store.api,
+        items: store.items,
+        filter: store.filters,
+        characters: store.characters
+    }
+})
 class App extends React.Component {
     componentDidMount() {
         this.setApiKey()
@@ -25,29 +32,12 @@ class App extends React.Component {
         return (
             <div>
                 <form onSubmit={this.setFilter.bind(this)}>
-                    <input ref='input' />
+                    <input ref='input'/>
                 </form>
-                <div>
-                    {props.characters.map(character => (
-                        <div key={character.name}>
-                            <div>{character.name}</div>
-                            {character.items.map((item, index) => (
-                                <div key={`${item}${index}`}>{item.id} '({item.count})'</div>
-                            ))}
-                        </div>
-                    ))}
-                </div>
                 <pre><code>{JSON.stringify(props, null, 2)}</code></pre>
             </div>
         )
     }
 }
 
-export default connect((store) => {
-    return {
-        api: store.api,
-        items: store.items,
-        filter: store.filters,
-        characters: store.characters
-    }
-})(App)
+export default App

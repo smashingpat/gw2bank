@@ -30,6 +30,7 @@ function addCharacters() {
                 character.items.map(item => itemIds.push(item.id))
             })
             dispatch(addItem(_.uniq(itemIds)))
+            dispatch(addItem(23046))
         })
     }
 }
