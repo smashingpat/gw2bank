@@ -46,8 +46,8 @@ class App extends React.Component {
         let props = this.props
         return (
             <div>
-                <Input value={props.api} onSubmit={this.setApiKey} />
-                <Input value={props.filter} onSubmit={this.setFilter} />
+                <Input label='api key' value={props.api} onSubmit={this.setApiKey} />
+                <Input label='filter' value={props.filter} onSubmit={this.setFilter} />
                 {props.storages.map(storage => (
                     <ItemList key={storage.name} {...storage} itemSearch={this.filterItem} />
                 ))}
