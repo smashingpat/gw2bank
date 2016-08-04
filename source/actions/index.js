@@ -1,39 +1,55 @@
-// import API from '../API'
+import API from '../API'
+import _ from 'lodash'
 
-let URL = 'https://api.guildwars2.com/v2/'
-
-function setApi(text) {
-    return {
-        type: 'ADD_API_KEY',
-        text
+function setApi(payload) {
+    return function(dispatch) {
+        dispatch({
+            type: 'ADD_API_KEY',
+            payload: API.setApiKey(payload)
+        })
+        dispatch(addCharacters())
     }
 }
 
-function addBank(items) {
+function addBank(payload) {
     return {
         type: 'ADD_BANK',
-        items
+        payload
     }
 }
 
-function addCharacters(characters) {
-    return {
-        type: 'ADD_CHARACTERS',
-        characters
+function addCharacters() {
+    return function(dispatch) {
+        API.fetchCharacters(payload => {
+            dispatch({
+                type: 'ADD_CHARACTERS',
+                payload
+            })
+            let itemIds = [];
+            payload.map(character => {
+                character.items.map(item => itemIds.push(item.id))
+            })
+            dispatch(addItem(_.uniq(itemIds)))
+        })
     }
 }
 
-function addItem(items) {
-    return {
-        type: 'ADD_ITEM',
-        items
+function addItem(ids) {
+    console.log();
+    return function(dispatch) {
+        API.fetchItems(ids, payload => {
+            dispatch({
+                type: 'ADD_ITEM',
+                payload
+            })
+        })
     }
 }
 
-function changeFilter(filter) {
+function changeFilter(payload) {
     return {
         type: 'CHANGE_FILTER',
-        filter
+        payload
     }
 }
 

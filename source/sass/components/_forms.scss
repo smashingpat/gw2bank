@@ -4,19 +4,13 @@
 ============================================================================= */
 
 .Form {
-    padding-top: $spacing-large;
+    // padding-top: $spacing-large;
 }
 
 .FormItem {
     position: relative;
-    padding-top: $spacing;
     display: flex;
     align-items: stretch;
-
-
-    &-label {
-        padding-right: $spacing-small;
-    }
 
     &-input {
         flex: 1;

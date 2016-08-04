@@ -1,12 +1,5 @@
 import axios from 'axios'
-// lodash
-import uniq from 'lodash/uniq'
-import chunk from 'lodash/chunk'
-import pullAll from 'lodash/pullAll'
-
-import { dispatch } from './stores'
-import { addBank, addCharacters, addItem } from './actions'
-
+import _ from 'lodash'
 
 
 function GW2API() {
@@ -14,183 +7,90 @@ function GW2API() {
     let URL = 'https://api.guildwars2.com/v2'
     let API_KEY
     let itemIdCache = []
-    let falseId = 8008135
 
     function setApiKey(key) {
         API_KEY = key
-        getAll()
+        return API_KEY
     }
 
-    function filterNull(array) {
-        let newArray =  array.map(node => {
-            if (node === null) return [];
-            return node
-        })
+    function fetchCharacters(callback) {
+        let params = { access_token: API_KEY }
+        let promise = axios(`${URL}/characters?page=0`, {params})
 
-        return newArray
-    }
+        if (typeof(callback) == "function") {
+            promise.then(result => {
+                let data = result.data
+                let filtered = filterCharacters(data)
 
-    function concatArray(...arrays) {
-        return [].concat(...arrays)
-    }
-
-    function filterBank(bank) {
-        let name = 'Bank'
-        let items = bank
-            .filter(item => item.id)
-            .map(item => {
-                let id = item.id
-                let count = item.count
-
-                return {
-                    id,
-                    count
-                }
+                callback(filtered)
             })
-        let itemIds = uniq(items.map(item => item.id))
-
-        return {
-            name,
-            itemIds,
-            items
+            return
         }
+
+        return promise
     }
 
-    function filterCharacters(charactersArray) {
-        let list = charactersArray.map(character => {
-            let name = character.name
-            let filterItems = filterNull(character.bags).map(bag => {
-                if (!bag.inventory) return [];
-                return filterNull(bag.inventory)
-                    .filter(item => item.id)
-                    .map(item => {
-                        let id = item.id
-                        let count = item.count
-                        return {
-                            id,
-                            count
-                        }
-                    })
-            })
-            let items = concatArray(...filterItems)
+    function filterCharacters(characters) {
+        let filtered = characters.map(node => {
+            let name = node.name
+            let filteredItems = filterEmpty(node.bags).map(bag => filterEmpty(bag.inventory))
+            let items = [].concat(...filteredItems)
+
+            let grouped = mergeArray(items)
 
             return {
                 name,
                 items
             }
         })
-        let storeIds = []
-
-        list.map(character => {
-            return character.items.map(item => {
-                storeIds.push(item.id)
-            })
-        })
-
-        let itemIds = uniq(storeIds)
-
-        return {
-            list,
-            itemIds
-        }
+        return filtered
     }
 
-    function getAll() {
-        if (!API_KEY) {
-            console.error('No API key found');
-            return
-        }
-        axios.all([
-            getBank(),
-            getCharacters()
-        ]).then((results) => {
-            let bank = filterNull(results[0].data)
-            let characters = filterNull(results[1].data)
+    function fetchItems(id, callback) {
+        let ids = [].concat(id)
+        itemIdCache = ids
+        console.log('itemIdCache', itemIdCache);
 
-            let filteredBank = filterBank(bank)
-            let filteredCharacters = filterCharacters(characters)
-
-            let combinedItemIds = concatArray(filteredBank.itemIds, filteredCharacters.itemIds)
-            let uniqItemIds = uniq(combinedItemIds)
-
-            dispatch(addBank(filteredBank))
-            dispatch(addCharacters(filteredCharacters))
-
-            fetchItems(uniqItemIds)
-        })
-    }
-
-    function getBank(callback) {
-        let params = { access_token: API_KEY }
-        let promise = axios(`${URL}/account/bank`, {params})
-
-        if (callback) {
-            promise.then(result => {
-                console.log(result);
-            })
-        }
-
-        return promise
-    }
-
-    function getCharacters(callback) {
-        let params = { access_token: API_KEY }
-        let promise = axios(`${URL}/characters?page=0`, {params})
-
-        if (callback) {
-            promise.then(result => {
-                console.log(result);
-            })
-        }
-
-        return promise
-    }
-
-    function fetchItems(ids, callback) {
-        let idArray = concatArray(ids)
-        let filtered = pullAll(idArray, itemIdCache)
-
-        itemIdCache = itemIdCache.concat(filtered)
-
-        let idChunks = chunk(filtered, 150)
-        let requests = []
-
-        idChunks.map(idChunk => {
-            requests.push(getItems(idChunk, callback))
-        })
-
-        return axios.all(requests).then(results => {
-            let filteredItems = results.map(result => {
-                return result.data
-            })
-            let items = concatArray(...filteredItems)
-
-            dispatch(addItem(items))
-        })
-    }
-
-    function getItems(id, callback) {
-        let ids = id.join()
-        let params = {ids}
+        let params = { ids: ids.join(',') }
         let promise = axios(`${URL}/items`, {params})
 
-        if (callback) {
+        if (typeof(callback) == 'function') {
             promise.then(result => {
-                console.log(result);
-            })
+                let data = result.data
+            }).catch(err => console.log(err))
+            return
         }
 
         return promise
+    }
+
+    function mergeArray(array, label = 'count') {
+
+        let single = _(array).groupBy('id').values().value().map(node => {
+            let countStore = 0;
+            let counted = node.map((node, i) => {
+                let newNode = node
+                countStore = countStore + newNode[label]
+                newNode[label] = countStore
+                return newNode
+            })
+            return node[node.length - 1]
+        })
+
+        return array;
+    }
+
+    function filterEmpty(array) {
+        return array.filter(node => node !== null)
     }
 
     return {
-        setApiKey,
-        getBank,
-        getCharacters,
-        getAll
+        fetchCharacters,
+        fetchItems,
+        setApiKey
     }
 }
 
 const API = GW2API()
 
-module.exports = API
+export default API

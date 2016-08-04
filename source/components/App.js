@@ -1,86 +1,53 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 import API from '../API'
-import Store from '../stores'
-import Action from '../actions'
+import { setApi, changeFilter } from '../actions'
 
-import ItemContainer from './ItemContainer'
-import Item from './Item'
-import FilterForm from './FilterForm'
 
-const filterItems = (items, filter) => {
-    let regexp = new RegExp(filter, 'gi')
-    if (!filter) return items;
-
-    let filtered = items.filter(item => regexp.test(item.name));
-
-    return filtered
-}
-
-const App = React.createClass({
+class App extends React.Component {
     componentDidMount() {
-        API.setApiKey(this.props.api)
+        this.setApiKey()
+    }
 
-    },
-    getInitialState() {
-        return {
-            filtered: []
-        }
-    },
-    componentWillReceiveProps() {
-        this.replaceState({
-            filtered: this.props.items
-        })
-    },
-    filterItem(filter) {
-        Store.dispatch(Action.changeFilter(filter))
-    },
-    filterItems() {
+    setFilter(event) {
+        event.preventDefault()
+        this.props.dispatch(changeFilter(this.refs.input.value))
+        this.refs.input.value = ''
+    }
 
-    },
-    getItem(items, id) {
-        let result = items.filter(item => item.id === id)[0];
-        return result
-    },
-    setApiKey(key) {
-        let testKey
-        // testKey = '068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'
-        testKey = key
-        Store.dispatch(Action.setApi(testKey))
-        API.setApiKey(testKey)
-    },
+    setApiKey() {
+        this.props.dispatch(setApi('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072'))
+    }
+
     render() {
         let props = this.props
-        let filtered = filterItems(props.items, props.filter)
         return (
-            <div className='Wrapper'>
-                {props.api ? (
-                    <div>
-                        <FilterForm label='Search' onSubmit={this.filterItem}/>
-                        <div className='button' onClick={() => {
-                            API.getAll();
-                        }}>Refresh data</div>
-                        {props.characters.list ? props.characters.list.map(character => {
-                            return (
-                                <ItemContainer key={character.name} {...character} >
-                                    {character.items.map((node, i) => {
-                                        let item = this.getItem(filtered, node.id)
-                                        return (
-                                            item ? <Item key={`${node.id}-${i}`} {...node} {...item} /> : ''
-                                        )
-                                    })}
-                                </ItemContainer>
-                            )
-                        }) : 'no characters found' }
-                    </div>
-                ) : (
-                    <FilterForm label='API key' onSubmit={this.setApiKey}>
-                        Paste here your API key, you can create one here: <a href='https://account.arena.net/applications'>LINK</a>
-                    </FilterForm>
-                )}
+            <div>
+                <form onSubmit={this.setFilter.bind(this)}>
+                    <input ref='input' />
+                </form>
+                <div>
+                    {props.characters.map(character => (
+                        <div key={character.name}>
+                            <div>{character.name}</div>
+                            {character.items.map((item, index) => (
+                                <div key={`${item}${index}`}>{item.id} '({item.count})'</div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+                <pre><code>{JSON.stringify(props, null, 2)}</code></pre>
             </div>
         )
     }
-})
+}
 
-module.exports = App
+export default connect((store) => {
+    return {
+        api: store.api,
+        items: store.items,
+        filter: store.filters,
+        characters: store.characters
+    }
+})(App)
