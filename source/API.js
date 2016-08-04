@@ -36,19 +36,13 @@ function GW2API() {
         let promise = axios(`${URL}/account/bank`, {params})
 
         return promise
-        // .then(result => {
-        //     let data = result.data
-        //     let filtered = filterBank(data)
-        //
-        //     return callback(filtered)
-        // })
     }
 
     function filterBank(bank) {
         return [
             {
                 name: 'Bank',
-                items: bank
+                items: filterEmpty(bank)
             }
         ]
     }
@@ -58,12 +52,6 @@ function GW2API() {
         let promise = axios(`${URL}/characters?page=0`, {params})
 
         return promise
-        // .then(result => {
-        //     let data = result.data
-        //     let filtered = filterCharacters(data)
-        //
-        //     callback(filtered)
-        // })
     }
 
     function filterCharacters(characters) {

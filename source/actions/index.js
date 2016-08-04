@@ -13,51 +13,19 @@ function setApi(payload) {
 
 function addData() {
     return function(dispatch) {
-        // dispatch(addBank())
-        // dispatch(addCharacters())
         API.fetchAll(payload => {
             dispatch({
                 type: 'ADD_STORAGE',
                 payload
             })
-        })
-    }
-}
-
-function addBank() {
-    return function(dispatch) {
-        API.fetchBank(payload => {
-            dispatch({
-                type: 'ADD_BANK',
-                payload
-            })
-            let itemIds = [];
-            payload.map(bank => {
-                bank.items.map(item => item.id)
-            })
-            dispatch(addItem(_.uniq(itemIds)))
-        })
-    }
-}
-
-function addCharacters() {
-    return function(dispatch) {
-        API.fetchCharacters(payload => {
-            dispatch({
-                type: 'ADD_CHARACTERS',
-                payload
-            })
-            let itemIds = [];
-            payload.map(character => {
-                character.items.map(item => item.id)
-            })
-            dispatch(addItem(_.uniq(itemIds)))
+            let itemIds = []
+            payload.map(node => node.items.map(item => itemIds.push(item.id)))
+            dispatch(addItem(itemIds))
         })
     }
 }
 
 function addItem(ids) {
-    console.log();
     return function(dispatch) {
         API.fetchItems(ids, payload => {
             dispatch({
@@ -77,8 +45,7 @@ function changeFilter(payload) {
 
 module.exports = {
     setApi,
-    addBank,
-    addCharacters,
+    addData,
     addItem,
     changeFilter
 }
