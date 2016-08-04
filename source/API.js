@@ -14,21 +14,56 @@ function GW2API() {
         return API_KEY
     }
 
+    function fetchAll(callback) {
+        let promises = [
+            fetchBank(),
+            fetchCharacters(),
+        ]
+
+        return axios.all(promises).then(axios.spread((bank, characters) => {
+            let filteredBank = filterBank(bank.data)
+            let filteredCharacters = filterCharacters(characters.data)
+            let data = [
+                ...filteredBank,
+                ...filteredCharacters
+            ]
+            callback(data)
+        }))
+    }
+
+    function fetchBank(callback) {
+        let params = { access_token: API_KEY }
+        let promise = axios(`${URL}/account/bank`, {params})
+
+        return promise
+        // .then(result => {
+        //     let data = result.data
+        //     let filtered = filterBank(data)
+        //
+        //     return callback(filtered)
+        // })
+    }
+
+    function filterBank(bank) {
+        return [
+            {
+                name: 'Bank',
+                items: bank
+            }
+        ]
+    }
+
     function fetchCharacters(callback) {
         let params = { access_token: API_KEY }
         let promise = axios(`${URL}/characters?page=0`, {params})
 
-        if (typeof(callback) == "function") {
-            promise.then(result => {
-                let data = result.data
-                let filtered = filterCharacters(data)
-
-                callback(filtered)
-            })
-            return
-        }
-
         return promise
+        // .then(result => {
+        //     let data = result.data
+        //     let filtered = filterCharacters(data)
+        //
+        //     callback(filtered)
+        // })
     }
 
     function filterCharacters(characters) {
@@ -36,12 +71,12 @@ function GW2API() {
             let name = node.name
             let filteredItems = filterEmpty(node.bags).map(bag => filterEmpty(bag.inventory))
             let items = [].concat(...filteredItems)
-
             let grouped = mergeArray(items)
+            let itemIds = []
 
             return {
                 name,
-                items
+                items: grouped
             }
         })
         return filtered
@@ -50,7 +85,6 @@ function GW2API() {
     function fetchItems(id, callback) {
         let ids = [].concat(id)
         let filteredIds = _.pullAll(ids, itemIdCache)
-        console.log('length filtered:', filteredIds.length);
         itemIdCache = itemIdCache.concat(filteredIds)
 
         let chunks = _.chunk(filteredIds, 150)
@@ -95,6 +129,8 @@ function GW2API() {
     }
 
     return {
+        fetchAll,
+        fetchBank,
         fetchCharacters,
         fetchItems,
         setApiKey

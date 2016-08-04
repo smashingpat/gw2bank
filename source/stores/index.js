@@ -3,15 +3,13 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 
-import bank from './bank'
-import characters from './characters'
+import storage from './storage'
 import items from './items'
 import api from './api'
 import filters from './filters'
 
 const reducers = combineReducers({
-    bank,
-    characters,
+    storage,
     items,
     api,
     filters

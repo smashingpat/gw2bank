@@ -7,14 +7,36 @@ function setApi(payload) {
             type: 'ADD_API_KEY',
             payload: API.setApiKey(payload)
         })
-        dispatch(addCharacters())
+        dispatch(addData())
     }
 }
 
-function addBank(payload) {
-    return {
-        type: 'ADD_BANK',
-        payload
+function addData() {
+    return function(dispatch) {
+        // dispatch(addBank())
+        // dispatch(addCharacters())
+        API.fetchAll(payload => {
+            dispatch({
+                type: 'ADD_STORAGE',
+                payload
+            })
+        })
+    }
+}
+
+function addBank() {
+    return function(dispatch) {
+        API.fetchBank(payload => {
+            dispatch({
+                type: 'ADD_BANK',
+                payload
+            })
+            let itemIds = [];
+            payload.map(bank => {
+                bank.items.map(item => item.id)
+            })
+            dispatch(addItem(_.uniq(itemIds)))
+        })
     }
 }
 
@@ -27,7 +49,7 @@ function addCharacters() {
             })
             let itemIds = [];
             payload.map(character => {
-                character.items.map(item => itemIds.push(item.id))
+                character.items.map(item => item.id)
             })
             dispatch(addItem(_.uniq(itemIds)))
         })

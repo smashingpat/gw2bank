@@ -9,7 +9,7 @@ import { setApi, changeFilter } from '../actions'
     return {
         api: store.api,
         filter: store.filters,
-        characters: store.characters,
+        storage: store.storage,
         items: store.items
     }
 })
