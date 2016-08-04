@@ -39,10 +39,13 @@ function GW2API() {
     }
 
     function filterBank(bank) {
+        let filtered = filterEmpty(bank)
+        let items = mergeArray(filtered)
+
         return [
             {
                 name: 'Bank',
-                items: filterEmpty(bank)
+                items
             }
         ]
     }
@@ -109,7 +112,7 @@ function GW2API() {
             return node[node.length - 1]
         })
 
-        return array;
+        return single;
     }
 
     function filterEmpty(array) {

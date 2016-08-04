@@ -6,12 +6,13 @@ import { setApiKey, changeFilter } from '../actions'
 
 // components
 import Input from './Input'
+import ItemList from './ItemList'
 
 @connect((store) => {
     return {
         api: store.api,
         filter: store.filters,
-        storage: store.storage,
+        storages: store.storage,
         items: store.items,
     }
 })
@@ -20,7 +21,9 @@ class App extends React.Component {
     componentDidMount() {
         this.setApiKey('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072')
         // bind this to functions
+        this.setApiKey = this.setApiKey.bind(this)
         this.setFilter = this.setFilter.bind(this)
+        this.filterItem = this.filterItem.bind(this)
     }
 
     setFilter(value) {
@@ -33,12 +36,21 @@ class App extends React.Component {
         this.props.dispatch(setApiKey(key))
     }
 
+    filterItem(id) {
+        return this.props.items.filter(item => item.id === id)[0]
+    }
+
     render() {
         let props = this.props
         return (
             <div>
-                <Input value={props.filter} onSubmit={this.setFilter.bind(this)} />
-                <JSONTree data={props} />
+                <Input value={props.api} onSubmit={this.setApiKey} />
+                {props.storages.map(storage => (
+                    <ItemList key={storage.name} {...storage} itemSearch={this.filterItem} />
+                ))}
+                <div className='JSONTree'>
+                    <JSONTree data={props} />
+                </div>
             </div>
         )
     }

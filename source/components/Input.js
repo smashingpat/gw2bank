@@ -9,13 +9,15 @@ class Input extends React.Component {
         }
     }
     componentDidUpdate() {
-        console.log(this.props.value);
         this.refs.input.value = this.props.value
     }
     render() {
         return (
-            <form onSubmit={this.onSubmitHandler.bind(this)}>
-                <input style={{width: '100%'}} ref='input'/>
+            <form className='Form' onSubmit={this.onSubmitHandler.bind(this)}>
+                <div className='formItem'>
+                    <label className='formItem-label'>{this.props.label}</label>
+                    <input className='formItem-input' style={{width: '100%'}} ref='input'/>
+                </div>
             </form>
         )
     }

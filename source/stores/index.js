@@ -7,12 +7,14 @@ import storage from './storage'
 import items from './items'
 import api from './api'
 import filters from './filters'
+import filtered from './filtered'
 
 const reducers = combineReducers({
     storage,
     items,
     api,
-    filters
+    filters,
+    filtered
 })
 
 const middleware = applyMiddleware(thunk, logger({collapsed: true}))
