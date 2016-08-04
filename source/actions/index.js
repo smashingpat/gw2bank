@@ -1,7 +1,7 @@
 import API from '../API'
 import _ from 'lodash'
 
-function setApi(payload) {
+function setApiKey(payload) {
     return function(dispatch) {
         dispatch({
             type: 'ADD_API_KEY',
@@ -44,7 +44,7 @@ function changeFilter(payload) {
 }
 
 module.exports = {
-    setApi,
+    setApiKey,
     addStorage,
     addItem,
     changeFilter
