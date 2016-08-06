@@ -37,6 +37,7 @@
     "gulp-streamify": "*",
     "gulp-uglify": "*",
     "gulp-watch": "*",
+    "loose-envify": "^1.2.0",
     "postcss-assets": "*",
     "vinyl-source-stream": "*",
     "yargs": "*"

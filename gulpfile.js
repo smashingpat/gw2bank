@@ -76,7 +76,12 @@ gulp.task('watch', ['sass'], function(callback) {
 
 gulp.task('script', function() {
     var bundler = browserify(entry, {
-        transform: babelify
+        transform: [
+            babelify,
+            require('loose-envify')({
+                NODE_ENV: 'production'
+            })
+        ]
     }).bundle()
 
     return bundler
