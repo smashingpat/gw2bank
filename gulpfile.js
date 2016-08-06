@@ -23,6 +23,8 @@ const babelify  = require('babelify').configure({
 const entry = './source/index.js'
 const outfile = 'bundle.js'
 
+process.env.NODE_ENV = argv.production ? 'production' : 'development';
+
 gulp.task('jade', function() {
     gulp.src([
         './source/jade/**/*.jade',
@@ -75,7 +77,7 @@ gulp.task('watch', ['sass'], function(callback) {
 })
 
 gulp.task('script', function() {
-    process.env.NODE_ENV = argv.production ? 'production' : 'development';
+
     var bundler = browserify(entry, {
         transform: babelify
     }).bundle()
