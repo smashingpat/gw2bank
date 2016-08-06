@@ -8,13 +8,15 @@ import items from './items'
 import api from './api'
 import filters from './filters'
 import filtered from './filtered'
+import error from './error'
 
 const reducers = combineReducers({
     storage,
     items,
     api,
     filters,
-    filtered
+    filtered,
+    error
 })
 
 const middleware = applyMiddleware(thunk, logger({collapsed: true}))

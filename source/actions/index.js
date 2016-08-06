@@ -5,11 +5,17 @@ import store from '../stores'
 
 function setApiKey(payload) {
     return function(dispatch) {
-        dispatch({
-            type: 'ADD_API_KEY',
-            payload: API.setApiKey(payload)
+    dispatch(setError(''))
+        API.setApiKey(payload, (data) => {
+            dispatch(removeError())
+            dispatch({
+                type: 'ADD_API_KEY',
+                payload: data.id
+            })
+            dispatch(addStorage())
+        }, (err) => {
+            dispatch(setError(err))
         })
-        dispatch(addStorage())
     }
 }
 
@@ -66,9 +72,24 @@ function updateFilteredItems(filter = store.getState().filters) {
     }
 }
 
+function setError(payload) {
+    return {
+        type: 'ADD_ERROR',
+        payload
+    }
+}
+
+function removeError() {
+    return {
+        type: 'REMOVE_ERROR'
+    }
+}
+
 module.exports = {
     setApiKey,
     addStorage,
     addItem,
-    changeFilter
+    changeFilter,
+    setError,
+    removeError
 }

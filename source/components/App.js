@@ -16,14 +16,15 @@ import ItemList from './ItemList'
     filtered: store.filtered,
     storages: store.storage,
     items: store.items,
+    error: store.error
 }))
 
 class App extends React.Component {
     componentDidMount() {
-        let storedKey = API.getApiKey()
-        if (storedKey) {
-            this.setApiKey(storedKey)
-        }
+        // let storedKey = API.getApiKey()
+        // if (storedKey) {
+        //     this.setApiKey(storedKey)
+        // }
         // this.setApiKey('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072')
     }
 
@@ -41,20 +42,25 @@ class App extends React.Component {
 
     render() {
         return (
-            <div className='Wrapper'>
-                {!this.props.api ?  (
-                    <div>
-                        <Input label='api key' value={this.props.api} onSubmit={this.setApiKey.bind(this)} />
-                        <p>Get your key at <a href="https://account.arena.net/applications" target='_blank'>{'account.arena.net/applications'}</a></p>
-                    </div>
-                ) : (
-                    <div>
-                        <Input label='filter' value={this.props.filter} onSubmit={this.setFilter.bind(this)} />
-                        {this.props.storages.map((storage, index) => (
-                            <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
-                        ))}
-                    </div>
-                )}
+            <div>
+                <div className={`Error ${this.props.error ? 'is-active' : ''}`}>
+                    {this.props.error.message}
+                </div>
+                <div className='Wrapper'>
+                    {!this.props.api ?  (
+                        <div>
+                            <Input label='api key' value={this.props.api} onSubmit={this.setApiKey.bind(this)} />
+                            <p>Get your key at <a href="https://account.arena.net/applications" target='_blank'>{'account.arena.net/applications'}</a></p>
+                        </div>
+                    ) : (
+                        <div>
+                            <Input label='filter' value={this.props.filter} onSubmit={this.setFilter.bind(this)} />
+                            {this.props.storages.map((storage, index) => (
+                                <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
         )
     }
