@@ -15,8 +15,7 @@ class Input extends React.Component {
         return (
             <form className='Form' onSubmit={this.onSubmitHandler.bind(this)}>
                 <div className='formItem'>
-                    <label className='formItem-label'>{this.props.label}</label>
-                    <input className='formItem-input' style={{width: '100%'}} ref='input'/>
+                    <input className='formItem-input' style={{width: '100%'}} placeholder={this.props.label} ref='input'/>
                 </div>
             </form>
         )

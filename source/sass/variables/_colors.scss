@@ -3,17 +3,6 @@
     ------
 ============================================================================= */
 
-$c-primairy    : #202228;
-$c-secondary   : #a3b6b6;
-$c-accent      : #981721;
-
-$c-background   : #F2F2EE;
-
-$c-text        : rgba(black, .8);
-$c-link        : $c-primairy;
-$c-link-hover  : darken($c-link, 5%);
-$c-link-visited: darken($c-link, 10%);
-
 $white: #FFF;
 
 $gray1: #1c1c1c;
@@ -25,3 +14,20 @@ $gray5: #d9d9d9;
 $gray6: #e6e6e6;
 
 $black: #000;
+
+$c-legendary   : #5200ff;
+$c-ascended    : #f72067;
+$c-exotic      : #ff9900;
+$c-rare        : #e5e909;
+$c-masterwork  : #109500;
+
+$c-primairy    : #202228;
+$c-secondary   : #a3b6b6;
+$c-accent      : #981721;
+
+$c-background   : $gray1;
+
+$c-text        : rgba($white, .8);
+$c-link        : $c-primairy;
+$c-link-hover  : darken($c-link, 5%);
+$c-link-visited: darken($c-link, 10%);

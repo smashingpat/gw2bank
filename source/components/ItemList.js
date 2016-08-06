@@ -2,7 +2,7 @@ import React from 'react'
 
 const Item = (props) => (
     <div className='Item'>
-        <div className='Item-icon' style={{backgroundImage: `url(${props.icon})`}}></div>
+        <img className={`Item-icon is-${props.rarity.toLowerCase()}`} src={props.icon} />
     </div>
 )
 

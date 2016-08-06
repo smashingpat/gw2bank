@@ -21,15 +21,8 @@ import ItemList from './ItemList'
 
 class App extends React.Component {
     componentDidMount() {
-        // bind this to functions
-        this.setApiKey = this.setApiKey.bind(this)
-        this.setFilter = this.setFilter.bind(this)
-        this.filterItem = this.filterItem.bind(this)
-
-        setTimeout(() => {
-            this.setApiKey(API.getApiKey())
-            // this.setApiKey('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072')
-        }, 1000)
+        // this.setApiKey(API.getApiKey())
+        this.setApiKey('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072')
     }
 
     setApiKey(key) {
@@ -48,10 +41,10 @@ class App extends React.Component {
         let props = this.props
         return (
             <div className='Wrapper'>
-                <Input label='api key' value={props.api} onSubmit={this.setApiKey} />
-                <Input label='filter' value={props.filter} onSubmit={this.setFilter} />
+                {props.api ? '' : ( <Input label='api key' value={props.api} onSubmit={this.setApiKey.bind(this)} /> )}
+                <Input label='filter' value={props.filter} onSubmit={this.setFilter.bind(this)} />
                 {props.storages.map((storage, index) => (
-                    <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem} />
+                    <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
                 ))}
             </div>
         )
