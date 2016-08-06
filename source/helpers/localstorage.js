@@ -3,13 +3,13 @@ class LocalStorage {
         this.storage = window.localStorage;
     }
 
-    save(name, data) {
+    set(name, data) {
         let stringified = JSON.stringify(data)
         return this.storage.setItem(name, stringified)
     }
 
     get(name) {
-        let retrieved = this.storage['name']
+        let retrieved = this.storage[name]
         return retrieved ? JSON.parse(retrieved) : retrieved
     }
 

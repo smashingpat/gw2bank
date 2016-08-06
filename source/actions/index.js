@@ -2,6 +2,7 @@ import API from '../API'
 import _ from 'lodash'
 import store from '../stores'
 
+
 function setApiKey(payload) {
     return function(dispatch) {
         dispatch({
@@ -33,7 +34,7 @@ function addItem(ids) {
                 type: 'ADD_ITEM',
                 payload
             })
-            dispatch(updateFilterItems());
+            dispatch(updateFilteredItems());
         })
     }
 }
@@ -44,15 +45,18 @@ function changeFilter(payload) {
             type: 'CHANGE_FILTER',
             payload
         })
-        dispatch(updateFilterItems(payload))
+        dispatch(updateFilteredItems(payload))
     }
 }
 
-function updateFilterItems(filter = store.getState().filters) {
+function updateFilteredItems(filter = store.getState().filters) {
     return function(dispatch) {
-        let payload = store.getState().items.filter(item => {
+        let payload = store.getState().items.map(item => {
             let compare = `${item.name} - ${item.type } - ${item.rarity}`
-            return new RegExp(filter, 'gi').test(compare)
+            let test = new RegExp(filter, 'gi').test(compare)
+            return Object.assign({}, item, {
+                filter: test ? true : false
+            })
         })
         dispatch({
             type: 'UPDATE_FILTERED_ITEMS',

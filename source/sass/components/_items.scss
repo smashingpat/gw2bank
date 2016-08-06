@@ -7,22 +7,55 @@ $item-gutter: 4px;
     padding-left: $item-gutter;
     padding-right: $item-gutter;
     padding-bottom: ($item-gutter * 2);
+    position: relative;
+
+    &.is-hidden {
+        opacity: .2;
+    }
 
     &-icon {
         display: block;
         object-fit: cover;
         width: 100%;
+        position: relative;
         background: $gray1 center center no-repeat;
         background-size: cover;
         border: 1px solid $black;
         outline: 1px solid $c-primairy;
         box-shadow: 0 0 0 2px $black;
+        transition: all 300ms ease-in-out;
 
         &.is-legendary  { outline-color: $c-legendary; }
         &.is-ascended   { outline-color: $c-ascended; }
         &.is-exotic     { outline-color: $c-exotic; }
         &.is-rare       { outline-color: $c-rare; }
         &.is-masterwork { outline-color: $c-masterwork; }
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: red;
+        }
+
+        &:hover {
+            outline-color: $white;
+        }
+    }
+
+    &-count {
+        position: absolute;
+        bottom: 9px;
+        right: 5px;
+        z-index: 1;
+        background: rgba($white, .8);
+        color: $black;
+        font-size: 0.8rem;
+        padding: 0 2px;
+        line-height: 1;
     }
 
     &-container {

@@ -7,7 +7,6 @@ function GW2API() {
 
     let URL = 'https://api.guildwars2.com/v2'
     let API_KEY
-    let storedItems = []
     let itemIdCache = []
 
     function init() {
@@ -16,25 +15,17 @@ function GW2API() {
 
     init()
 
-    function saveItemStorage() {
-        storage.save('itemIdCache', itemIdCache)
-        storage.save('storedItems', storedItems)
-    }
-
     function getStorage() {
-        itemIdCache = storage.get('itemIdCache') || []
-        storedItems = storage.get('storedItems') || []
         API_KEY = storage.get('api_key') || ''
     }
 
     function getApiKey() {
-        return API_KEY
+        return storage.get('api_key')
     }
 
     function setApiKey(key) {
-        console.log(key);
         API_KEY = key
-        storage.save('api_key', 'key')
+        storage.set('api_key', key)
         return API_KEY
     }
 
@@ -56,6 +47,7 @@ function GW2API() {
                 },
                 ...filteredCharacters
             ]
+
             callback(data)
         }))
     }
@@ -84,7 +76,16 @@ function GW2API() {
     function filterCharacters(characters) {
         let filtered = characters.map(node => {
             let name = node.name
-            let filteredItems = filterEmpty(node.bags).map(bag => filterEmpty(bag.inventory))
+            let filteredBags = filterEmpty(node.bags).map(bag => filterEmpty(bag.inventory))
+            let filteredEquipment = filterEmpty(node.equipment).map(slot => {
+                return Object.assign({}, slot, {
+                    count: 1
+                })
+            })
+            let filteredItems = [
+                ...filteredEquipment,
+                ...filteredBags
+            ]
             let items = [].concat(...filteredItems)
             let grouped = mergeArray(items)
             let itemIds = []
@@ -112,10 +113,8 @@ function GW2API() {
         ])
 
         promise.then(result => {
-            let data = result.map(node => node.data)
-            storedItems = storedItems.concat(...data)
-            callback(storedItems)
-            saveItemStorage()
+            let data = [].concat(...result.map(node => node.data))
+            callback(data)
         }).catch(err => console.error(err))
     }
 
