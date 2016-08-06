@@ -17,7 +17,7 @@ const source = require('vinyl-source-stream')
 const browserify = require('browserify')
 const babelify  = require('babelify').configure({
     presets: ['es2015', 'react'],
-    plugins: ['transform-decorators-legacy']
+    plugins: ['transform-object-rest-spread', 'transform-decorators-legacy']
 })
 
 const entry = './source/index.js'

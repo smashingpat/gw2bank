@@ -1,16 +1,17 @@
 $item-gutter: 4px;
+$item-size: 55px;
 
 
 .Item {
     float: left;
-    width: 55px;
-    padding-left: $item-gutter;
-    padding-right: $item-gutter;
-    padding-bottom: ($item-gutter * 2);
+    width:  $item-size;
+    height: $item-size;
+    padding: 0 $item-gutter ($item-gutter * 2);
     position: relative;
+    transition: all 300ms ease-in-out;
 
     &.is-hidden {
-        opacity: .2;
+        opacity: 0;
     }
 
     &-icon {
