@@ -21,10 +21,10 @@ import ItemList from './ItemList'
 
 class App extends React.Component {
     componentDidMount() {
-        // let storedKey = API.getApiKey()
-        // if (storedKey) {
-        //     this.setApiKey(storedKey)
-        // }
+        let storedKey = API.getApiKey()
+        if (storedKey) {
+            this.setApiKey(storedKey)
+        }
         // this.setApiKey('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072')
     }
 
