@@ -77,11 +77,7 @@ function GW2API() {
         let filtered = characters.map(node => {
             let name = node.name
             let filteredBags = filterEmpty(node.bags).map(bag => filterEmpty(bag.inventory))
-            let filteredEquipment = filterEmpty(node.equipment).map(slot => {
-                return Object.assign({}, slot, {
-                    count: 1
-                })
-            })
+            let filteredEquipment = node.equipment.map(slot => ({...slot, count: 1}))
             let filteredItems = [
                 ...filteredEquipment,
                 ...filteredBags

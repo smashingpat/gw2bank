@@ -54,9 +54,10 @@ function updateFilteredItems(filter = store.getState().filters) {
         let payload = store.getState().items.map(item => {
             let compare = `${item.name} - ${item.type } - ${item.rarity}`
             let test = new RegExp(filter, 'gi').test(compare)
-            return Object.assign({}, item, {
+            return {
+                ...item,
                 filter: test ? true : false
-            })
+            }
         })
         dispatch({
             type: 'UPDATE_FILTERED_ITEMS',
