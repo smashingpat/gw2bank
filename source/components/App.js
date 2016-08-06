@@ -42,11 +42,19 @@ class App extends React.Component {
     render() {
         return (
             <div className='Wrapper'>
-                {this.props.api ? '' : ( <Input label='api key' value={this.props.api} onSubmit={this.setApiKey.bind(this)} /> )}
-                <Input label='filter' value={this.props.filter} onSubmit={this.setFilter.bind(this)} />
-                {this.props.storages.map((storage, index) => (
-                    <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
-                ))}
+                {!this.props.api ?  (
+                    <div>
+                        <Input label='api key' value={this.props.api} onSubmit={this.setApiKey.bind(this)} />
+                        <p>Get your key at <a href="https://account.arena.net/applications" target='_blank'>{'account.arena.net/applications'}</a></p>
+                    </div>
+                ) : (
+                    <div>
+                        <Input label='filter' value={this.props.filter} onSubmit={this.setFilter.bind(this)} />
+                        {this.props.storages.map((storage, index) => (
+                            <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
+                        ))}
+                    </div>
+                )}
             </div>
         )
     }
