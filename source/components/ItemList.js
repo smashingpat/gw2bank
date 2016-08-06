@@ -11,7 +11,7 @@ const Item = (props) => {
 
 const ItemList = (props) => (
     <div className='ItemList'>
-        <p>{props.name}</p>
+        <div className='ItemList-heading'>{props.name}</div>
         <div className='Item-container'>
             {props.items.map((node, index) => {
                 let item = props.itemSearch(node.id)
