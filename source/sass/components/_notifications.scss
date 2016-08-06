@@ -1,0 +1,19 @@
+.Notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: $c-warning;
+    color: $white;
+    padding: $gutter $spacing;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: all 300ms ease-in-out;
+    box-shadow: 0 1px 3px rgba($black, .4);
+    text-shadow: 0 1px 3px rgba($black, .4);
+
+    &.is-active {
+        opacity: 1;
+        transform: none;
+    }
+}

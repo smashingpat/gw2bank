@@ -37,7 +37,9 @@ function GW2API() {
 
             callback(data)
 
-        }).catch(err => errorCallback(err))
+        }).catch(err => {
+            errorCallback(err)
+        })
     }
 
     function fetchAll(callback) {

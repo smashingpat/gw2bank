@@ -9,6 +9,7 @@ import { setApiKey, changeFilter } from '../actions'
 // components
 import Input from './Input'
 import ItemList from './ItemList'
+import Notification from './Notification'
 
 @connect((store) => ({
     api: store.api,
@@ -16,7 +17,7 @@ import ItemList from './ItemList'
     filtered: store.filtered,
     storages: store.storage,
     items: store.items,
-    error: store.error
+    notification: store.notification
 }))
 
 class App extends React.Component {
@@ -43,9 +44,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <div className={`Error ${this.props.error ? 'is-active' : ''}`}>
-                    {this.props.error.message}
-                </div>
+                <Notification {...this.props.notification} />
                 <div className='Wrapper'>
                     {!this.props.api ?  (
                         <div>
@@ -53,8 +52,13 @@ class App extends React.Component {
                             <p>Get your key at <a href="https://account.arena.net/applications" target='_blank'>{'account.arena.net/applications'}</a></p>
                         </div>
                     ) : (
-                        <div>
-                            <Input label='filter' value={this.props.filter} onSubmit={this.setFilter.bind(this)} />
+                        <div className='Bank'>
+                            <Input
+                                className='Bank-search'
+                                label='filter'
+                                value={this.props.filter}
+                                onSubmit={this.setFilter.bind(this)}
+                            />
                             {this.props.storages.map((storage, index) => (
                                 <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
                             ))}

@@ -13,7 +13,7 @@ class Input extends React.Component {
     }
     render() {
         return (
-            <form className='Form' onSubmit={this.onSubmitHandler.bind(this)}>
+            <form className={`${this.props.className} Form`} onSubmit={this.onSubmitHandler.bind(this)}>
                 <div className='formItem'>
                     <input className='formItem-input' style={{width: '100%'}} placeholder={this.props.label} ref='input'/>
                 </div>

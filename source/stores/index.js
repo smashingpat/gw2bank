@@ -8,7 +8,7 @@ import items from './items'
 import api from './api'
 import filters from './filters'
 import filtered from './filtered'
-import error from './error'
+import notification from './notification'
 
 const reducers = combineReducers({
     storage,
@@ -16,7 +16,7 @@ const reducers = combineReducers({
     api,
     filters,
     filtered,
-    error
+    notification
 })
 
 const middleware = applyMiddleware(thunk, logger({collapsed: true}))

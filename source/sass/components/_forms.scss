@@ -2,6 +2,7 @@
     forms styling
     -------------
 ============================================================================= */
+$input-height: 3rem;
 
 .Form {
     // padding-top: $spacing-large;
@@ -17,14 +18,16 @@
     }
 }
 
-input {
-    border: 1px solid $c-secondary;
-    background: lighten($c-secondary, 20%);
+input,
+select {
+    border: 1px solid lighten($c-background, 10%);
+    background: lighten($c-background, 5%);
     padding: $spacing-small;
-    
+    height: $input-height;
+
     &:focus {
         outline: none;
-        border-color: $c-primairy;
-        background-color: lighten($c-primairy, 40%);
+        border-color: lighten($c-background, 12%);
+        background-color: lighten($c-background, 7%);
     }
 }

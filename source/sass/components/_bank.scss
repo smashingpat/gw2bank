@@ -1,0 +1,15 @@
+$bank-search-height: 3rem;
+
+.Bank {
+    position: relative;
+    padding-top: $bank-search-height;
+
+    &-search {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 4;
+        height: $bank-search-height;
+    }
+}
