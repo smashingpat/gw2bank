@@ -25,7 +25,7 @@ $item-size: 45px;
         background: $gray1 center center no-repeat;
         background-size: cover;
         border: 1px solid $black;
-        outline: 1px solid $c-primairy;
+        outline: 1px solid $gray3;
         box-shadow: 0 0 0 2px $black;
         transition: all 300ms ease-in-out;
 
@@ -63,6 +63,7 @@ $item-size: 45px;
         @include clearfix;
         margin-left: -#{$item-gutter};
         margin-right: -#{$item-gutter};
+        padding-bottom: $spacing;
 
         .is-collapsed & {
             display: none;
@@ -71,7 +72,6 @@ $item-size: 45px;
 }
 
 .ItemList {
-    padding-bottom: $spacing;
 
     &-heading {
         font-size: 1.2rem;
