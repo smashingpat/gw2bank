@@ -37,15 +37,10 @@ class App extends React.Component {
         event.preventDefault()
         let text = this.refs.text.value
         let rarity = this.refs.rarity.value
-        let value = `${text} ${rarity}`
-        this.props.dispatch(changeFilter(value))
-    }
-
-    resetFilter(event) {
-        event.preventDefault()
-        this.refs.text.value = ''
-        this.refs.rarity.value = ' '
-        this.props.dispatch(resetFilter())
+        this.props.dispatch(changeFilter({
+            text,
+            rarity
+        }))
     }
 
     filterItem(id) {
@@ -56,7 +51,7 @@ class App extends React.Component {
         return (
             <div>
                 <Notification {...this.props.notification} />
-                <div className='Wrapper'>
+                <div className='Wrapper Wrapper--full'>
                     {!this.props.api ?  (
                         <div>
                             <Input label='api key' value={this.props.api} onSubmit={this.setApiKey.bind(this)} />
@@ -67,7 +62,7 @@ class App extends React.Component {
                             <form className={`Bank-search Form`} onSubmit={this.setFilter.bind(this)}>
                                 <input className='formItem-input' style={{width: '100%'}} placeholder='filter' ref='text'/>
                                 <select ref='rarity' onChange={this.setFilter.bind(this)}>
-                                    <option value=' '>rarity</option>
+                                    <option value=''>rarity</option>
                                     <option value='Junk'>Junk</option>
                                     <option value='Basic'>Basic</option>
                                     <option value='Fine'>Fine</option>
@@ -78,7 +73,6 @@ class App extends React.Component {
                                     <option value='Legendary'>Legendary</option>
                                 </select>
                                 <button type='submit'>submit</button>
-                                <button onClick={this.resetFilter.bind(this)}>reset</button>
                             </form>
                             {this.props.storages.map((storage, index) => (
                                 <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />

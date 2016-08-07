@@ -69,11 +69,14 @@ function resetFilter() {
 function updateFilteredItems(filter = store.getState().filters) {
     return function(dispatch) {
         let payload = store.getState().items.map(item => {
-            let compare = `${item.name} - ${item.type } - ${item.rarity}`
-            let test = new RegExp(filter, 'gi').test(compare)
+            let testRarity = true
+            if (filter.rarity) {
+                testRarity = filter.rarity === item.rarity
+            }
+            let testText = new RegExp(filter.text, 'gi').test(`${item.name}`)
             return {
                 ...item,
-                filter: test ? true : false
+                filter: testRarity && testText
             }
         })
         dispatch({

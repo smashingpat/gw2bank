@@ -1,9 +1,15 @@
-let initialState = ''
+let initialState = {
+    text: '',
+    rarity: ''
+}
 
 const filters = (state = initialState, action) => {
     switch (action.type) {
         case 'CHANGE_FILTER':
-            return action.payload
+            return {
+                ...initialState,
+                ...action.payload
+            }
         case 'RESET_FILTER':
             return initialState
         default:
