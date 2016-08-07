@@ -57,6 +57,15 @@ function changeFilter(payload) {
     }
 }
 
+function resetFilter() {
+    return function(dispatch) {
+        dispatch({
+            type: 'RESET_FILTER'
+        })
+        dispatch(updateFilteredItems(''))
+    }
+}
+
 function updateFilteredItems(filter = store.getState().filters) {
     return function(dispatch) {
         let payload = store.getState().items.map(item => {
@@ -92,6 +101,7 @@ module.exports = {
     addStorage,
     addItem,
     changeFilter,
+    resetFilter,
     addNotification,
     removeNotification
 }

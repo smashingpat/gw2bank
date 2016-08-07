@@ -1,0 +1,26 @@
+$professions: (
+    "Guardian",
+    "Warrior",
+    "Engineer",
+    "Ranger",
+    "Thief",
+    "Elementalist",
+    "Mesmer",
+    "Necromancer",
+    "Revenant"
+);
+
+.Icon {
+    display: inline-block;
+    width:  20px;
+    height: 20px;
+    background: center center no-repeat;
+    background-size: cover;
+
+    @each $profession in $professions {
+        &-#{$profession} {
+            @extend .Icon;
+            background-image: url('media/icon-#{$profession}.png');
+        }
+    }
+}

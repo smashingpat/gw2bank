@@ -89,6 +89,7 @@ function GW2API() {
     function filterCharacters(characters) {
         let filtered = characters.map(node => {
             let name = node.name
+            let profession = node.profession
             let filteredBags = filterEmpty(node.bags).map(bag => filterEmpty(bag.inventory))
             let filteredEquipment = node.equipment.map(slot => ({...slot, count: 1}))
             let filteredItems = [
@@ -101,6 +102,7 @@ function GW2API() {
 
             return {
                 name,
+                profession,
                 items: grouped
             }
         })

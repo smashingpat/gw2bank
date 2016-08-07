@@ -23,7 +23,7 @@ const ItemList = React.createClass({
             <div className={classes}>
                 <div className='ItemList-heading' onClick={this.collapsePanel}>
                     <strong>{this.props.name}</strong>
-                    {` (${this.props.items.length})`}
+                    <span className={`ItemList-professionIcon Icon-${this.props.profession}`}></span>
                 </div>
                 <div className='Item-container'>
                     {this.props.items.map((node, index) => {

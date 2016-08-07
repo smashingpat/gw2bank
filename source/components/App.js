@@ -4,7 +4,7 @@ import JSONTree from 'react-json-tree'
 
 import API from '../API'
 import storage from '../helpers/localstorage'
-import { setApiKey, changeFilter } from '../actions'
+import { setApiKey, changeFilter, resetFilter } from '../actions'
 
 // components
 import Input from './Input'
@@ -41,6 +41,13 @@ class App extends React.Component {
         this.props.dispatch(changeFilter(value))
     }
 
+    resetFilter(event) {
+        event.preventDefault()
+        this.refs.text.value = ''
+        this.refs.rarity.value = ' '
+        this.props.dispatch(resetFilter())
+    }
+
     filterItem(id) {
         return this.props.filtered.filter(item => item.id === id)[0]
     }
@@ -60,7 +67,7 @@ class App extends React.Component {
                             <form className={`Bank-search Form`} onSubmit={this.setFilter.bind(this)}>
                                 <input className='formItem-input' style={{width: '100%'}} placeholder='filter' ref='text'/>
                                 <select ref='rarity' onChange={this.setFilter.bind(this)}>
-                                    <option value=''>rarity</option>
+                                    <option value=' '>rarity</option>
                                     <option value='Junk'>Junk</option>
                                     <option value='Basic'>Basic</option>
                                     <option value='Fine'>Fine</option>
@@ -70,6 +77,8 @@ class App extends React.Component {
                                     <option value='Ascended'>Ascended</option>
                                     <option value='Legendary'>Legendary</option>
                                 </select>
+                                <button type='submit'>submit</button>
+                                <button onClick={this.resetFilter.bind(this)}>reset</button>
                             </form>
                             {this.props.storages.map((storage, index) => (
                                 <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
