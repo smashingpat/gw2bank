@@ -58,9 +58,9 @@ class App extends React.Component {
                     ) : (
                         <div className='Bank'>
                             <form className={`Bank-search Form`} onSubmit={this.setFilter.bind(this)}>
-                                <input className='formItem-input' style={{width: '100%'}} placeholder={this.props.label} ref='text'/>
+                                <input className='formItem-input' style={{width: '100%'}} placeholder='filter' ref='text'/>
                                 <select ref='rarity' onChange={this.setFilter.bind(this)}>
-                                    <option value=''></option>
+                                    <option value=''>rarity</option>
                                     <option value='Junk'>Junk</option>
                                     <option value='Basic'>Basic</option>
                                     <option value='Fine'>Fine</option>

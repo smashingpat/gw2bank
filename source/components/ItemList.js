@@ -24,7 +24,6 @@ const ItemList = React.createClass({
         this.setState({
             collapsed: this.state.collapsed ? false : true
         })
-        console.log(this.state.collapsed);
     },
     render() {
         let classes = classNames({
