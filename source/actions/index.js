@@ -47,6 +47,19 @@ function addItem(ids) {
     }
 }
 
+function addSelectedItem(payload) {
+    return {
+        type: 'ADD_SELECTED_ITEM',
+        payload
+    }
+}
+
+function removeSelectedItem() {
+    return {
+        type: 'REMOVE_SELECTED_ITEM'
+    }
+}
+
 function changeFilter(payload) {
     return function(dispatch) {
         dispatch({
@@ -68,12 +81,14 @@ function resetFilter() {
 
 function updateFilteredItems(filter = store.getState().filters) {
     return function(dispatch) {
+        dispatch(changeLoadingState(true))
         let payload = store.getState().items.map(item => {
             let testRarity = true
             if (filter.rarity) {
                 testRarity = filter.rarity === item.rarity
             }
             let testText = new RegExp(filter.text, 'gi').test(`${item.name}`)
+
             return {
                 ...item,
                 filter: testRarity && testText
@@ -83,6 +98,7 @@ function updateFilteredItems(filter = store.getState().filters) {
             type: 'UPDATE_FILTERED_ITEMS',
             payload
         })
+        dispatch(changeLoadingState(false))
     }
 }
 
@@ -99,12 +115,22 @@ function removeNotification() {
     }
 }
 
+function changeLoadingState(payload) {
+    return {
+        type: 'CHANGE_LOADING_STATE',
+        payload
+    }
+}
+
 module.exports = {
     setApiKey,
     addStorage,
     addItem,
+    addSelectedItem,
+    removeSelectedItem,
     changeFilter,
     resetFilter,
     addNotification,
-    removeNotification
+    removeNotification,
+    changeLoadingState
 }

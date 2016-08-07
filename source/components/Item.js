@@ -1,5 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
+import { dispatch } from '../stores'
+
+import { addSelectedItem } from '../actions'
 
 const ItemTooltip = (props) => {
 
@@ -10,18 +13,22 @@ const ItemTooltip = (props) => {
     )
 }
 
-const Item = (props) => {
-    let classes = classNames({
-        'Item': true,
-        'is-hidden': !props.filter
-    })
-    return (
-        <div className={classes}>
-            <ItemTooltip {...props} />
-            <div className='Item-count'>{props.count}</div>
-            <img className={`Item-icon is-${props.rarity.toLowerCase()}`} src={props.icon} />
-        </div>
-    )
+class Item extends React.Component {
+    selectItem() {
+        dispatch(addSelectedItem(this.props))
+    }
+    render() {
+        let classes = classNames({
+            'Item': true,
+            'is-hidden': !this.props.filter
+        })
+        return (
+            <div className={classes} onClick={this.selectItem.bind(this)}>
+                <div className='Item-count'>{this.props.count}</div>
+                <img className={`Item-icon is-${this.props.rarity}`} src={this.props.icon} />
+            </div>
+        )
+    }
 }
 
 export default Item

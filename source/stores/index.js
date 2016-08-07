@@ -9,14 +9,18 @@ import api from './api'
 import filters from './filters'
 import filtered from './filtered'
 import notification from './notification'
+import isLoading from './isLoading'
+import selectedItem from './selectedItem'
 
 const reducers = combineReducers({
     storage,
     items,
+    selectedItem,
     api,
     filters,
     filtered,
-    notification
+    notification,
+    isLoading
 })
 
 const middleware = applyMiddleware(thunk, logger({collapsed: true}))

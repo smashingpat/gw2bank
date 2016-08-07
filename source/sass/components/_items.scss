@@ -43,12 +43,12 @@ $item-size: 35px;
         box-shadow: 0 0 0 2px $black;
         transition: all 300ms ease-in-out;
 
-        &.is-legendary  { outline-color: $c-legendary; }
-        &.is-ascended   { outline-color: $c-ascended; }
-        &.is-exotic     { outline-color: $c-exotic; }
-        &.is-rare       { outline-color: $c-rare; }
-        &.is-masterwork { outline-color: $c-masterwork; }
-        &.is-fine       { outline-color: $c-fine; }
+        &.is-Legendary  { outline-color: $c-legendary; }
+        &.is-Ascended   { outline-color: $c-ascended; }
+        &.is-Exotic     { outline-color: $c-exotic; }
+        &.is-Rare       { outline-color: $c-rare; }
+        &.is-Masterwork { outline-color: $c-masterwork; }
+        &.is-Fine       { outline-color: $c-fine; }
     }
 
     &-count {
@@ -68,7 +68,7 @@ $item-size: 35px;
         @include clearfix;
         margin-left: -#{$item-gutter};
         margin-right: -#{$item-gutter};
-        padding-bottom: $spacing;
+        // padding-bottom: $spacing;
 
         .is-collapsed & {
             display: none;

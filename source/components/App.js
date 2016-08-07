@@ -4,12 +4,13 @@ import JSONTree from 'react-json-tree'
 
 import API from '../API'
 import storage from '../helpers/localstorage'
-import { setApiKey, changeFilter, resetFilter } from '../actions'
+import { setApiKey, changeFilter, resetFilter, addSelectedItem } from '../actions'
 
 // components
 import Input from './Input'
 import ItemList from './ItemList'
 import Notification from './Notification'
+import InfoPanel from './infoPanel'
 
 @connect((store) => ({
     api: store.api,
@@ -17,7 +18,9 @@ import Notification from './Notification'
     filtered: store.filtered,
     storages: store.storage,
     items: store.items,
-    notification: store.notification
+    selectedItem: store.selectedItem,
+    notification: store.notification,
+    isLoading: store.isLoading
 }))
 
 class App extends React.Component {
@@ -59,6 +62,7 @@ class App extends React.Component {
                         </div>
                     ) : (
                         <div className='Bank'>
+
                             <form className={`Bank-search Form`} onSubmit={this.setFilter.bind(this)}>
                                 <input className='formItem-input' style={{width: '100%'}} placeholder='filter' ref='text'/>
                                 <select ref='rarity' onChange={this.setFilter.bind(this)}>
@@ -74,9 +78,12 @@ class App extends React.Component {
                                 </select>
                                 <button type='submit'>submit</button>
                             </form>
+
                             {this.props.storages.map((storage, index) => (
                                 <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
                             ))}
+
+                            <InfoPanel {...this.props.selectedItem} />
                         </div>
                     )}
                 </div>
