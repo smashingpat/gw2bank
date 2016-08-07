@@ -49,6 +49,7 @@ $item-size: 45px;
         &.is-exotic     { outline-color: $c-exotic; }
         &.is-rare       { outline-color: $c-rare; }
         &.is-masterwork { outline-color: $c-masterwork; }
+        &.is-fine       { outline-color: $c-fine; }
 
         &:after {
             content: '';
