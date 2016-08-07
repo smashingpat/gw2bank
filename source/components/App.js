@@ -33,7 +33,11 @@ class App extends React.Component {
         this.props.dispatch(setApiKey(key))
     }
 
-    setFilter(value) {
+    setFilter(event) {
+        event.preventDefault()
+        let text = this.refs.text.value
+        let rarity = this.refs.rarity.value
+        let value = `${text} ${rarity}`
         this.props.dispatch(changeFilter(value))
     }
 
@@ -53,12 +57,20 @@ class App extends React.Component {
                         </div>
                     ) : (
                         <div className='Bank'>
-                            <Input
-                                className='Bank-search'
-                                label='filter'
-                                value={this.props.filter}
-                                onSubmit={this.setFilter.bind(this)}
-                            />
+                            <form className={`Bank-search Form`} onSubmit={this.setFilter.bind(this)}>
+                                <input className='formItem-input' style={{width: '100%'}} placeholder={this.props.label} ref='text'/>
+                                <select ref='rarity' onChange={this.setFilter.bind(this)}>
+                                    <option value=''></option>
+                                    <option value='Junk'>Junk</option>
+                                    <option value='Basic'>Basic</option>
+                                    <option value='Fine'>Fine</option>
+                                    <option value='Masterwork'>Masterwork</option>
+                                    <option value='Rare'>Rare</option>
+                                    <option value='Exotic'>Exotic</option>
+                                    <option value='Ascended'>Ascended</option>
+                                    <option value='Legendary'>Legendary</option>
+                                </select>
+                            </form>
                             {this.props.storages.map((storage, index) => (
                                 <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
                             ))}

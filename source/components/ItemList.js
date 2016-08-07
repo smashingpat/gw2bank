@@ -14,18 +14,40 @@ const Item = (props) => {
     )
 }
 
-const ItemList = (props) => (
-    <div className='ItemList'>
-        <div className='ItemList-heading'>{props.name}</div>
-        <div className='Item-container'>
-            {props.items.map((node, index) => {
-                let item = props.itemSearch(node.id)
-                if (item) {
-                    return <Item key={`${props.id}-${index}`} {...node} {...item} />
-                }
-            })}
-        </div>
-    </div>
-)
+const ItemList = React.createClass({
+    getInitialState() {
+        return {
+            collapsed: false
+        }
+    },
+    collapsePanel() {
+        this.setState({
+            collapsed: this.state.collapsed ? false : true
+        })
+        console.log(this.state.collapsed);
+    },
+    render() {
+        let classes = classNames({
+            'ItemList': true,
+            'is-collapsed': this.state.collapsed
+        })
+        return (
+            <div className={classes}>
+                <div className='ItemList-heading' onClick={this.collapsePanel}>
+                    <strong>{this.props.name}</strong>
+                    {` (${this.props.items.length})`}
+                </div>
+                <div className='Item-container'>
+                    {this.props.items.map((node, index) => {
+                        let item = this.props.itemSearch(node.id)
+                        if (item) {
+                            return <Item key={`${this.props.id}-${index}`} {...node} {...item} />
+                        }
+                    })}
+                </div>
+            </div>
+        )
+    }
+})
 
 export default ItemList

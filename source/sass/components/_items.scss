@@ -7,7 +7,7 @@ $item-size: 45px;
     padding: $item-gutter;
     // margin-bottom: ($item-gutter * 2);
     position: relative;
-    transition: all 300ms ease-in-out;
+    transition: all 150ms ease-in-out;
 
     &.is-hidden {
         opacity: .2;
@@ -64,6 +64,10 @@ $item-size: 45px;
         @include clearfix;
         margin-left: -#{$item-gutter};
         margin-right: -#{$item-gutter};
+
+        .is-collapsed & {
+            display: none;
+        }
     }
 }
 

@@ -11,5 +11,13 @@ $bank-search-height: 3rem;
         width: 100%;
         z-index: 4;
         height: $bank-search-height;
+        display: flex;
+
+        > * {
+            border-left: none;
+            &:nth-child {
+                border-right: none;
+            }
+        }
     }
 }
