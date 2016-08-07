@@ -1,6 +1,14 @@
 import React from 'react'
 import classNames from 'classnames'
 
+const ItemTooltip = (props) => {
+
+    return (
+        <div className='Item-tooltip'>
+            {props.name}
+        </div>
+    )
+}
 
 const Item = (props) => {
     let classes = classNames({
@@ -9,6 +17,7 @@ const Item = (props) => {
     })
     return (
         <div className={classes}>
+            <ItemTooltip {...props} />
             <div className='Item-count'>{props.count}</div>
             <img className={`Item-icon is-${props.rarity.toLowerCase()}`} src={props.icon} />
         </div>

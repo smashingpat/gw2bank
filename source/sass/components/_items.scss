@@ -16,6 +16,21 @@ $item-size: 45px;
         background: rgba($white, .8);
     }
 
+    &-tooltip {
+        display: none;
+        position: absolute;
+        top: $item-size;
+        left: $item-gutter;
+        z-index: 2;
+        width: 200px;
+        background: $c-background;
+        border: 1px solid $gray3;
+        padding: $spacing-small $gutter;
+    }
+    &:hover &-tooltip {
+        display: block;
+    }
+
     &-icon {
         display: block;
         object-fit: cover;
