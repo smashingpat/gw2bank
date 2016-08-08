@@ -54,39 +54,37 @@ class App extends React.Component {
         return (
             <div>
                 <Notification {...this.props.notification} />
-                <div className='Wrapper Wrapper--full'>
-                    {!this.props.api ?  (
-                        <div>
-                            <Input label='api key' value={this.props.api} onSubmit={this.setApiKey.bind(this)} />
-                            <p>Get your key at <a href="https://account.arena.net/applications" target='_blank'>{'account.arena.net/applications'}</a></p>
-                        </div>
-                    ) : (
-                        <div className='Bank'>
+                {!this.props.api ?  (
+                    <div className='Wrapper Wrapper--small Wrapper--center'>
+                        <Input label='api key' value={this.props.api} onSubmit={this.setApiKey.bind(this)} />
+                        <p>Get your key at <a href="https://account.arena.net/applications" target='_blank'>{'account.arena.net/applications'}</a></p>
+                    </div>
+                ) : (
+                    <div className='Wrapper Wrapper--full Bank'>
 
-                            <form className={`Bank-search Form`} onSubmit={this.setFilter.bind(this)}>
-                                <input className='formItem-input' style={{width: '100%'}} placeholder='filter' ref='text'/>
-                                <select ref='rarity' onChange={this.setFilter.bind(this)}>
-                                    <option value=''>rarity</option>
-                                    <option value='Junk'>Junk</option>
-                                    <option value='Basic'>Basic</option>
-                                    <option value='Fine'>Fine</option>
-                                    <option value='Masterwork'>Masterwork</option>
-                                    <option value='Rare'>Rare</option>
-                                    <option value='Exotic'>Exotic</option>
-                                    <option value='Ascended'>Ascended</option>
-                                    <option value='Legendary'>Legendary</option>
-                                </select>
-                                <button type='submit'>submit</button>
-                            </form>
+                        <form className={`Bank-search Form`} onSubmit={this.setFilter.bind(this)}>
+                            <input className='formItem-input' style={{width: '100%'}} placeholder='filter' ref='text'/>
+                            <select ref='rarity' onChange={this.setFilter.bind(this)}>
+                                <option value=''>rarity</option>
+                                <option value='Junk'>Junk</option>
+                                <option value='Basic'>Basic</option>
+                                <option value='Fine'>Fine</option>
+                                <option value='Masterwork'>Masterwork</option>
+                                <option value='Rare'>Rare</option>
+                                <option value='Exotic'>Exotic</option>
+                                <option value='Ascended'>Ascended</option>
+                                <option value='Legendary'>Legendary</option>
+                            </select>
+                            <button type='submit'>submit</button>
+                        </form>
 
-                            {this.props.storages.map((storage, index) => (
-                                <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
-                            ))}
+                        {this.props.storages.map((storage, index) => (
+                            <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
+                        ))}
 
-                            <InfoPanel {...this.props.selectedItem} />
-                        </div>
-                    )}
-                </div>
+                        <InfoPanel {...this.props.selectedItem} dispatch={this.props.dispatch} />
+                    </div>
+                )}
             </div>
         )
     }

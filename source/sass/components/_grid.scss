@@ -45,6 +45,12 @@
     &--small  { max-width: 640px; }
     &--large  { max-width: 1140px; }
     &--full   { max-width: none; }
+    &--center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
 }
 
 /*

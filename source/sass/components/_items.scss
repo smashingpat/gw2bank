@@ -7,9 +7,7 @@ $item-size: 50px;
     padding: $item-gutter;
     position: relative;
 
-    &.is-hidden {
-        opacity: .2;
-    }
+    &.is-hidden { opacity: .2; }
 
     &:hover {
         background: rgba($white, .8);
