@@ -27,8 +27,8 @@ const InfoPanelItem = ({
     }
 })
 class InfoPanel extends React.Component {
-    constructor() {
-        super()
+    componentDidMount() {
+
     }
     closePanel() {
         this.props.dispatch(removeSelectedItem())
@@ -45,9 +45,7 @@ class InfoPanel extends React.Component {
                 <div className='Info-name'>{this.props.item.name}</div>
                 <InfoPanelItem label='Description'>{this.props.item.description}</InfoPanelItem>
                 <InfoPanelItem label='Type'>{this.props.item.type}</InfoPanelItem>
-                <InfoPanelItem label='Chat link'>
-                    <code>{this.props.item.chat_link}</code>
-                </InfoPanelItem>
+                <InfoPanelItem label='Item code'>{this.props.item.chat_link}</InfoPanelItem>
             </div>
         )
     }

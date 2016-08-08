@@ -1,32 +1,18 @@
 $item-gutter: 5px;
-$item-size: 35px;
+$item-size: 50px;
 
 
 .Item {
     float: left;
     padding: $item-gutter;
     position: relative;
-    cursor: pointer;
 
-    &.is-hidden { opacity: .2; }
+    &.is-hidden {
+        opacity: .2;
+    }
 
     &:hover {
         background: rgba($white, .8);
-    }
-
-    &-tooltip {
-        display: none;
-        position: absolute;
-        top: $item-size;
-        left: $item-gutter;
-        z-index: 2;
-        width: 200px;
-        background: $c-background;
-        border: 1px solid $gray3;
-        padding: $spacing-small $gutter;
-    }
-    &:hover &-tooltip {
-        display: block;
     }
 
     &-icon {
@@ -67,7 +53,6 @@ $item-size: 35px;
         @include clearfix;
         margin-left: -#{$item-gutter};
         margin-right: -#{$item-gutter};
-        // padding-bottom: $spacing;
 
         .is-collapsed & {
             display: none;
@@ -81,9 +66,9 @@ $item-size: 35px;
         position: relative;
         font-size: 1.2rem;
         cursor: pointer;
-        border-bottom: 1px solid lighten($c-background, 5%);
-        padding-top: .5em;
-        padding-bottom: .5em;
+        padding: $spacing-small $gutter;
+        padding-left: 0;
+        display: inline-block;
 
         .is-collapsed & {
             opacity: .2;

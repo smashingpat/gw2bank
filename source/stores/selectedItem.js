@@ -1,4 +1,7 @@
-let initialState = {}
+let initialState = {
+    name: 'Test',
+    description: 'Lorem ipsum dolor sit amet, <strong>consectetur</strong> adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+}
 
 const selectedItem = (state = initialState, action) => {
     switch (action.type) {
