@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import classNames from 'classnames'
 import {removeSelectedItem} from '../actions'
 
@@ -19,6 +20,11 @@ const InfoPanelItem = ({
     )
 }
 
+@connect(store => {
+    return {
+        item: store.selectedItem
+    }
+})
 class InfoPanel extends React.Component {
     componentDidMount() {
         // requestAnimationFrame(this.followMouse.bind(this))
@@ -27,21 +33,19 @@ class InfoPanel extends React.Component {
         this.props.dispatch(removeSelectedItem())
     }
     render() {
-        if (!this.props) return null;
         let classes = classNames({
-            'Bank-info': true,
             'Info': true,
-            'is-active': this.props.name ? true : false
+            'is-active': this.props.item.name ? true : false
         })
         return (
-            <div className={classes} ref='element'>
+            <div className={`${this.props.className} + ${classes}`} ref='element'>
                 <div className='Info-closeButton' onClick={this.closePanel.bind(this)}>x</div>
-                <img className={`Item-icon is-${this.props.rarity} Info-icon`} src={this.props.icon} />
-                <div className='Info-name'>{this.props.name}</div>
-                <InfoPanelItem label='Description'>{this.props.description}</InfoPanelItem>
-                <InfoPanelItem label='Type'>{this.props.type}</InfoPanelItem>
+                <img className={`Item-icon is-${this.props.item.rarity} Info-icon`} src={this.props.item.icon} />
+                <div className='Info-name'>{this.props.item.name}</div>
+                <InfoPanelItem label='Description'>{this.props.item.description}</InfoPanelItem>
+                <InfoPanelItem label='Type'>{this.props.item.type}</InfoPanelItem>
                 <InfoPanelItem label='Chat link'>
-                    <code>{this.props.chat_link}</code>
+                    <code>{this.props.item.chat_link}</code>
                 </InfoPanelItem>
             </div>
         )
