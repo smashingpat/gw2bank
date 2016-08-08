@@ -7,6 +7,7 @@ import storage from '../helpers/localstorage'
 import { setApiKey, changeFilter, resetFilter, addSelectedItem } from '../actions'
 
 // components
+import SearchBar from './SearchBar'
 import Input from './Input'
 import ItemList from './ItemList'
 import Notification from './Notification'
@@ -36,16 +37,6 @@ class App extends React.Component {
         this.props.dispatch(setApiKey(key))
     }
 
-    setFilter(event) {
-        event.preventDefault()
-        let text = this.refs.text.value
-        let rarity = this.refs.rarity.value
-        this.props.dispatch(changeFilter({
-            text,
-            rarity
-        }))
-    }
-
     filterItem(id) {
         return this.props.filtered.filter(item => item.id === id)[0]
     }
@@ -62,27 +53,12 @@ class App extends React.Component {
                 ) : (
                     <div className='Wrapper Wrapper--full Bank'>
 
-                        <form className={`Bank-search Form`} onSubmit={this.setFilter.bind(this)}>
-                            <input className='formItem-input' style={{width: '100%'}} placeholder='filter' ref='text'/>
-                            <select ref='rarity' onChange={this.setFilter.bind(this)}>
-                                <option value=''>rarity</option>
-                                <option value='Junk'>Junk</option>
-                                <option value='Basic'>Basic</option>
-                                <option value='Fine'>Fine</option>
-                                <option value='Masterwork'>Masterwork</option>
-                                <option value='Rare'>Rare</option>
-                                <option value='Exotic'>Exotic</option>
-                                <option value='Ascended'>Ascended</option>
-                                <option value='Legendary'>Legendary</option>
-                            </select>
-                            <button type='submit'>submit</button>
-                        </form>
+                        <SearchBar className='Bank-search'/>
 
                         {this.props.storages.map((storage, index) => (
                             <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
                         ))}
 
-                        <InfoPanel {...this.props.selectedItem} dispatch={this.props.dispatch} />
                     </div>
                 )}
             </div>

@@ -1,9 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
-
 import {removeSelectedItem} from '../actions'
 
 import CodeBlock from './CodeBlock'
+
+
 
 const InfoPanelItem = ({
     label,
@@ -16,10 +17,6 @@ const InfoPanelItem = ({
             {children}
         </div>
     )
-}
-
-const InfoPanelContainer = (props) => {
-
 }
 
 class InfoPanel extends React.Component {
