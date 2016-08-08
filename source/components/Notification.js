@@ -1,21 +1,26 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import classNames from 'classnames'
 
-const Notification = ({
-    message,
-    type
-}) => {
-    let classes = classNames({
-        'Notification': true,
-        'is-active': type ? true : false,
-        'is-error': type === 'error',
-        'is-warning': type === 'warning'
-    })
-    return  (
-        <div className={classes}>
-            {message}
-        </div>
-    )
+@connect(store => {
+    return {
+        notification: store.notification
+    }
+})
+class Notifications extends React.Component {
+    render() {
+        let classes = classNames({
+            'Notification': true,
+            'is-active': this.props.notification.type ? true : false,
+            'is-error': this.props.notification.type === 'error',
+            'is-warning': this.props.notification.type === 'warning'
+        })
+        return  (
+            <div className={classes}>
+                {this.props.notification.message}
+            </div>
+        )
+    }
 }
 
-export default Notification
+export default Notifications

@@ -1,17 +1,20 @@
 .Notification {
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
+    z-index: 10;
     width: 100%;
-    background: $c-warning;
+    background: $c-success;
     color: $white;
     padding: $gutter $spacing;
-    margin-bottom: $spacing;
     opacity: 0;
-    transform: translateY(-100%);
+    transform: translateY(100%);
     transition: all 300ms ease-in-out;
     box-shadow: 0 1px 3px rgba($black, .4);
     text-shadow: 0 1px 3px rgba($black, .4);
+
+    &.is-error   { background-color: $c-error; }
+    &.is-warning { background-color: $c-warning; }
 
     &.is-active {
         opacity: 1;

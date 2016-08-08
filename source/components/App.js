@@ -13,17 +13,12 @@ import ItemList from './ItemList'
 import Notification from './Notification'
 import InfoPanel from './infoPanel'
 
-@connect((store) => ({
-    api: store.api,
-    filter: store.filters,
-    filtered: store.filtered,
-    storages: store.storage,
-    items: store.items,
-    selectedItem: store.selectedItem,
-    notification: store.notification,
-    isLoading: store.isLoading
-}))
-
+@connect((store) => {
+    return {
+        api: store.api,
+        isLoading: store.isLoading
+    }
+})
 class App extends React.Component {
     componentDidMount() {
         let storedKey = API.getApiKey()
@@ -37,14 +32,10 @@ class App extends React.Component {
         this.props.dispatch(setApiKey(key))
     }
 
-    filterItem(id) {
-        return this.props.filtered.filter(item => item.id === id)[0]
-    }
-
     render() {
         return (
             <div>
-                <Notification {...this.props.notification} />
+                <Notification />
                 {!this.props.api ?  (
                     <div className='Wrapper Wrapper--small Wrapper--center'>
                         <Input label='api key' value={this.props.api} onSubmit={this.setApiKey.bind(this)} />
@@ -54,10 +45,7 @@ class App extends React.Component {
                     <div className='Wrapper Wrapper--full Bank'>
 
                         <SearchBar className='Bank-search'/>
-
-                        {this.props.storages.map((storage, index) => (
-                            <ItemList key={`${storage.name}-${index}`} {...storage} itemSearch={this.filterItem.bind(this)} />
-                        ))}
+                        <ItemList className='Bank-items' />
 
                     </div>
                 )}
