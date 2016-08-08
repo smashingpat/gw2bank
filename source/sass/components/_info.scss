@@ -1,0 +1,66 @@
+$info-icon-size: 50px;
+$info-label-width: 7em;
+.Info {
+    opacity: 0;
+    transform: translateY(100px);
+    width: 100%;
+    max-height: 50vh;
+    overflow: auto;
+    padding: $bank-padding $gutter $spacing-large;
+    padding-left: ($info-icon-size + ($gutter * 2));
+    background: $c-background;
+    border-top: 1px solid lighten($c-background, 5%);
+    box-shadow: 0 1px 3px rgba($black, .4);
+    transition: opacity 300ms ease-in-out;
+
+    &-name {
+        font-size: 2em;
+    }
+
+    &-item {
+        position: relative;
+        padding-left: $info-label-width;
+        overflow: hidden;
+        max-width: 450px;
+    }
+
+    &-label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-weight: bold;
+        width: $info-label-width;
+        display: inline-block;
+        padding-right: 1em;
+        margin-right: .5em;
+        &:after {
+            content: ':';
+        }
+    }
+
+    &-icon {
+        position: absolute;
+        top: $bank-padding;
+        left: $gutter;
+        width: $info-icon-size;
+        height: $info-icon-size;
+    }
+
+    &-closeButton {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 8px 12px;
+        line-height: 1;
+        background: rgba($white, .05);
+        cursor: pointer;
+        &:hover {
+            background-color: rgba($white, .1);
+        }
+    }
+
+    &.is-active {
+        opacity: 1;
+        transform: none;
+    }
+}

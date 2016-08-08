@@ -27,9 +27,6 @@ const InfoPanelItem = ({
     }
 })
 class InfoPanel extends React.Component {
-    componentDidMount() {
-
-    }
     closePanel() {
         this.props.dispatch(removeSelectedItem())
     }

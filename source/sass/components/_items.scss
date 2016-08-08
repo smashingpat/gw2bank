@@ -9,6 +9,7 @@ $item-size: 50px;
 
     &.is-hidden {
         opacity: .2;
+        display: none;
     }
 
     &:hover {
