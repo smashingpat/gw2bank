@@ -1,11 +1,12 @@
 .Notification {
-    position: fixed;
-    top: 0;
-    left: 0;
+    // position: fixed;
+    // top: 0;
+    // left: 0;
     width: 100%;
     background: $c-warning;
     color: $white;
     padding: $gutter $spacing;
+    margin-bottom: $spacing;
     opacity: 0;
     transform: translateY(-100%);
     transition: all 300ms ease-in-out;
