@@ -33,6 +33,7 @@ $bank-height: ($bank-padding * 2) + 3rem;
 }
 
 $info-icon-size: 50px;
+$info-label-width: 7em;
 .Info {
     opacity: 0;
     transform: translateY(100px);
@@ -51,17 +52,22 @@ $info-icon-size: 50px;
         margin-bottom: $spacing;
     }
 
-    &-label {
-        font-weight: bold;
-        min-width: 80px;
-        display: inline-block;
+    &-item {
         position: relative;
+        padding-left: $info-label-width;
+    }
+
+    &-label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-weight: bold;
+        width: $info-label-width;
+        display: inline-block;
         padding-right: 1em;
         margin-right: .5em;
         &:after {
             content: ':';
-            position: absolute;
-            top: 0; right: 0;
         }
     }
 
