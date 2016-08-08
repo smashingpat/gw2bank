@@ -11,11 +11,12 @@ const InfoPanelItem = ({
     label,
     children
 }) => {
-    if (!children) return null;
     return (
         <div className='Info-item'>
             <span className='Info-label'>{label}</span>
-            {children}
+            <span dangerouslySetInnerHTML={{
+                __html: children
+            }} />
         </div>
     )
 }
@@ -26,8 +27,8 @@ const InfoPanelItem = ({
     }
 })
 class InfoPanel extends React.Component {
-    componentDidMount() {
-        // requestAnimationFrame(this.followMouse.bind(this))
+    constructor() {
+        super()
     }
     closePanel() {
         this.props.dispatch(removeSelectedItem())
