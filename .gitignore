@@ -8,7 +8,7 @@ node_modules
 *.exe
 *.o
 *.so
-.publish/
+.publish
 
 # Packages #
 ############
