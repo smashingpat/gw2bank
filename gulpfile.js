@@ -84,7 +84,6 @@ const tasks = {
         watch(['source/sass/**/*.{scss,sass}'], () => gulp.start('sass'))
         watch(['source/jade/**/*.jade'], () => gulp.start('jade'))
 
-        return server
     },
     script: function() {
 
@@ -130,7 +129,7 @@ const tasks = {
 
 gulp.task('jade', tasks.jade)
 gulp.task('sass', tasks.sass)
-gulp.task('server', ['sass', 'script'], tasks.sass)
+gulp.task('server', ['sass', 'script'], tasks.server)
 gulp.task('script', tasks.script)
 gulp.task('deploy', ['bundle'], tasks.deploy)
 
