@@ -23,7 +23,7 @@ class Item extends React.Component {
             'is-hidden': !this.props.filter
         })
         return (
-            <div className={classes} onClick={this.selectItem.bind(this)}>
+            <div className={classes} onClick={this.selectItem.bind(this)} tabIndex='1'>
                 {this.props.count > 1 ? (
                     <div className='Item-count'>{this.props.count}</div>
                 ): ('')}

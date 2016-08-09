@@ -1,5 +1,5 @@
 $item-gutter: 5px;
-$item-size: 50px;
+$item-size: 35px;
 
 
 .Item {
@@ -12,6 +12,10 @@ $item-size: 50px;
         display: none;
     }
 
+    &:focus {
+        background: rgba($white, .4);
+        outline: none;
+    }
     &:hover {
         background: rgba($white, .8);
     }

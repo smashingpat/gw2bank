@@ -37,12 +37,20 @@ class InfoPanel extends React.Component {
         })
         return (
             <div className={`${this.props.className} + ${classes}`} ref='element'>
-                <div className='Info-closeButton' onClick={this.closePanel.bind(this)}>x</div>
+
                 <img className={`Item-icon is-${this.props.item.rarity} Info-icon`} src={this.props.item.icon} />
-                <div className='Info-name'>{this.props.item.name}</div>
+
+                <div className='Info-name'>
+                    <strong>{this.props.item.name}</strong>
+                    {this.props.item.count > 1 ? (<small> ({this.props.item.count})</small>) : ''}
+
+                </div>
+
                 <InfoPanelItem label='Description'>{this.props.item.description}</InfoPanelItem>
                 <InfoPanelItem label='Type'>{this.props.item.type}</InfoPanelItem>
                 <InfoPanelItem label='Item code'>{this.props.item.chat_link}</InfoPanelItem>
+
+                <div className='Info-closeButton' onClick={this.closePanel.bind(this)}>x</div>
             </div>
         )
     }
