@@ -37,6 +37,7 @@
     "gulp-sass": "*",
     "gulp-streamify": "*",
     "gulp-uglify": "*",
+    "gulp-util": "^3.0.7",
     "gulp-watch": "*",
     "loose-envify": "^1.2.0",
     "postcss-assets": "*",

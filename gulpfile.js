@@ -1,6 +1,7 @@
 'use strict'
 
 const gulp = require('gulp')
+const gutil = require('gulp-util')
 const plumber = require('gulp-plumber')
 const watch = require('gulp-watch')
 const gulpif = require('gulp-if')
@@ -15,15 +16,19 @@ const rename = require('gulp-rename')
 const stream = require('gulp-streamify')
 const source = require('vinyl-source-stream')
 const browserify = require('browserify')
+const watchify = require('watchify')
 const babelify  = require('babelify').configure({
     presets: ['es2015', 'react'],
     plugins: ['transform-object-rest-spread', 'transform-decorators-legacy']
 })
 
+// set production variables and states
+let PRODUCTION = argv.production
+process.env.NODE_ENV = PRODUCTION ? 'production' : 'development';
+
+// files
 const entry = './source/index.js'
 const outfile = 'bundle.js'
-
-process.env.NODE_ENV = argv.production ? 'production' : 'development';
 
 gulp.task('jade', function() {
     gulp.src([
@@ -54,23 +59,26 @@ gulp.task('sass', function() {
         .pipe(gulp.dest('./app'))
 })
 
-gulp.task('watch', ['sass'], function(callback) {
+gulp.task('watch', ['sass', 'script'], function(callback) {
 
     // dev server
-    let server = budo(entry, {
+    let server = budo(!PRODUCTION ? entry : null, {
         serve: outfile,
         port: argv.port ? argv.port : 3000,
         live: true,
         dir: './app',
         open: argv.open,
         cors: true,
-        browserify: {
+        browserify: PRODUCTION ? null : {
             transform: babelify
         },
         stream: process.stdout
     }).on('exit', callback)
 
     // watch files
+    // if (PRODUCTION) {
+    //     watch(['source/**/*.js'], () => gulp.start('script'))
+    // }
     watch(['source/sass/**/*.{scss,sass}'], () => gulp.start('sass'))
     watch(['source/jade/**/*.jade'], () => gulp.start('jade'))
     // watch(['./app/**/*.{html,json}'], () => server.reload())
@@ -79,13 +87,20 @@ gulp.task('watch', ['sass'], function(callback) {
 
 gulp.task('script', function() {
 
-    var bundler = browserify(entry, {
+    let bundler = browserify(entry, {
         transform: babelify
-    }).bundle()
+    })
 
-    return bundler
+    if (PRODUCTION) {
+        bundler = watchify(bundler)
+        bundler.on('update', bundle)
+        bundler.on('log', gutil.log)
+    }
+
+    function bundle() {
+        return bundler.bundle()
         .pipe(source('index.js'))
-        .pipe(gulpif(argv.production, stream(uglify({
+        .pipe(gulpif(PRODUCTION, stream(uglify({
             output: {
                 beautify: argv.beautify ? true : false
             },
@@ -97,6 +112,9 @@ gulp.task('script', function() {
         }))))
         .pipe(rename(outfile))
         .pipe(gulp.dest('./app'))
+    }
+
+    bundle()
 })
 
 gulp.task('deploy', ['bundle'], function() {
