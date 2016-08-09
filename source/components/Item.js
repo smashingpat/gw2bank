@@ -24,7 +24,9 @@ class Item extends React.Component {
         })
         return (
             <div className={classes} onClick={this.selectItem.bind(this)}>
-                <div className='Item-count'>{this.props.count}</div>
+                {this.props.count > 1 ? (
+                    <div className='Item-count'>{this.props.count}</div>
+                ): ('')}
                 <img className={`Item-icon is-${this.props.rarity}`} src={this.props.icon} />
             </div>
         )
