@@ -63,6 +63,7 @@ gulp.task('watch', ['sass'], function(callback) {
         live: true,
         dir: './app',
         open: argv.open,
+        cors: true,
         browserify: {
             transform: babelify
         },
