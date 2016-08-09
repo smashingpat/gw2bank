@@ -67,14 +67,22 @@ const tasks = {
     },
     server: function(callback) {
 
+        let port = argv.port ? argv.port : 3000
+
         // dev server
         let server = budo(!PRODUCTION ? entry : null, {
             serve: outfile,
-            port: argv.port ? argv.port : 3000,
+            port: port,
             live: true,
             dir: './app',
             open: argv.open,
-            cors: true,
+            middleware: function (req, res, next) {
+                res.addHeader('Access-Control-Allow-Origin', `*`);
+                res.addHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+                res.addHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+                res.addHeader('Access-Control-Allow-Credentials', true);
+                next()
+            },
             browserify: PRODUCTION ? null : {
                 transform: babelify
             },

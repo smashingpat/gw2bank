@@ -1,4 +1,3 @@
-global.__DEV__ = true
 // Dependencies
 import React from 'react'
 import ReactDOM from 'react-dom'
