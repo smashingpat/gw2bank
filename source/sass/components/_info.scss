@@ -18,24 +18,29 @@ $info-label-width: 7em;
         font-size: 2em;
     }
 
-    &-item {
-        position: relative;
-        padding-left: $info-label-width;
-        overflow: hidden;
+    &-item {        
         max-width: 450px;
+
+        @include media('screen', '>tablet') {
+            position: relative;
+            padding-left: $info-label-width;
+        }
     }
 
     &-label {
-        position: absolute;
-        top: 0;
-        left: 0;
         font-weight: bold;
         width: $info-label-width;
-        display: inline-block;
+        display: block;
         padding-right: 1em;
         margin-right: .5em;
         &:after {
             content: ':';
+        }
+
+        @include media('screen', '>tablet') {
+            position: absolute;
+            top: 0;
+            left: 0;
         }
     }
 

@@ -13,11 +13,15 @@ const InfoPanelItem = ({
 }) => {
     return (
         <div className='Info-item'>
-            <span className='Info-label'>{label}</span>
-            <span dangerouslySetInnerHTML={{
-                __html: children
-            }} />
-        </div>
+        {children ? (
+            <div>
+                <span className='Info-label'>{label}</span>
+                <span dangerouslySetInnerHTML={{
+                    __html: children
+                }} />
+            </div>
+        ):('')}
+    </div>
     )
 }
 
