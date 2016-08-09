@@ -89,33 +89,38 @@ const tasks = {
     script: function() {
 
         let bundler = browserify(entry, {
-            transform: babelify
+            transform: babelify,
+            basedir: __dirname,
+            debug: !PRODUCTION,
+            cache: {},
+            packageCache: {},
+            fullPaths: true //!PRODUCTION
         })
 
         if (PRODUCTION) {
             bundler = watchify(bundler)
-            bundler.on('update', () => bundle)
+            bundler.on('update', bundle)
             bundler.on('log', gutil.log)
         }
 
         function bundle() {
             return bundler.bundle()
-            .pipe(source('index.js'))
-            .pipe(gulpif(PRODUCTION, stream(uglify({
-                output: {
-                    beautify: argv.beautify ? true : false
-                },
-                compress: {
-                    global_defs: {
-                        __DEV__: false
+                .pipe(source('index.js'))
+                .pipe(gulpif(PRODUCTION, stream(uglify({
+                    output: {
+                        beautify: argv.beautify ? true : false
+                    },
+                    compress: {
+                        global_defs: {
+                            __DEV__: false
+                        }
                     }
-                }
-            }))))
-            .pipe(rename(outfile))
-            .pipe(gulp.dest('./app'))
+                }))))
+                .pipe(rename(outfile))
+                .pipe(gulp.dest('./app'))
         }
 
-        bundle()
+        return bundle()
     },
     deploy: function() {
         gulp.src('./app/**/*')
