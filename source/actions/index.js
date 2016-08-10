@@ -6,6 +6,7 @@ import store from '../stores'
 function setApiKey(payload) {
     return function(dispatch) {
         API.setApiKey(payload, (data) => {
+            dispatch(removeNotification())
             dispatch({
                 type: 'ADD_API_KEY',
                 payload: data.id
