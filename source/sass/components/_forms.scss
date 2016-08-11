@@ -47,6 +47,7 @@ button {
     height: $input-height;
     line-height: 1;
     appearance: none;
+    margin-bottom: $spacing;
 
     &:focus {
         outline: none;

@@ -6,6 +6,7 @@ $item-size: 35px;
     float: left;
     padding: $item-gutter;
     position: relative;
+    cursor: pointer;
 
     &.is-hidden {
         opacity: .2;

@@ -9,7 +9,11 @@ $menu-gutter: $gutter;
     bottom: 5px;
     right: 5px;
     z-index: 9;
-    padding-bottom: $menu-icon-size;
+    pointer-events: none;
+
+    &.is-active {
+        pointer-events: auto;
+    }
 
     &-icon {
         position: absolute;
@@ -20,9 +24,14 @@ $menu-gutter: $gutter;
         border-radius: $menu-borderRadius;
         cursor: pointer;
         padding: 6px;
+        pointer-events: auto;
 
         &:hover {
             color: $white;
+        }
+
+        .is-active & {
+            color: rgba($black, .5);
         }
     }
 
