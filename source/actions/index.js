@@ -123,9 +123,12 @@ function updateFilteredItems(filter = store.getState().filters) {
 }
 
 function addNotification(payload) {
-    return {
-        type: 'ADD_NOTIFICATION',
-        payload
+    return function(dispatch) {
+        dispatch({
+            type: 'ADD_NOTIFICATION',
+            payload
+        })
+        setTimeout(() => dispatch(removeNotification()), 6000)
     }
 }
 
