@@ -47,7 +47,7 @@ function GW2API() {
         })
     }
 
-    function fetchAll(callback) {
+    function fetchAll(callback, errorCallback) {
         let promises = [
             fetchBank(),
             fetchCharacters(),
@@ -67,7 +67,9 @@ function GW2API() {
             ]
 
             callback(data)
-        }))
+        })).catch(err => {
+            errorCallback(err)
+        })
     }
 
     function fetchBank(callback) {

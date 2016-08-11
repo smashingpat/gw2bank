@@ -13,7 +13,7 @@ function setApiKey(payload) {
                 payload: data.id
             })
             dispatch(addStorage())
-            dispatch(changeLoadingState(true))
+            dispatch(changeLoadingState(false))
         }, (err) => {
             dispatch(addNotification({
                 message: 'API Key incorrect',
@@ -33,25 +33,33 @@ function removeApiKey() {
 
 function addStorage() {
     return function(dispatch) {
-        API.fetchAll(payload => {
-            dispatch({
-                type: 'ADD_STORAGE',
-                payload
+        dispatch(changeLoadingState(true))
+        setTimeout(() => {
+            API.fetchAll(payload => {
+                dispatch({
+                    type: 'ADD_STORAGE',
+                    payload
+                })
+                let itemIds = []
+                payload.map(node => node.items.map(item => itemIds.push(item.id)))
+                dispatch(addItem(itemIds))
+                dispatch(changeLoadingState(false))
+            }, err => {
+                dispatch(addNotification({
+                    message: "Couldn't retrieve data",
+                    type: 'error'
+                }))
+                dispatch(changeLoadingState(false))
             })
-            let itemIds = []
-            payload.map(node => node.items.map(item => itemIds.push(item.id)))
-            dispatch(addItem(itemIds))
-        })
+        }, 3000)
     }
 }
 
 function reloadItems() {
     return function(dispatch) {
-        dispatch(changeLoadingState(true))
-        dispatch(addStorage())
         dispatch(removeSelectedItem())
-        dispatch(updateFilteredItems())
-        dispatch(changeLoadingState(true))
+        dispatch(addStorage())
+        // dispatch(updateFilteredItems())
     }
 }
 
