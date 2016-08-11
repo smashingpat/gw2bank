@@ -23,7 +23,8 @@ function setApiKey(payload) {
 
 function removeApiKey() {
     return function(dispatch) {
-        API.clearApiKey(dispatch({type: 'REMOVE_API_KEY'}))
+        API.clearApiKey()
+        dispatch({type: 'REMOVE_API_KEY'})
     }
 }
 

@@ -1,34 +1,44 @@
+$menu-icon-size: 30px;
+$menu-color: $c-primairy;
+$menu-borderRadius: 3px;
+
 .Menu {
     position: fixed;
-    bottom: 50px;
-    right: 50px;
+    bottom: 5px;
+    right: 5px;
     z-index: 9;
-    text-align: right;
-    border-radius: 50%;
-    background: $c-primairy;
-
-    &.is-active {
-        border-radius: 0;
-    }
+    padding-bottom: $menu-icon-size;
 
     &-icon {
-        width:  100%;
-        min-width: 50px;
-        height: 50px;
-        background: rgba($black, .2);
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: $menu-icon-size;
+        height: $menu-icon-size;
+        border-radius: $menu-borderRadius;
+        cursor: pointer;
+        padding: 6px;
 
-        .is-active & {
-            border-radius: 0;
+        &:hover {
+            color: $white;
         }
     }
 
     &-item {
         padding: $spacing-small $gutter;
+        line-height: $menu-icon-size * 0.75;
+        width: 240px;
         cursor: pointer;
     }
     &-itemContainer {
-        background: $c-primairy;
         display: none;
+        transition: all 150ms ease-in-out;
+        overflow: hidden;
+        transition: all 150ms ease-in-out;
+        border-radius: $menu-borderRadius;
+        box-shadow: 0 1px 3px rgba($black, .3);
+
+        background: $menu-color;
 
         .is-active & {
             display: block;

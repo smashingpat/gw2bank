@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { removeApiKey } from '../actions'
+import CogWheel from 'react-icons/lib/md/settings'
 
 
 @connect(store => {
@@ -20,6 +21,7 @@ class Menu extends React.Component {
     }
     removeApiKey() {
         this.props.dispatch(removeApiKey())
+        this.toggleCollapsed()
     }
     render() {
         return (
@@ -28,7 +30,7 @@ class Menu extends React.Component {
                     <div className='Menu-item' onClick={this.removeApiKey.bind(this)}>{'Remove API Key'}</div>
                 </div>
 
-                <div className='Menu-icon' onClick={this.toggleCollapsed.bind(this)}/>
+                <CogWheel className='Menu-icon' onClick={this.toggleCollapsed.bind(this)} />
             </div>
         )
     }

@@ -27,10 +27,9 @@ function GW2API() {
         return storage.get('api_key')
     }
 
-    function clearApiKey(callback) {
+    function clearApiKey() {
         API_KEY = '',
         storage.set('api_key', '')
-        callback()
     }
 
     function setApiKey(key, callback, errorCallback) {
