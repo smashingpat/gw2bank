@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import {removeSelectedItem} from '../actions'
 
-import CodeBlock from './CodeBlock'
-
+import CloseButton from 'react-icons/lib/go/x'
 
 
 const InfoPanelItem = ({
@@ -54,7 +53,7 @@ class InfoPanel extends React.Component {
                 <InfoPanelItem label='Type'>{this.props.item.type}</InfoPanelItem>
                 <InfoPanelItem label='Item code'>{this.props.item.chat_link}</InfoPanelItem>
 
-                <div className='Info-closeButton' onClick={this.closePanel.bind(this)}>x</div>
+                <CloseButton className='Info-closeButton' onClick={this.closePanel.bind(this)} />
             </div>
         )
     }
