@@ -4,6 +4,8 @@ import { dispatch } from '../stores'
 
 import { addSelectedItem } from '../actions'
 
+import Image from './Image'
+
 const ItemTooltip = (props) => {
 
     return (
@@ -27,7 +29,7 @@ class Item extends React.Component {
                 {this.props.count > 1 ? (
                     <div className='Item-count'>{this.props.count}</div>
                 ): ('')}
-                <img className={`Item-icon is-${this.props.rarity}`} src={this.props.icon} />
+                <Image className={`Item-icon is-${this.props.rarity}`} src={this.props.icon} />
             </div>
         )
     }
