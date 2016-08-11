@@ -4,7 +4,19 @@ $bank-height: ($bank-padding * 2) + 3rem;
 .Bank {
     position: relative;
     padding-top: $bank-height;
-    padding-bottom: 50vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 100vh;
+    -webkit-overflow-scrolling: touch;
+
+    &-items {
+        &:after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 50vh;
+        }
+    }
 
     &-search {
         position: fixed;

@@ -12,6 +12,7 @@ import Input from './Input'
 import ItemList from './ItemList'
 import Notification from './Notification'
 import InfoPanel from './infoPanel'
+import Menu from './Menu'
 
 @connect((store) => {
     return {
@@ -36,13 +37,14 @@ class App extends React.Component {
         return (
             <div>
                 <Notification />
+                <Menu />
                 {!this.props.api ?  (
                     <div className='Wrapper Wrapper--small Wrapper--center'>
                         <Input label='api key' value={this.props.api} onSubmit={this.setApiKey.bind(this)} />
                         <p>Get your key at <a href="https://account.arena.net/applications" target='_blank'>{'account.arena.net/applications'}</a></p>
                     </div>
                 ) : (
-                    <div className='Wrapper Wrapper--full Bank'>
+                    <div className='Bank'>
 
                         <SearchBar className='Bank-search'/>
                         <ItemList className='Bank-items' />

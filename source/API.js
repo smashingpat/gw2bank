@@ -27,6 +27,12 @@ function GW2API() {
         return storage.get('api_key')
     }
 
+    function clearApiKey(callback) {
+        API_KEY = '',
+        storage.set('api_key', '')
+        callback()
+    }
+
     function setApiKey(key, callback, errorCallback) {
         let params = { access_token: key }
         return axios(`${URL}/tokeninfo`, {params}).then(result => {
@@ -160,7 +166,8 @@ function GW2API() {
         fetchItems,
         getItems,
         setApiKey,
-        getApiKey
+        getApiKey,
+        clearApiKey
     }
 }
 

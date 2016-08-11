@@ -23,13 +23,14 @@ body {
     line-height: $line-height;
     min-height: 100%;
     position: relative;
+    overflow: hidden;
 }
 
 
 // scrollbar styling
 
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {

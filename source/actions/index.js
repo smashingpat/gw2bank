@@ -21,6 +21,12 @@ function setApiKey(payload) {
     }
 }
 
+function removeApiKey() {
+    return function(dispatch) {
+        API.clearApiKey(dispatch({type: 'REMOVE_API_KEY'}))
+    }
+}
+
 function addStorage() {
     return function(dispatch) {
         API.fetchAll(payload => {
@@ -124,6 +130,7 @@ function changeLoadingState(payload) {
 
 module.exports = {
     setApiKey,
+    removeApiKey,
     addStorage,
     addItem,
     addSelectedItem,

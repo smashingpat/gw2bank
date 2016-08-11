@@ -1,0 +1,37 @@
+.Menu {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 9;
+    text-align: right;
+    border-radius: 50%;
+    background: $c-primairy;
+
+    &.is-active {
+        border-radius: 0;
+    }
+
+    &-icon {
+        width:  100%;
+        min-width: 50px;
+        height: 50px;
+        background: rgba($black, .2);
+
+        .is-active & {
+            border-radius: 0;
+        }
+    }
+
+    &-item {
+        padding: $spacing-small $gutter;
+        cursor: pointer;
+    }
+    &-itemContainer {
+        background: $c-primairy;
+        display: none;
+
+        .is-active & {
+            display: block;
+        }
+    }
+}

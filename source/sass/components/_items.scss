@@ -57,7 +57,6 @@ $item-size: 35px;
     &-container {
         @include clearfix;
         margin-left: -#{$item-gutter};
-        margin-right: -#{$item-gutter};
 
         .is-collapsed & {
             display: none;
@@ -66,6 +65,7 @@ $item-size: 35px;
 }
 
 .ItemList {
+    padding-left: $gutter;
 
     &-heading {
         position: relative;
