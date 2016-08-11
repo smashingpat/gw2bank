@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import ResetIcon from 'react-icons/lib/md/close'
+import ResetIcon from 'react-icons/lib/go/x'
 
 import { changeFilter, resetFilter } from '../actions'
 
