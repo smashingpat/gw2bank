@@ -20,7 +20,7 @@ $professions: (
     @each $profession in $professions {
         &-#{$profession} {
             @extend .Icon;
-            background-image: url('media/icon-#{$profession}.png');
+            background-image: inline('media/icon-#{$profession}.png');
         }
     }
 }
