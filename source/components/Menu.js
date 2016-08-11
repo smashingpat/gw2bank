@@ -28,6 +28,13 @@ class Menu extends React.Component {
             <div className={`Menu ${this.state.collapsed ? '' : 'is-active'}`}>
                 <div className='Menu-itemContainer'>
                     <div className='Menu-item' onClick={this.removeApiKey.bind(this)}>{'Remove API Key'}</div>
+                    <div className='Menu-text'>
+                        <p>
+                            {'Got a question, got feedback or wanna say hi PM me ingame at '}
+                            <strong>{'Ashenheim.5039'}</strong>
+                            {''}
+                        </p>
+                    </div>
                 </div>
 
                 <CogWheel className='Menu-icon' onClick={this.toggleCollapsed.bind(this)} />

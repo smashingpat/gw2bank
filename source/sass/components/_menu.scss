@@ -1,6 +1,8 @@
 $menu-icon-size: 30px;
-$menu-color: $c-primairy;
+$menu-color: $white;
+$menu-color--hover: $c-primairy;
 $menu-borderRadius: 3px;
+$menu-gutter: $gutter;
 
 .Menu {
     position: fixed;
@@ -25,23 +27,44 @@ $menu-borderRadius: 3px;
     }
 
     &-item {
-        padding: $spacing-small $gutter;
+        padding: $spacing-small $menu-gutter;
+        margin-right: -#{$menu-gutter};
+        margin-left: -#{$menu-gutter};
         line-height: $menu-icon-size * 0.75;
-        width: 240px;
         cursor: pointer;
+        border-top: 1px solid $gray6;
+        border-bottom: 1px solid $gray6;
+
+        & + & {
+            border-top: none;
+        }
+
+        &:hover {
+            background-color: $menu-color--hover;
+            color: $c-text;
+        }
     }
+
+    &-text {
+        padding-top: $spacing;
+    }
+
     &-itemContainer {
-        display: none;
+        color: rgba($black, .8);
+        padding: $menu-gutter;
+        transform: scale(0);
+        transform-origin: 100% calc(100% - #{$menu-icon-size / 2});
         transition: all 150ms ease-in-out;
-        overflow: hidden;
         transition: all 150ms ease-in-out;
         border-radius: $menu-borderRadius;
         box-shadow: 0 1px 3px rgba($black, .3);
+        max-width: 300px;
 
         background: $menu-color;
 
         .is-active & {
             display: block;
+            transform: scale(1);
         }
     }
 }
