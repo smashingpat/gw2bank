@@ -11,10 +11,29 @@ $input-height: 3rem;
 .FormItem {
     position: relative;
     display: flex;
-    align-items: stretch;
+    // align-items: stretch;
+    flex: 1;
+
+    > * {
+        height: $input-height;
+        &:not(:first-child) {
+            border-left: none;
+        }
+    }
+
+    &-icon {
+        width: $input-height;
+        padding: 10px;
+        cursor: pointer;
+
+        &:hover {
+            color: $white;
+        }
+    }
 
     &-input {
         flex: 1;
+        display: flex;
     }
 }
 

@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { changeFilter } from '../actions'
+import ResetIcon from 'react-icons/lib/md/close'
+
+import { changeFilter, resetFilter } from '../actions'
 
 @connect(store => ({
 
@@ -19,22 +21,31 @@ class SearchBar extends React.Component {
         }))
     }
 
+    resetFilter(event) {
+        event.preventDefault()
+        this.refs.text.value = ''
+        this.refs.rarity.selectedIndex = 0;
+        this.props.dispatch(resetFilter())
+    }
+
     render() {
         return (
             <form className={`Form ${this.props.className}`} onSubmit={this.setFilter.bind(this)}>
-                <input className='formItem-input' style={{width: '100%'}} placeholder='filter' ref='text'/>
-                <select ref='rarity' onChange={this.setFilter.bind(this)}>
-                    <option value=''>rarity</option>
-                    <option value='Junk'>Junk</option>
-                    <option value='Basic'>Basic</option>
-                    <option value='Fine'>Fine</option>
-                    <option value='Masterwork'>Masterwork</option>
-                    <option value='Rare'>Rare</option>
-                    <option value='Exotic'>Exotic</option>
-                    <option value='Ascended'>Ascended</option>
-                    <option value='Legendary'>Legendary</option>
-                </select>
-                <button type='submit'>submit</button>
+                <div className='FormItem'>
+                    <input className='formItem-input' style={{width: '100%'}} placeholder='filter' ref='text'/>
+                    <select ref='rarity' onChange={this.setFilter.bind(this)}>
+                        <option value=''>rarity</option>
+                        <option value='Junk'>Junk</option>
+                        <option value='Basic'>Basic</option>
+                        <option value='Fine'>Fine</option>
+                        <option value='Masterwork'>Masterwork</option>
+                        <option value='Rare'>Rare</option>
+                        <option value='Exotic'>Exotic</option>
+                        <option value='Ascended'>Ascended</option>
+                        <option value='Legendary'>Legendary</option>
+                    </select>
+                    <ResetIcon className='FormItem-icon' onClick={this.resetFilter.bind(this)}/>
+                </div>
             </form>
         )
     }
