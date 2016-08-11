@@ -16,6 +16,8 @@ $input-height: 3rem;
 
     > * {
         height: $input-height;
+        margin-bottom: 0;
+        
         &:not(:first-child) {
             border-left: none;
         }

@@ -26,6 +26,7 @@ $bank-height: ($bank-padding * 2) + 3rem;
         z-index: 4;
         padding: $bank-padding $gutter;
         background: rgba($c-background, .95);
+        box-shadow: 0 0 3px rgba($black, .5);
     }
 
     &-info {
