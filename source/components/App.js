@@ -46,8 +46,13 @@ class App extends React.Component {
                 <Menu />
                 {!this.props.api ?  (
                     <div className='Wrapper Wrapper--small Wrapper--center'>
+                        <p>
+                            Lost an item on one of your many characters? I help you find it!
+                        </p>
                         <Input label='api key' value={this.props.api} onSubmit={this.setApiKey.bind(this)} />
-                        <p>Get your key at <a href="https://account.arena.net/applications" target='_blank'>{'account.arena.net/applications'}</a></p>
+                        <p>
+                            Get your api key at <a href="https://account.arena.net/applications" target='_blank'>{'account.arena.net/applications'}</a>
+                        </p>
                     </div>
                 ) : (
                     <div className='Bank'>
