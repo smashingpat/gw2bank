@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import ResetIcon from 'react-icons/lib/go/x'
+import ReloadIcon from 'react-icons/lib/go/sync'
 
-import { changeFilter, resetFilter } from '../actions'
+import { changeFilter, resetFilter, reloadItems } from '../actions'
 
 @connect(store => ({
 
@@ -28,11 +29,18 @@ class SearchBar extends React.Component {
         this.props.dispatch(resetFilter())
     }
 
+    reloadItems(event) {
+        event.preventDefault()
+        this.props.dispatch(reloadItems())
+    }
+
     render() {
         return (
             <form className={`Form ${this.props.className}`} onSubmit={this.setFilter.bind(this)}>
                 <div className='FormItem'>
+
                     <input className='formItem-input' style={{width: '100%'}} placeholder='filter' ref='text'/>
+
                     <select ref='rarity' onChange={this.setFilter.bind(this)}>
                         <option value=''>rarity</option>
                         <option value='Junk'>Junk</option>
@@ -44,7 +52,10 @@ class SearchBar extends React.Component {
                         <option value='Ascended'>Ascended</option>
                         <option value='Legendary'>Legendary</option>
                     </select>
+
                     <ResetIcon className='FormItem-icon' onClick={this.resetFilter.bind(this)}/>
+                    <ReloadIcon className='FormItem-icon' onClick={this.reloadItems.bind(this)}/>
+
                 </div>
             </form>
         )

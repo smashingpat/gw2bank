@@ -1,0 +1,41 @@
+.App {
+
+}
+
+
+$loadingScreen-size: 35px;
+
+.LoadingScreen {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+    background: rgba($black, .5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    &-spinner {
+        width:  $loadingScreen-size;
+        height: $loadingScreen-size;
+        animation: spin 800ms linear infinite;
+    }
+
+    .is-loading & {
+        display: block;
+        display: flex;
+    }
+}
+
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

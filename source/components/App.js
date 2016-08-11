@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import JSONTree from 'react-json-tree'
+import classNames from 'classnames'
 
 import API from '../API'
 import storage from '../helpers/localstorage'
@@ -11,7 +11,8 @@ import SearchBar from './SearchBar'
 import Input from './Input'
 import ItemList from './ItemList'
 import Notification from './Notification'
-import InfoPanel from './infoPanel'
+import InfoPanel from './InfoPanel'
+import LoadingScreen from './LoadingScreen'
 import Menu from './Menu'
 
 @connect((store) => {
@@ -34,8 +35,13 @@ class App extends React.Component {
     }
 
     render() {
+        let classes = classNames({
+            'App': true,
+            'is-loading': this.props.isLoading
+        })
         return (
-            <div>
+            <div className={classes}>
+                <LoadingScreen />
                 <Notification />
                 <Menu />
                 {!this.props.api ?  (

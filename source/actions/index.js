@@ -5,6 +5,7 @@ import store from '../stores'
 
 function setApiKey(payload) {
     return function(dispatch) {
+        dispatch(changeLoadingState(true))
         API.setApiKey(payload, (data) => {
             dispatch(removeNotification())
             dispatch({
@@ -12,11 +13,13 @@ function setApiKey(payload) {
                 payload: data.id
             })
             dispatch(addStorage())
+            dispatch(changeLoadingState(true))
         }, (err) => {
             dispatch(addNotification({
                 message: 'API Key incorrect',
                 type: 'error'
             }))
+            dispatch(changeLoadingState(false))
         })
     }
 }
@@ -39,6 +42,16 @@ function addStorage() {
             payload.map(node => node.items.map(item => itemIds.push(item.id)))
             dispatch(addItem(itemIds))
         })
+    }
+}
+
+function reloadItems() {
+    return function(dispatch) {
+        dispatch(changeLoadingState(true))
+        dispatch(addStorage())
+        dispatch(removeSelectedItem())
+        dispatch(updateFilteredItems())
+        dispatch(changeLoadingState(true))
     }
 }
 
@@ -140,5 +153,6 @@ module.exports = {
     resetFilter,
     addNotification,
     removeNotification,
-    changeLoadingState
+    changeLoadingState,
+    reloadItems
 }
