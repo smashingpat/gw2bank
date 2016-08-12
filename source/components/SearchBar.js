@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
 
 import ResetIcon from 'react-icons/lib/go/x'
 import ReloadIcon from 'react-icons/lib/go/sync'
@@ -35,8 +36,9 @@ class SearchBar extends React.Component {
     }
 
     render() {
+        let classes = classNames('Form', this.props.className)
         return (
-            <form className={`Form ${this.props.className}`} onSubmit={this.setFilter.bind(this)}>
+            <form className={classes} onSubmit={this.setFilter.bind(this)}>
                 <div className='FormItem'>
 
                     <input className='formItem-input' style={{width: '100%'}} placeholder='filter' ref='text'/>

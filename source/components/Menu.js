@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
 import { removeApiKey } from '../actions'
 import CogWheel from 'react-icons/lib/md/settings'
 
@@ -24,8 +25,11 @@ class Menu extends React.Component {
         this.toggleCollapsed()
     }
     render() {
+        let classes = classNames('Menu', this.props.className, {
+            'is-active': !this.state.collapsed
+        })
         return (
-            <div className={`Menu ${this.state.collapsed ? '' : 'is-active'}`}>
+            <div className={classes}>
                 <div className='Menu-itemContainer'>
                     <div className='Menu-item' onClick={this.removeApiKey.bind(this)}>{'Remove API Key'}</div>
                     <div className='Menu-text'>

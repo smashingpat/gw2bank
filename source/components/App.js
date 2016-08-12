@@ -35,8 +35,7 @@ class App extends React.Component {
     }
 
     render() {
-        let classes = classNames({
-            'App': true,
+        let classes = classNames('App', this.props.className, {
             'is-loading': this.props.isLoading
         })
         return (

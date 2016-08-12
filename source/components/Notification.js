@@ -9,8 +9,7 @@ import classNames from 'classnames'
 })
 class Notifications extends React.Component {
     render() {
-        let classes = classNames({
-            'Notification': true,
+        let classes = classNames('Notification', this.props.className, {
             'is-active': this.props.notification.type ? true : false,
             'is-error': this.props.notification.type === 'error',
             'is-warning': this.props.notification.type === 'warning'

@@ -25,8 +25,7 @@ class ItemList extends React.Component {
         return this.props.filtered.filter(item => item.id === id)[0]
     }
     render() {
-        let classes = classNames({
-            'ItemList': true,
+        let classes = classNames('ItemList', this.props.className, {
             'is-collapsed': this.state.collapsed
         })
         return (

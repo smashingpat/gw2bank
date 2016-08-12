@@ -34,12 +34,11 @@ class InfoPanel extends React.Component {
         this.props.dispatch(removeSelectedItem())
     }
     render() {
-        let classes = classNames({
-            'Info': true,
+        let classes = classNames('Info', this.props.className, {
             'is-active': this.props.item.name ? true : false
         })
         return (
-            <div className={`${this.props.className} + ${classes}`} ref='element'>
+            <div className={classes} ref='element'>
 
                 <img className={`Item-icon is-${this.props.item.rarity} Info-icon`} src={this.props.item.icon} />
 

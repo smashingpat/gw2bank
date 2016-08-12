@@ -19,8 +19,7 @@ class Item extends React.Component {
         dispatch(addSelectedItem(this.props))
     }
     render() {
-        let classes = classNames({
-            'Item': true,
+        let classes = classNames('Item', this.props.className, {
             'is-hidden': !this.props.filter
         })
         return (
