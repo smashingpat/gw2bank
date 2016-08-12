@@ -1,6 +1,6 @@
 $menu-icon-size: 30px;
 $menu-color: $white;
-$menu-color--hover: $c-primairy;
+$menu-color--hover: $c-primary;
 $menu-borderRadius: 3px;
 $menu-gutter: $gutter;
 
@@ -50,6 +50,8 @@ $menu-gutter: $gutter;
 
         &:hover {
             background-color: $menu-color--hover;
+            background-image: linear-gradient(to bottom, $c-primary, $c-primary--dark);
+            box-shadow: 0 0 3px rgba($black, .2);
             color: $c-text;
         }
     }

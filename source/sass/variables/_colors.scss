@@ -3,36 +3,37 @@
     ------
 ============================================================================= */
 
-$white          : #FFF;
+$white           : #FFF;
 
-$gray1          : #1c1c1c;
-$gray2          : #3d3d3d;
-$gray3          : #3d3d3d;
+$gray1           : #1c1c1c;
+$gray2           : #3d3d3d;
+$gray3           : #3d3d3d;
 
-$gray4          : #cdcdcd;
-$gray5          : #d9d9d9;
-$gray6          : #e6e6e6;
+$gray4           : #cdcdcd;
+$gray5           : #d9d9d9;
+$gray6           : #e6e6e6;
 
-$black          : #000;
+$black           : #000;
 
-$c-legendary    : #5200ff;
-$c-ascended     : #f72067;
-$c-exotic       : #ff9900;
-$c-rare         : #e9d309;
-$c-masterwork   : #109500;
-$c-fine         : #0079c7;
+$c-legendary     : #5200ff;
+$c-ascended      : #f72067;
+$c-exotic        : #ff9900;
+$c-rare          : #e9d309;
+$c-masterwork    : #109500;
+$c-fine          : #0079c7;
 
-$c-primairy     : #d6230c;
-$c-secondary    : #a3b6b6;
-$c-accent       : #981721;
+$c-primary       : #d6230c;
+$c-primary--dark : darken($c-primary, 10%);
+$c-secondary     : #a3b6b6;
+$c-accent        : #981721;
 
-$c-background   : #1b1c22;
+$c-background    : #1b1c22;
 
-$c-text         : rgba($white, .8);
-$c-link         : $c-primairy;
-$c-link-hover   : darken($c-link, 5%);
-$c-link-visited : darken($c-link, 10%);
+$c-text          : rgba($white, .8);
+$c-link          : $c-primary;
+$c-link-hover    : darken($c-link, 5%);
+$c-link-visited  : darken($c-link, 10%);
 
-$c-success      : #189d31;
-$c-error        : #e7c900;
-$c-warning      : #b50000;
+$c-success       : #189d31;
+$c-error         : #e7c900;
+$c-warning       : #b50000;
