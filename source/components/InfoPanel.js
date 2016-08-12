@@ -12,15 +12,15 @@ const InfoPanelItem = ({
 }) => {
     return (
         <div className='Info-item'>
-        {children ? (
-            <div>
-                <span className='Info-label'>{label}</span>
-                <span dangerouslySetInnerHTML={{
-                    __html: children
-                }} />
-            </div>
-        ):('')}
-    </div>
+            {children ? (
+                <div>
+                    <span className='Info-label'>{label}</span>
+                    <span dangerouslySetInnerHTML={{
+                        __html: children
+                    }} />
+                </div>
+            ):('')}
+        </div>
     )
 }
 
@@ -45,7 +45,6 @@ class InfoPanel extends React.Component {
                 <div className='Info-name'>
                     <strong>{this.props.item.name}</strong>
                     {this.props.item.count > 1 ? (<small> ({this.props.item.count})</small>) : ''}
-
                 </div>
 
                 <InfoPanelItem label='Description'>{this.props.item.description}</InfoPanelItem>
