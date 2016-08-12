@@ -27,6 +27,7 @@
     "browserify": "^13.0.1",
     "budo": "*",
     "csswring": "*",
+    "envify": "^3.4.1",
     "gulp": "*",
     "gulp-gh-pages": "^0.5.4",
     "gulp-if": "*",

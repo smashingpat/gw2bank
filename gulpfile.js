@@ -96,6 +96,9 @@ const tasks = {
     script: function() {
 
         let bundler = browserify(entry, {
+            insertGlobalVars: {
+                __DEV__: true
+            },
             transform: babelify,
             basedir: __dirname,
             debug: !PRODUCTION,
@@ -104,11 +107,11 @@ const tasks = {
             fullPaths: true //!PRODUCTION
         })
 
-        if (PRODUCTION) {
-            bundler = watchify(bundler)
-            bundler.on('update', bundle)
-            bundler.on('log', gutil.log)
-        }
+        // if (PRODUCTION) {
+        //     bundler = watchify(bundler)
+        //     bundler.on('update', bundle)
+        //     bundler.on('log', gutil.log)
+        // }
 
         function bundle() {
             return bundler.bundle()

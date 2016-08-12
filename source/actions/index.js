@@ -65,12 +65,14 @@ function reloadItems() {
 
 function addItem(ids) {
     return function(dispatch) {
+        dispatch(changeLoadingState(true))
         API.fetchItems(ids, payload => {
             dispatch({
                 type: 'ADD_ITEM',
                 payload
             })
             dispatch(updateFilteredItems());
+            dispatch(changeLoadingState(false))
         })
     }
 }
