@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
-import ResetIcon from 'react-icons/lib/go/x'
-import ReloadIcon from 'react-icons/lib/go/sync'
+import ResetIcon from 'react-icons/lib/md/close'
+import ReloadIcon from 'react-icons/lib/md/find-replace'
 
 import { changeFilter, resetFilter, reloadItems } from '../actions'
 

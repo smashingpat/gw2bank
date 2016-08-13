@@ -1,5 +1,5 @@
 import React from 'react'
-import ReloadIcon from 'react-icons/lib/go/sync'
+import ReloadIcon from 'react-icons/lib/md/cached'
 
 
 const LoadingScreen = () => (
