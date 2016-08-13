@@ -14,11 +14,11 @@ $item-size: 40px;
     }
 
     &:focus {
-        background: rgba($white, .4);
+        background: rgba($white, .8);
         outline: none;
     }
     &:hover {
-        background: rgba($white, .8);
+        background: rgba($white, .4);
     }
 
     &-icon {
