@@ -40,9 +40,9 @@ class App extends React.Component {
         })
         return (
             <div className={classes}>
-                <LoadingScreen />
-                <Notification />
-                <Menu />
+                {/*<LoadingScreen />*/}
+                {/*<Notification />*/}
+                {/*<Menu />*/}
                 {!this.props.api ?  (
                     <div className='Wrapper Wrapper--small Wrapper--center'>
                         <p>
@@ -55,8 +55,8 @@ class App extends React.Component {
                     </div>
                 ) : (
                     <div className='Bank'>
-                        <SearchBar className='Bank-search'/>
-                        <ItemList className='Bank-items' />
+                        {/*<SearchBar className='Bank-search'/>*/}
+                        {/*<ItemList className='Bank-items' />*/}
                         <InfoPanel className='Bank-info' />
                     </div>
                 )}
