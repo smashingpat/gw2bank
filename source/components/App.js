@@ -55,8 +55,8 @@ class App extends React.Component {
                     </div>
                 ) : (
                     <div className='Bank'>
-                        <SearchBar className='Bank-search'/>
-                        <ItemList className='Bank-items' />
+                        <SearchBar className='Bank-search' />
+                        <ItemList  className='Bank-items' />
                         <InfoPanel className='Bank-info' />
                     </div>
                 )}

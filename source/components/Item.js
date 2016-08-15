@@ -15,13 +15,6 @@ const ItemTooltip = (props) => {
 }
 
 class Item extends React.Component {
-    shouldComponentUpdate(nextProps, nextState) {
-        if ( this.props.filter === nextProps.filter ) {
-            return false
-        }
-        console.log('SUPER EXPENSIVE TASK');
-        return true
-    }
     selectItem() {
         dispatch(addSelectedItem(this.props))
     }

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 
 import store from './stores'
+import JSONTree from 'react-json-tree'
 
 // Components
 import App from './components/App'
