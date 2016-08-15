@@ -32,6 +32,7 @@ const reducers = combineReducers({
 
 const middleware = applyMiddleware(thunk, logger({collapsed: true}))
 const store = createStore(reducers, window.devToolsExtension && window.devToolsExtension(), middleware)
+// const store = createStore(reducers, middleware)
 
 
 module.exports = store
