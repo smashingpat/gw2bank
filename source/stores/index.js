@@ -30,7 +30,7 @@ const reducers = combineReducers({
     isLoading
 })
 
-const middleware = applyMiddleware(thunk, logger())
+const middleware = applyMiddleware(thunk, logger({collapsed: true}))
 const store = createStore(reducers, window.devToolsExtension && window.devToolsExtension(), middleware)
 
 
