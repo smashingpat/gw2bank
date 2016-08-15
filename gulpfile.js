@@ -21,13 +21,15 @@ const babelify  = require('babelify').configure({
     presets: ['es2015', 'react'],
     plugins: ['transform-object-rest-spread', 'transform-decorators-legacy']
 })
+const browserSync = require('browser-sync')
 
 
-// set production variables and states
+// Variables, production state and settings
 
 let PRODUCTION = argv.production
 process.env.NODE_ENV = PRODUCTION ? 'production' : 'development';
 
+let PORT = argv.port ? argv.port : 3000
 
 // files
 
@@ -65,72 +67,70 @@ const tasks = {
             ]))
             .pipe(gulp.dest('./app'))
     },
-    server: function(callback) {
+    script: function(watchOn) {
 
-        let port = argv.port ? argv.port : 3000
-
-        // dev server
-        let server = budo(!PRODUCTION ? entry : null, {
-            serve: outfile,
-            port: port,
-            live: true,
-            dir: './app',
-            open: argv.open,
-            middleware: function (req, res, next) {
-                res.addHeader('Access-Control-Allow-Origin', `*`);
-                res.addHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-                res.addHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-                res.addHeader('Access-Control-Allow-Credentials', true);
-                next()
-            },
-            browserify: PRODUCTION ? null : {
-                transform: babelify
-            },
-            stream: process.stdout
-        }).on('exit', callback)
-
-        watch(['source/sass/**/*.{scss,sass}'], () => gulp.start('sass'))
-        watch(['source/jade/**/*.jade'], () => gulp.start('jade'))
-
-    },
-    script: function() {
-
-        let bundler = browserify(entry, {
-            insertGlobalVars: {
-                __DEV__: true
-            },
+        let bundler = browserify({
+            entries: [entry],
             transform: babelify,
             basedir: __dirname,
             debug: !PRODUCTION,
             cache: {},
             packageCache: {},
-            fullPaths: true //!PRODUCTION
+            fullPaths: true
         })
 
-        // if (PRODUCTION) {
-        //     bundler = watchify(bundler)
-        //     bundler.on('update', bundle)
-        //     bundler.on('log', gutil.log)
-        // }
+        if (watchOn) {
+            bundler = watchify(bundler)
+            bundler.on('update', bundle)
+            bundler.on('log', msg => gutil.log(`[${gutil.colors.cyan('Browserify')}] - ${msg}`))
+        }
 
         function bundle() {
             return bundler.bundle()
+                .on('error', err => {
+                    gutil.log(`[${gutil.colors.cyan('Browserify')}] - ${gutil.colors.red('error')} \n${err.codeFrame}`)
+                })
                 .pipe(source('index.js'))
                 .pipe(gulpif(PRODUCTION, stream(uglify({
                     output: {
                         beautify: argv.beautify ? true : false
-                    },
-                    compress: {
-                        global_defs: {
-                            __DEV__: false
-                        }
                     }
                 }))))
                 .pipe(rename(outfile))
                 .pipe(gulp.dest('./app'))
+                .pipe(browserSync.stream())
         }
 
         return bundle()
+    },
+    server: function(callback) {
+
+        watch(['source/sass/**/*.{scss,sass}'], () => gulp.start('sass'))
+        watch(['source/jade/**/*.jade'], () => gulp.start('jade'))
+        tasks.script(true)
+
+        return browserSync({
+            server: {
+                baseDir: './app'
+            },
+            host: "localhost",
+            online: true,
+            open: argv.open ? true : false,
+            port: PORT,
+            notify: {
+                styles: [
+                    'color: rgba(255, 255, 255, .8)',
+                    'position: fixed',
+                    'z-index: 999999',
+                    'bottom: 0px',
+                    'left: 0px',
+                    'font-size: 1rem',
+                    'background: rgba(0, 0, 0, 0.8)',
+                    'font-family: arial, sans-serif',
+                    'padding: 10px'
+                ]
+            }
+        });
     },
     deploy: function() {
         gulp.src('./app/**/*')
@@ -140,7 +140,7 @@ const tasks = {
 
 gulp.task('jade', tasks.jade)
 gulp.task('sass', tasks.sass)
-gulp.task('server', ['sass', 'script'], tasks.server)
+gulp.task('server', ['sass'], tasks.server)
 gulp.task('script', tasks.script)
 gulp.task('deploy', ['bundle'], tasks.deploy)
 
