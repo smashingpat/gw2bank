@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import API from '../API'
 import storage from '../helpers/localstorage'
-import { setApiKey, changeFilter, resetFilter, addSelectedItem } from '../actions'
+import { setApiKey, changeFilter, resetFilter, addSelectedItem, addStorage } from '../actions'
 
 // components
 import SearchBar from './SearchBar'
@@ -28,7 +28,6 @@ class App extends React.Component {
             this.setApiKey(storedKey)
         }
     }
-
     setApiKey(key) {
         this.props.dispatch(setApiKey(key))
     }
