@@ -5,15 +5,6 @@ import { dispatch } from '../stores'
 import { addSelectedItem } from '../actions'
 
 
-const ItemTooltip = (props) => {
-
-    return (
-        <div className='Item-tooltip'>
-            {props.name}
-        </div>
-    )
-}
-
 class Item extends React.Component {
     selectItem() {
         dispatch(addSelectedItem(this.props))
