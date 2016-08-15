@@ -126,9 +126,7 @@ function GW2API() {
             let params = { ids: chunk.join(',') }
             return axios(`${URL}/items`, {params})
         })
-        let promise = axios.all([
-            ...promises
-        ])
+        let promise = axios.all(promises)
 
         promise.then(result => {
             let data = [].concat(...result.map(node => node.data))

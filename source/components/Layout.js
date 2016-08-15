@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import API from '../API'
 import storage from '../helpers/localstorage'
-import { setApiKey, changeFilter, resetFilter, addSelectedItem } from '../actions'
+import { setApiKey, changeFilter, resetFilter, addSelectedItem, addStorage } from '../actions'
 
 // components
 import SearchBar from './SearchBar'
@@ -14,12 +14,10 @@ import Notification from './Notification'
 import InfoPanel from './InfoPanel'
 import LoadingScreen from './LoadingScreen'
 import Menu from './Menu'
+import CodeBlock from './CodeBlock'
 
 @connect((store) => {
-    return {
-        api: store.api,
-        isLoading: store.isLoading
-    }
+    return store
 })
 class Layout extends React.Component {
     componentDidMount() {
@@ -27,9 +25,7 @@ class Layout extends React.Component {
         if (storedKey) {
             this.setApiKey(storedKey)
         }
-        // this.setApiKey('068C2B8B-9929-9842-9907-88C3FAD88A77088C3179-1451-4D22-AD8B-F80CD4E44072')
     }
-
     setApiKey(key) {
         this.props.dispatch(setApiKey(key))
     }
@@ -40,9 +36,9 @@ class Layout extends React.Component {
         })
         return (
             <div className={classes}>
-                {/*<LoadingScreen />*/}
-                {/*<Notification />*/}
-                {/*<Menu />*/}
+                <LoadingScreen />
+                <Notification />
+                <Menu />
                 {!this.props.api ?  (
                     <div className='Wrapper Wrapper--small Wrapper--center'>
                         <p>
@@ -55,8 +51,8 @@ class Layout extends React.Component {
                     </div>
                 ) : (
                     <div className='Bank'>
-                        {/*<SearchBar className='Bank-search'/>*/}
-                        {/*<ItemList className='Bank-items' />*/}
+                        <SearchBar className='Bank-search' />
+                        <ItemList  className='Bank-items' />
                         <InfoPanel className='Bank-info' />
                     </div>
                 )}

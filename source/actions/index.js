@@ -1,11 +1,10 @@
 import API from '../API'
 import _ from 'lodash'
-import store from '../stores'
 
 
 function setApiKey(payload) {
     return function(dispatch) {
-        dispatch(changeLoadingState(true))
+        dispatch(setLoadingState(true))
         API.setApiKey(payload, (data) => {
             dispatch(removeNotification())
             dispatch({
@@ -13,13 +12,13 @@ function setApiKey(payload) {
                 payload: data.id
             })
             dispatch(addStorage())
-            dispatch(changeLoadingState(false))
+            dispatch(setLoadingState(false))
         }, (err) => {
             dispatch(addNotification({
                 message: 'API Key incorrect',
                 type: 'error'
             }))
-            dispatch(changeLoadingState(false))
+            dispatch(setLoadingState(false))
         })
     }
 }
@@ -33,25 +32,37 @@ function removeApiKey() {
 
 function addStorage() {
     return function(dispatch) {
-        dispatch(changeLoadingState(true))
-        setTimeout(() => {
-            API.fetchAll(payload => {
-                dispatch({
-                    type: 'ADD_STORAGE',
-                    payload
-                })
-                let itemIds = []
-                payload.map(node => node.items.map(item => itemIds.push(item.id)))
-                dispatch(addItem(itemIds))
-                dispatch(changeLoadingState(false))
-            }, err => {
-                dispatch(addNotification({
-                    message: "Couldn't retrieve data",
-                    type: 'error'
-                }))
-                dispatch(changeLoadingState(false))
+        dispatch(setLoadingState(true))
+        API.fetchAll(payload => {
+            dispatch({
+                type: 'ADD_STORAGE',
+                payload
             })
-        }, 3000)
+            let itemIds = []
+            payload.map(node => node.items.map(item => itemIds.push(item.id)))
+            dispatch(addItem(itemIds))
+            dispatch(setLoadingState(false))
+        }, err => {
+            dispatch(addNotification({
+                message: "Couldn't retrieve data",
+                type: 'error'
+            }))
+            dispatch(setLoadingState(false))
+        })
+    }
+}
+
+function addItem(ids) {
+    return function(dispatch) {
+        dispatch(setLoadingState(true))
+        API.fetchItems(ids, payload => {
+            dispatch({
+                type: 'ADD_ITEM',
+                payload
+            })
+            dispatch(updateFilteredItems())
+            dispatch(setLoadingState(false))
+        })
     }
 }
 
@@ -59,21 +70,6 @@ function reloadItems() {
     return function(dispatch) {
         dispatch(removeSelectedItem())
         dispatch(addStorage())
-        // dispatch(updateFilteredItems())
-    }
-}
-
-function addItem(ids) {
-    return function(dispatch) {
-        dispatch(changeLoadingState(true))
-        API.fetchItems(ids, payload => {
-            dispatch({
-                type: 'ADD_ITEM',
-                payload
-            })
-            dispatch(updateFilteredItems());
-            dispatch(changeLoadingState(false))
-        })
     }
 }
 
@@ -109,15 +105,16 @@ function resetFilter() {
     }
 }
 
-function updateFilteredItems(filter = store.getState().filters) {
-    return function(dispatch) {
-        dispatch(changeLoadingState(true))
-        let payload = store.getState().items.map(item => {
+function updateFilteredItems() {
+    return function(dispatch, getState) {
+        let { filters, items } = getState()
+
+        let payload = items.map(item => {
             let testRarity = true
-            if (filter.rarity) {
-                testRarity = filter.rarity === item.rarity
+            if (filters.rarity) {
+                testRarity = filters.rarity === item.rarity
             }
-            let testText = new RegExp(filter.text, 'gi').test(`${item.name}`)
+            let testText = new RegExp(filters.text, 'gi').test(`${item.name}`)
 
             return {
                 ...item,
@@ -128,7 +125,6 @@ function updateFilteredItems(filter = store.getState().filters) {
             type: 'UPDATE_FILTERED_ITEMS',
             payload
         })
-        dispatch(changeLoadingState(false))
     }
 }
 
@@ -148,7 +144,7 @@ function removeNotification() {
     }
 }
 
-function changeLoadingState(payload) {
+function setLoadingState(payload) {
     return {
         type: 'CHANGE_LOADING_STATE',
         payload
@@ -166,6 +162,6 @@ module.exports = {
     resetFilter,
     addNotification,
     removeNotification,
-    changeLoadingState,
+    setLoadingState,
     reloadItems
 }
