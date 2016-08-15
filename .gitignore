@@ -9,7 +9,6 @@ node_modules
 *.o
 *.so
 .publish
-app/bundle.js
 
 # Packages #
 ############
