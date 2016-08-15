@@ -53,8 +53,17 @@ const tasks = {
         .pipe(gulp.dest('./app'))
     },
     sass: function() {
+
+        browserSync.notify('[<span style="color: cyan;">Sass</span>] compiling')
+
         gulp.src('./source/sass/global.scss')
-            .pipe(plumber())
+            .pipe(plumber({
+                errorHandler: function(err) {
+                    browserSync.notify('[<span style="color: red;">Sass</span>] Error')
+                    gutil.log(`[${gutil.colors.cyan('Sass')}] - ${gutil.colors.red('error')} \n${err.toString()}`)
+                    this.emit('end')
+                }
+            }))
             .pipe(sass())
             .pipe(postcss([
                 require('postcss-assets')({
@@ -68,6 +77,8 @@ const tasks = {
             .pipe(gulp.dest('./app'))
     },
     script: function(watchOn) {
+
+        browserSync.notify('[<span style="color: cyan;">Browserify</span>] compiling')
 
         let bundler = browserify({
             entries: [entry],
@@ -87,8 +98,10 @@ const tasks = {
 
         function bundle() {
             return bundler.bundle()
-                .on('error', err => {
+                .on('error', function(err) {
                     gutil.log(`[${gutil.colors.cyan('Browserify')}] - ${gutil.colors.red('error')} \n${err.codeFrame}`)
+                    browserSync.notify('[<span style="color: red;">Browserify</span> Error]')
+                    this.emit('end')
                 })
                 .pipe(source('index.js'))
                 .pipe(gulpif(PRODUCTION, stream(uglify({
