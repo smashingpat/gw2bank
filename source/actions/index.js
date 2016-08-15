@@ -1,6 +1,5 @@
 import API from '../API'
 import _ from 'lodash'
-import store from '../stores'
 
 
 function setApiKey(payload) {
@@ -107,15 +106,17 @@ function resetFilter() {
     }
 }
 
-function updateFilteredItems(filter = store.getState().filters) {
-    return function(dispatch) {
+function updateFilteredItems() {
+    return function(dispatch, getState) {
+        let { filters, items } = getState()
+
         dispatch(changeLoadingState(true))
-        let payload = store.getState().items.map(item => {
+        let payload = items.map(item => {
             let testRarity = true
-            if (filter.rarity) {
-                testRarity = filter.rarity === item.rarity
+            if (filters.rarity) {
+                testRarity = filters.rarity === item.rarity
             }
-            let testText = new RegExp(filter.text, 'gi').test(`${item.name}`)
+            let testText = new RegExp(filters.text, 'gi').test(`${item.name}`)
 
             return {
                 ...item,
