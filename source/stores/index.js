@@ -1,7 +1,14 @@
 import _ from 'lodash'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
-import thunk from 'redux-thunk'
+// import thunk from 'redux-thunk'
+
+const thunk = store => next => action => {
+    if (typeof action === 'function') {
+        return action(store.dispatch, store.getState)
+    }
+    return next(action);
+}
 
 import storage from './storage'
 import items from './items'
@@ -23,7 +30,7 @@ const reducers = combineReducers({
     isLoading
 })
 
-const middleware = applyMiddleware(thunk, logger({collapsed: true}))
+const middleware = applyMiddleware(thunk, logger())
 const store = createStore(reducers, window.devToolsExtension && window.devToolsExtension(), middleware)
 
 
