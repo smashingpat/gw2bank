@@ -6,11 +6,11 @@ import { Provider } from 'react-redux'
 import store from './stores'
 
 // Components
-import App from './components/App'
+import Layout from './components/Layout'
 
 ReactDOM.render(
     <Provider store={store}>
-        <App/>
+        <Layout/>
     </Provider>,
     document.getElementById('root')
 )

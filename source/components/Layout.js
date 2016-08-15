@@ -21,7 +21,7 @@ import Menu from './Menu'
         isLoading: store.isLoading
     }
 })
-class App extends React.Component {
+class Layout extends React.Component {
     componentDidMount() {
         let storedKey = API.getApiKey()
         if (storedKey) {
@@ -65,4 +65,4 @@ class App extends React.Component {
     }
 }
 
-export default App
+export default Layout
