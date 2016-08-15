@@ -27,9 +27,14 @@ $c-primary--dark : darken($c-primary, 10%);
 $c-secondary     : #a3b6b6;
 $c-accent        : #981721;
 
-$c-background    : #1b1c22;
+$c-background    : #e2e2e2;
+
+
 
 $c-text          : rgba($white, .8);
+@if (lightness($c-background) > 70) {
+    $c-text : rgba($black, .8);
+}
 $c-link          : $c-primary;
 $c-link-hover    : darken($c-link, 5%);
 $c-link-visited  : darken($c-link, 10%);

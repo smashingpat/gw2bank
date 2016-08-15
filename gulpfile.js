@@ -79,6 +79,7 @@ const tasks = {
             ]))
             .pipe(gulpif(!PRODUCTION, sourcemaps.write()))
             .pipe(gulp.dest('./app'))
+            .pipe(browserSync.stream())
     },
     script: function(watchOn) {
 
@@ -101,7 +102,7 @@ const tasks = {
         function bundle() {
 
             browserSync.notify('[<span style="color: cyan;">Browserify</span>] compiling')
-            
+
             return bundler.bundle()
                 .on('error', function(err) {
                     gutil.log(`[${gutil.colors.cyan('Browserify')}] - ${gutil.colors.red('error')} \n${err.codeFrame}`)
