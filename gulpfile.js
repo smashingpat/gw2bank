@@ -5,6 +5,7 @@ const gutil = require('gulp-util')
 const plumber = require('gulp-plumber')
 const watch = require('gulp-watch')
 const gulpif = require('gulp-if')
+const sourcemaps = require('gulp-sourcemaps')
 const ghPages = require('gulp-gh-pages')
 const jade = require('gulp-jade')
 const sass = require('gulp-sass')
@@ -14,6 +15,7 @@ const argv = require('yargs').argv;
 const uglify = require('gulp-uglify')
 const rename = require('gulp-rename')
 const stream = require('gulp-streamify')
+const buffer = require('vinyl-buffer')
 const source = require('vinyl-source-stream')
 const browserify = require('browserify')
 const watchify = require('watchify')
@@ -64,6 +66,7 @@ const tasks = {
                     this.emit('end')
                 }
             }))
+            .pipe(gulpif(!PRODUCTION, sourcemaps.init({loadMaps: true})))
             .pipe(sass())
             .pipe(postcss([
                 require('postcss-assets')({
@@ -74,6 +77,7 @@ const tasks = {
                 require('autoprefixer')({ browsers: ['last 1 version'] }),
                 require('csswring')()
             ]))
+            .pipe(gulpif(!PRODUCTION, sourcemaps.write()))
             .pipe(gulp.dest('./app'))
     },
     script: function(watchOn) {
@@ -104,19 +108,22 @@ const tasks = {
                     this.emit('end')
                 })
                 .pipe(source('index.js'))
-                .pipe(gulpif(PRODUCTION, stream(uglify({
+                .pipe(buffer())
+                .pipe(gulpif(!PRODUCTION, sourcemaps.init({loadMaps: true})))
+                .pipe(gulpif(PRODUCTION, uglify({
                     output: {
                         beautify: argv.beautify ? true : false
                     }
-                }))))
+                })))
                 .pipe(rename(outfile))
+                .pipe(gulpif(!PRODUCTION, sourcemaps.write()))
                 .pipe(gulp.dest('./app'))
                 .pipe(browserSync.stream())
         }
 
         return bundle()
     },
-    server: function(callback) {
+    server: function() {
 
         watch(['source/sass/**/*.{scss,sass}'], () => gulp.start('sass'))
         watch(['source/jade/**/*.jade'], () => gulp.start('jade'))
@@ -146,7 +153,7 @@ const tasks = {
         });
     },
     deploy: function() {
-        gulp.src('./app/**/*')
+        return gulp.src('./app/**/*')
             .pipe(ghPages())
     }
 }
