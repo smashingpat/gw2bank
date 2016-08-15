@@ -11,7 +11,7 @@ const InfoPanelItem = ({
     children
 }) => {
     let styles = {
-        display: !children ? 'none' : 'block'
+        display: !children ? 'none' : ''
     }
     return (
         <div className='Info-item' style={styles}>
