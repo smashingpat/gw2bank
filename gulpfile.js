@@ -10,7 +10,6 @@ const ghPages = require('gulp-gh-pages')
 const jade = require('gulp-jade')
 const sass = require('gulp-sass')
 const postcss = require('gulp-postcss')
-const budo = require('budo')
 const argv = require('yargs').argv;
 const uglify = require('gulp-uglify')
 const rename = require('gulp-rename')
@@ -19,10 +18,6 @@ const buffer = require('vinyl-buffer')
 const source = require('vinyl-source-stream')
 const browserify = require('browserify')
 const watchify = require('watchify')
-const babelify  = require('babelify').configure({
-    presets: ['es2015', 'react'],
-    plugins: ['transform-object-rest-spread', 'transform-decorators-legacy']
-})
 const browserSync = require('browser-sync')
 
 
@@ -85,12 +80,17 @@ const tasks = {
 
         let bundler = browserify({
             entries: [entry],
-            transform: babelify,
             basedir: __dirname,
             debug: !PRODUCTION,
             cache: {},
             packageCache: {},
-            fullPaths: true
+            fullPaths: true,
+            transform: [
+                require('babelify').configure({
+                    presets: ['es2015', 'react'],
+                    plugins: ['transform-object-rest-spread', 'transform-decorators-legacy']
+                })
+            ]
         })
 
         if (watchOn) {
@@ -103,9 +103,10 @@ const tasks = {
 
             browserSync.notify('[<span style="color: cyan;">Browserify</span>] compiling')
 
-            return bundler.bundle()
+            return bundler
+                .bundle()
                 .on('error', function(err) {
-                    gutil.log(`[${gutil.colors.cyan('Browserify')}] - ${gutil.colors.red('error')} \n${err.codeFrame}`)
+                    gutil.log(`[${gutil.colors.cyan('Browserify')}] - ${gutil.colors.red('error')} \n${err}`)
                     browserSync.notify('[<span style="color: red;">Browserify</span> Error]')
                     this.emit('end')
                 })

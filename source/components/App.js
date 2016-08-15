@@ -14,12 +14,10 @@ import Notification from './Notification'
 import InfoPanel from './InfoPanel'
 import LoadingScreen from './LoadingScreen'
 import Menu from './Menu'
+import CodeBlock from './CodeBlock'
 
 @connect((store) => {
-    return {
-        api: store.api,
-        isLoading: store.isLoading
-    }
+    return store
 })
 class App extends React.Component {
     componentDidMount() {
