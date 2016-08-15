@@ -82,8 +82,6 @@ const tasks = {
     },
     script: function(watchOn) {
 
-        browserSync.notify('[<span style="color: cyan;">Browserify</span>] compiling')
-
         let bundler = browserify({
             entries: [entry],
             transform: babelify,
@@ -101,6 +99,9 @@ const tasks = {
         }
 
         function bundle() {
+
+            browserSync.notify('[<span style="color: cyan;">Browserify</span>] compiling')
+            
             return bundler.bundle()
                 .on('error', function(err) {
                     gutil.log(`[${gutil.colors.cyan('Browserify')}] - ${gutil.colors.red('error')} \n${err.codeFrame}`)
