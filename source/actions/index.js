@@ -34,24 +34,22 @@ function removeApiKey() {
 function addStorage() {
     return function(dispatch) {
         dispatch(changeLoadingState(true))
-        setTimeout(() => {
-            API.fetchAll(payload => {
-                dispatch({
-                    type: 'ADD_STORAGE',
-                    payload
-                })
-                let itemIds = []
-                payload.map(node => node.items.map(item => itemIds.push(item.id)))
-                dispatch(addItem(itemIds))
-                dispatch(changeLoadingState(false))
-            }, err => {
-                dispatch(addNotification({
-                    message: "Couldn't retrieve data",
-                    type: 'error'
-                }))
-                dispatch(changeLoadingState(false))
+        API.fetchAll(payload => {
+            dispatch({
+                type: 'ADD_STORAGE',
+                payload
             })
-        }, 3000)
+            let itemIds = []
+            payload.map(node => node.items.map(item => itemIds.push(item.id)))
+            dispatch(addItem(itemIds))
+            dispatch(changeLoadingState(false))
+        }, err => {
+            dispatch(addNotification({
+                message: "Couldn't retrieve data",
+                type: 'error'
+            }))
+            dispatch(changeLoadingState(false))
+        })
     }
 }
 
