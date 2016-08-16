@@ -23,6 +23,12 @@ const InfoPanelItem = ({
     )
 }
 
+const InfoPanelStats = (props) => (
+    <div>
+        <pre><code>{JSON.stringify(props)}</code></pre>
+    </div>
+)
+
 @connect(store => {
     return {
         item: store.selectedItem
@@ -49,6 +55,8 @@ class InfoPanel extends React.Component {
                 <InfoPanelItem label='Description'>{this.props.item.description}</InfoPanelItem>
                 <InfoPanelItem label='Type'>{this.props.item.type}</InfoPanelItem>
                 <InfoPanelItem label='Item code'>{this.props.item.chat_link}</InfoPanelItem>
+
+                <InfoPanelStats />
 
                 <CloseButton className='Info-closeButton' onClick={this.closePanel.bind(this)} />
             </div>
