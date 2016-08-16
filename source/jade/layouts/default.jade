@@ -6,15 +6,15 @@ html(lang="en")
         title GW2Bank
         link(rel="icon" href="/favicon.ico" type="image/x-icon")
         link(rel="stylesheet" \type="text/css" href="/global.css")
-        script.
-            (function(){
-                var redirect = sessionStorage.redirect;
-                delete sessionStorage.redirect;
-                if (redirect && redirect != location.href) {
-                    history.replaceState(null, null, redirect);
-                }
-                console.log('Site was redirected from: ' + redirect)
-            })();
+        //- script.
+        //-     (function(){
+        //-         var redirect = sessionStorage.redirect;
+        //-         delete sessionStorage.redirect;
+        //-         if (redirect && redirect != location.href) {
+        //-             history.replaceState(null, null, redirect);
+        //-         }
+        //-         console.log('Site was redirected from: ' + redirect)
+        //-     })();
             
 
     body
