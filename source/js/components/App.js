@@ -19,7 +19,7 @@ import CodeBlock from './CodeBlock'
 @connect((store) => {
     return store
 })
-class Layout extends React.Component {
+class App extends React.Component {
     componentDidMount() {
         let storedKey = API.getApiKey()
         if (storedKey) {
@@ -61,4 +61,4 @@ class Layout extends React.Component {
     }
 }
 
-export default Layout
+export default App
