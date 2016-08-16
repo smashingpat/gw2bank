@@ -14,7 +14,6 @@ import Notification from './Notification'
 import InfoPanel from './InfoPanel'
 import LoadingScreen from './LoadingScreen'
 import Menu from './Menu'
-import CodeBlock from './CodeBlock'
 
 @connect((store) => {
     return store

@@ -14,7 +14,7 @@ const InfoPanelItem = ({
         display: !children ? 'none' : ''
     }
     return (
-        <div className='Info-item' style={style}>
+        <div className='Info-item' style={styles}>
             <span className='Info-label'>{label}</span>
             <span dangerouslySetInnerHTML={{
                 __html: children
