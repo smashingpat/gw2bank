@@ -7,8 +7,8 @@
     "start": "gulp server",
     "open": "gulp server --open",
     "clean": "gulp clean",
-    "bundle": "npm run clean && gulp bundle --production",
-    "deploy": "npm run clean && gulp deploy --production"
+    "bundle": "gulp bundle --production",
+    "deploy": "gulp deploy --production"
   },
   "keywords": [
     "html",

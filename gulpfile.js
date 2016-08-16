@@ -41,7 +41,7 @@ const outfile = 'bundle.js'
 const tasks = {
     clean: function() {
         gulp.src('./dist/**/*')
-            .pipe(clean({force: true}));
+            .pipe(clean());
     },
     copy: function() {
         gulp.src('./source/copy/**/*')
@@ -75,7 +75,7 @@ const tasks = {
             .pipe(sass())
             .pipe(postcss([
                 require('postcss-assets')({
-                    loadPaths: ['./source/copy/media/**/*'],
+                    loadPaths: ['**'],
                     basePath: './dist',
                     cachebuster: true
                 }),
@@ -182,6 +182,7 @@ gulp.task('deploy', ['bundle'], tasks.deploy)
 
 gulp.task('bundle', function() {
     runSequence(
+        ['clean'],
         ['copy'],
         ['jade', 'sass', 'script']
     )
