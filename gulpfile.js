@@ -37,6 +37,10 @@ const outfile = 'bundle.js'
 // Tasks and functions
 
 const tasks = {
+    copy: function() {
+        gulp.src('./source/copy/**/*')
+            .pipe(gulp.dest('./dist'))
+    },
     jade: function() {
         gulp.src([
             './source/jade/**/*.jade',
@@ -47,7 +51,7 @@ const tasks = {
         .pipe(jade({
             pretty: true
         }))
-        .pipe(gulp.dest('./app'))
+        .pipe(gulp.dest('./dist'))
     },
     sass: function() {
 
@@ -66,14 +70,14 @@ const tasks = {
             .pipe(postcss([
                 require('postcss-assets')({
                     loadPaths: ['**'],
-                    basePath: './app',
+                    basePath: './dist',
                     cachebuster: true
                 }),
                 require('autoprefixer')({ browsers: ['last 1 version'] }),
                 require('csswring')()
             ]))
             .pipe(gulpif(!PRODUCTION, sourcemaps.write()))
-            .pipe(gulp.dest('./app'))
+            .pipe(gulp.dest('./dist'))
             .pipe(browserSync.stream())
     },
     script: function(watchOn) {
@@ -120,7 +124,7 @@ const tasks = {
                 })))
                 .pipe(rename(outfile))
                 .pipe(gulpif(!PRODUCTION, sourcemaps.write()))
-                .pipe(gulp.dest('./app'))
+                .pipe(gulp.dest('./dist'))
                 .pipe(browserSync.stream())
         }
 
@@ -128,13 +132,14 @@ const tasks = {
     },
     server: function() {
 
+        watch(['source/copy/**/*'], () => gulp.start('copy'))
         watch(['source/sass/**/*.{scss,sass}'], () => gulp.start('sass'))
         watch(['source/jade/**/*.jade'], () => gulp.start('jade'))
         tasks.script(true)
 
         return browserSync({
             server: {
-                baseDir: './app'
+                baseDir: './dist'
             },
             host: "localhost",
             online: true,
@@ -156,15 +161,16 @@ const tasks = {
         });
     },
     deploy: function() {
-        return gulp.src('./app/**/*')
+        return gulp.src('./dist/**/*')
             .pipe(ghPages())
     }
 }
 
+gulp.task('copy', tasks.copy)
 gulp.task('jade', tasks.jade)
 gulp.task('sass', tasks.sass)
 gulp.task('server', ['sass'], tasks.server)
 gulp.task('script', tasks.script)
 gulp.task('deploy', ['bundle'], tasks.deploy)
 
-gulp.task('bundle', ['jade', 'sass', 'script'])
+gulp.task('bundle', ['copy', 'jade', 'sass', 'script'])
