@@ -3,6 +3,7 @@
 const gulp = require('gulp')
 const gutil = require('gulp-util')
 const plumber = require('gulp-plumber')
+const clean = require('gulp-clean')
 const watch = require('gulp-watch')
 const gulpif = require('gulp-if')
 const sourcemaps = require('gulp-sourcemaps')
@@ -19,6 +20,7 @@ const source = require('vinyl-source-stream')
 const browserify = require('browserify')
 const watchify = require('watchify')
 const browserSync = require('browser-sync')
+const runSequence = require('run-sequence');
 
 
 // Variables, production state and settings
@@ -30,13 +32,17 @@ let PORT = argv.port ? argv.port : 3000
 
 // files
 
-const entry = './source/index.js'
+const entry = './source/js/index.js'
 const outfile = 'bundle.js'
 
 
 // Tasks and functions
 
 const tasks = {
+    clean: function() {
+        gulp.src('./dist/**/*')
+            .pipe(clean({force: true}));
+    },
     copy: function() {
         gulp.src('./source/copy/**/*')
             .pipe(gulp.dest('./dist'))
@@ -69,7 +75,7 @@ const tasks = {
             .pipe(sass())
             .pipe(postcss([
                 require('postcss-assets')({
-                    loadPaths: ['**'],
+                    loadPaths: ['./source/copy/media/**/*'],
                     basePath: './dist',
                     cachebuster: true
                 }),
@@ -166,6 +172,7 @@ const tasks = {
     }
 }
 
+gulp.task('clean', tasks.clean)
 gulp.task('copy', tasks.copy)
 gulp.task('jade', tasks.jade)
 gulp.task('sass', tasks.sass)
@@ -173,4 +180,9 @@ gulp.task('server', ['sass'], tasks.server)
 gulp.task('script', tasks.script)
 gulp.task('deploy', ['bundle'], tasks.deploy)
 
-gulp.task('bundle', ['copy', 'jade', 'sass', 'script'])
+gulp.task('bundle', function() {
+    runSequence(
+        ['copy'],
+        ['jade', 'sass', 'script']
+    )
+})
