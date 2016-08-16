@@ -41,7 +41,8 @@ const outfile = 'bundle.js'
 const tasks = {
     clean: function() {
         gulp.src('./dist/**/*')
-            .pipe(clean());
+            .pipe(plumber())
+            .pipe(clean({force: true}));
     },
     copy: function() {
         gulp.src('./source/copy/**/*')
@@ -176,14 +177,8 @@ gulp.task('clean', tasks.clean)
 gulp.task('copy', tasks.copy)
 gulp.task('jade', tasks.jade)
 gulp.task('sass', tasks.sass)
-gulp.task('server', ['sass'], tasks.server)
+gulp.task('server', ['bundle'], tasks.server)
 gulp.task('script', tasks.script)
 gulp.task('deploy', ['bundle'], tasks.deploy)
 
-gulp.task('bundle', function() {
-    runSequence(
-        ['clean'],
-        ['copy'],
-        ['jade', 'sass', 'script']
-    )
-})
+gulp.task('bundle', ['copy', 'jade', 'sass', 'script'])
