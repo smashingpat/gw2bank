@@ -59,6 +59,7 @@ const tasks = {
             pretty: true
         }))
         .pipe(gulp.dest('./dist'))
+        .pipe(browserSync.stream())
     },
     sass: function() {
 
@@ -146,7 +147,10 @@ const tasks = {
 
         return browserSync({
             server: {
-                baseDir: './dist'
+                baseDir: './dist',
+                middleware: [
+                    require('connect-history-api-fallback')()
+                ]
             },
             host: "localhost",
             online: true,

@@ -29,6 +29,7 @@
     "browserify": "^13.1.0",
     "browserify-css": "^0.9.1",
     "budo": "*",
+    "connect-history-api-fallback": "^1.3.0",
     "csswring": "*",
     "envify": "^3.4.1",
     "gulp": "*",
