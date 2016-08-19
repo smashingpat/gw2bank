@@ -30,3 +30,14 @@
 @import 'components/info';
 @import 'components/menu';
 @import 'components/notifications';
+
+
+.fade {
+    background: rgba($black,.2);
+    text-align: center;
+    transition: all 300ms ease-in-out;
+    &.is-active {
+        background: rgba($white, .2);
+        color: rgba($black, .8);
+    }
+}

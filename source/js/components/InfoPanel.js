@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import {removeSelectedItem} from '../actions'
+import isEmpty from 'lodash/isEmpty'
 
 import CloseButton from 'react-icons/lib/go/x'
 
@@ -32,9 +33,20 @@ class InfoPanel extends React.Component {
     closePanel() {
         this.props.dispatch(removeSelectedItem())
     }
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('checking: ', isEmpty(nextProps.item));
+        if (isEmpty(nextProps.item)) {
+            this.refs.element.className = this.refs.element.className + ' is-hidden'
+            this.refs.element.addEventListener('transitionend', () => {
+                this.forceUpdate()
+            })
+            return false
+        }
+        return true
+    }
     render() {
         let classes = classNames('Info', this.props.className, {
-            'is-active': this.props.item.name ? true : false
+            'is-hidden': isEmpty(this.props.item)
         })
         return (
             <div className={classes} ref='element'>

@@ -11,9 +11,9 @@ const selectedItem = (state = initialState, action) => {
                 ...action.payload
             }
         case 'REMOVE_SELECTED_ITEM':
-            return initialState
+            return {}
         default:
-            return state
+            return initialState
     }
 }
 
