@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import {removeSelectedItem} from '../actions'
 import isEmpty from 'lodash/isEmpty'
+import TransitionGroup from 'react-addons-css-transition-group'
 
 import CloseButton from 'react-icons/lib/go/x'
 
@@ -33,37 +34,35 @@ class InfoPanel extends React.Component {
     closePanel() {
         this.props.dispatch(removeSelectedItem())
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('checking: ', isEmpty(nextProps.item));
-        if (isEmpty(nextProps.item)) {
-            this.refs.element.className = this.refs.element.className + ' is-hidden'
-            this.refs.element.addEventListener('transitionend', () => {
-                this.forceUpdate()
-            })
-            return false
-        }
-        return true
-    }
     render() {
         let classes = classNames('Info', this.props.className, {
-            'is-hidden': isEmpty(this.props.item)
+            // 'is-hidden': isEmpty(this.props.item)
         })
         return (
-            <div className={classes} ref='element'>
+            <TransitionGroup
+                transitionName="fadeIn"
+                transitionEnterTimeout={1000}
+                transitionAppearTimeout={1000}
+                transitionLeaveTimeout={1000}>
+                {isEmpty(this.props.item) ? null : (
+                    <div className={classes}>
 
-                <img className={`Item-icon is-${this.props.item.rarity} Info-icon`} src={this.props.item.icon} />
+                        <img className={`Item-icon is-${this.props.item.rarity} Info-icon`} src={this.props.item.icon} />
 
-                <div className='Info-name'>
-                    <strong>{this.props.item.name}</strong>
-                    {this.props.item.count > 1 ? (<small> ({this.props.item.count})</small>) : ''}
-                </div>
+                        <div className='Info-name'>
+                            <strong>{this.props.item.name}</strong>
+                            {this.props.item.count > 1 ? (<small> ({this.props.item.count})</small>) : ''}
+                        </div>
 
-                <InfoPanelItem label='Description'>{this.props.item.description}</InfoPanelItem>
-                <InfoPanelItem label='Type'>{this.props.item.type}</InfoPanelItem>
-                <InfoPanelItem label='Item code'>{this.props.item.chat_link}</InfoPanelItem>
+                        <InfoPanelItem label='Description'>{this.props.item.description}</InfoPanelItem>
+                        <InfoPanelItem label='Type'>{this.props.item.type}</InfoPanelItem>
+                        <InfoPanelItem label='Item code'>{this.props.item.chat_link}</InfoPanelItem>
 
-                <CloseButton className='Info-closeButton' onClick={this.closePanel.bind(this)} />
-            </div>
+                        <CloseButton className='Info-closeButton' onClick={this.closePanel.bind(this)} />
+                    </div>
+                )}
+            </TransitionGroup>
+
         )
     }
 }

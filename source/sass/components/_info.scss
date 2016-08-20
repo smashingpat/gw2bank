@@ -16,10 +16,10 @@ $info-label-width: 7em;
     transform: none;
     transition: all 300ms ease-in-out;
 
-    &.is-hidden {
-        transform: translateY(100%);
-        opacity: 0;
-    }
+    // &.is-hidden {
+    //     transform: translateY(100%);
+    //     opacity: 0;
+    // }
 
     &-name {
         font-size: 2em;
