@@ -41,9 +41,10 @@ class InfoPanel extends React.Component {
         return (
             <TransitionGroup
                 transitionName="fadeIn"
-                transitionEnterTimeout={1000}
-                transitionAppearTimeout={1000}
-                transitionLeaveTimeout={1000}>
+                component='div'
+                transitionEnterTimeout={300}
+                transitionAppearTimeout={300}
+                transitionLeaveTimeout={300}>
                 {isEmpty(this.props.item) ? null : (
                     <div className={classes}>
 
